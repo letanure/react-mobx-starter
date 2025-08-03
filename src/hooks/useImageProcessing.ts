@@ -30,6 +30,7 @@ export function useAutoBackgroundRemoval() {
           imageStore.update(image.id, {
             status: "completed",
             src: URL.createObjectURL(processedBlob),
+            processedBlob: processedBlob, // Store the processed blob for persistence
           })
 
           // Auto-hide badge after delay by changing status to "processed"

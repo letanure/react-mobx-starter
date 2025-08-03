@@ -11,6 +11,7 @@ export interface ImageModel {
   id: string
   file: File
   src: string
+  processedBlob?: Blob // Store the processed image blob
   status: ImageStatus
   createdAt: Date
 }
@@ -48,7 +49,10 @@ export class ImageStore {
     return imageIds
   }
 
-  update(id: string, updates: Partial<Pick<ImageModel, "status" | "src">>) {
+  update(
+    id: string,
+    updates: Partial<Pick<ImageModel, "status" | "src" | "processedBlob">>,
+  ) {
     const image = this.images.get(id)
     if (image) {
       Object.assign(image, updates)
