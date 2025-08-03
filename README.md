@@ -146,6 +146,7 @@ When commits are pushed to `main`, semantic-release will:
   - [x] Auto-generated CHANGELOG.md
   - [x] Git tags on releases
 - [x] Add testing framework (Vitest + React Testing Library)
+- [x] Add error boundary for graceful error handling
 - [x] Set up CI/CD workflow
 - [ ] Implement style system
   - [ ] add tailwind
@@ -184,3 +185,7 @@ When commits are pushed to `main`, semantic-release will:
   - **What**: Vitest + React Testing Library
   - **Why**: Fast, Vite-native testing with excellent DX and React integration
   - **How**: Colocated tests, runs in watch mode during development, automated in pre-commit
+- Error Handling
+  - **What**: React Error Boundary component
+  - **Why**: Prevents app crashes, provides graceful error handling and recovery
+  - **How**: Global ErrorBoundary wraps the app, catches JavaScript errors in components
