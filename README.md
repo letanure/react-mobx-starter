@@ -53,6 +53,28 @@ pnpm type:check
 pnpm check:all
 ```
 
+### Testing
+
+```bash
+# Run tests in watch mode
+pnpm test
+
+# Run tests once (CI mode)
+pnpm test:run
+
+# Run tests with UI
+pnpm test:ui
+
+# Run tests with coverage
+pnpm test:coverage
+```
+
+**Test Structure:**
+
+- Tests are colocated with their components (e.g., `App.tsx` and `App.test.tsx`)
+- Global test setup in `src/test/setup.ts`
+- Pre-commit hook runs related tests for changed files
+
 ### Commit Convention
 
 This project uses [Conventional Commits](https://www.conventionalcommits.org/). Commit messages must follow the format:
@@ -62,6 +84,7 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/). 
 ```
 
 Allowed types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -71,6 +94,7 @@ Allowed types:
 - `chore`: Maintenance tasks
 
 Examples:
+
 ```bash
 git commit -m "feat: add image upload component"
 git commit -m "fix: resolve memory leak in image viewer"
@@ -86,6 +110,7 @@ Releases are automated using semantic-release. Based on your commit messages:
 - `BREAKING CHANGE:` in commit body triggers a major release (X.0.0)
 
 **Manual Release:**
+
 ```bash
 # Dry run to see what would happen
 pnpm release:dry-run
@@ -96,6 +121,7 @@ pnpm release
 
 **Automatic Release (CI/CD):**
 When commits are pushed to `main`, semantic-release will:
+
 1. Analyze commits since last release
 2. Determine version bump type
 3. Update package.json version
@@ -119,8 +145,8 @@ When commits are pushed to `main`, semantic-release will:
   - [x] Semantic-release for version management
   - [x] Auto-generated CHANGELOG.md
   - [x] Git tags on releases
-- [ ] Add testing framework (Vitest + React Testing Library)
-- [-] Set up CI/CD workflow
+- [x] Add testing framework (Vitest + React Testing Library)
+- [x] Set up CI/CD workflow
 - [ ] Implement style system
   - [ ] add tailwind
 - [ ] Define basic page layout, 2 columns, side + main
@@ -149,8 +175,12 @@ When commits are pushed to `main`, semantic-release will:
 - Git Hooks
   - **What**: Husky + lint-staged + commitlint
   - **Why**: Enforce code quality and commit message standards automatically
-  - **How**: Pre-commit runs linting/formatting on staged files, commit-msg validates commit format
+  - **How**: Pre-commit runs linting/formatting on staged files and related tests, commit-msg validates commit format
 - Automated Releases
   - **What**: Semantic-release with conventional commits
   - **Why**: Automated versioning, changelogs, and releases based on commit messages
   - **How**: Analyzes commits, bumps version, updates CHANGELOG, creates git tags
+- Testing Framework
+  - **What**: Vitest + React Testing Library
+  - **Why**: Fast, Vite-native testing with excellent DX and React integration
+  - **How**: Colocated tests, runs in watch mode during development, automated in pre-commit
