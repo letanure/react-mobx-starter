@@ -10,3 +10,4 @@ export const useStore = () => {
 }
 
 export const useImageStore = () => useStore().imageStore
+export const useFolderStore = () => useStore().folderStore

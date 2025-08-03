@@ -31,6 +31,7 @@
     "release:local": "dotenv -- semantic-release --no-ci"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.34.1",
     "@tailwindcss/vite": "^4.1.11",
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.1.0",
