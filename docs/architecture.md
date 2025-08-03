@@ -216,3 +216,46 @@ reaction(
 2. **Next**: Extract to `useImageUpload` hook (better separation)
 3. **Future**: Consider MobX reactions if team expertise allows
 4. **Alternative**: Event-driven service layer for complex workflows
+
+## API Integration
+
+### PhotoRoom API Rate Limiting
+
+The PhotoRoom API implements strict rate limiting with the following characteristics:
+
+**Error Response Structure:**
+```json
+{
+  "detail": "Request was throttled. Expected available in 49391 seconds.",
+  "status_code": 429,
+  "type": "unknown_error"
+}
+```
+
+**Key Observations:**
+- Returns specific retry time in seconds (helpful for implementing retry logic)
+- Very long cooldown periods (e.g., 49391 seconds = ~13.7 hours)
+- Suggests daily quota limits on free tier
+- HTTP 429 status code (Too Many Requests)
+
+**Handling Strategies:**
+
+1. **Development/Demo:**
+   - Process images sequentially instead of in parallel
+   - Add delays between API calls
+   - Mock responses after quota exceeded
+   - Show user-friendly error messages
+
+2. **Production Considerations:**
+   - Implement exponential backoff with retry
+   - Queue system with rate limiting
+   - Parse retry time from error response
+   - Disable uploads when quota exceeded
+   - Store reset time and re-enable after expiry
+   - Consider upgrading to paid tier for higher limits
+
+3. **User Experience:**
+   - Convert seconds to human-readable format
+   - Show specific error: "Rate limit exceeded. Try again in X hours"
+   - Provide visual feedback (red background on error cards)
+   - Consider client-side image preview while waiting

@@ -19,3 +19,19 @@
   --color-ci-background: #f2f6f9;
   --color-ci-text: #1c273a;
 }
+
+/* Scale-in animation for image cards */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

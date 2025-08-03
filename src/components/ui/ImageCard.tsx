@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { type ReactNode, useEffect, useRef, useState } from "react"
 
 type Status = "uploaded" | "processing" | "completed" | "error"
 
@@ -11,6 +11,10 @@ interface ImageCardProps {
   className?: string
 }
 
+// Animation constants
+const BADGE_HIDE_DELAY = 1500
+const BADGE_FADE_DURATION = "0.5s"
+
 export function ImageCard({
   src,
   alt = "Image",
@@ -19,18 +23,85 @@ export function ImageCard({
   actions,
   className = "",
 }: ImageCardProps) {
-  const borderColor = status === "error" ? "border-red-500" : "border-neutral-3"
+  const [hideBadge, setHideBadge] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [showOverlay, setShowOverlay] = useState(false)
+  const [overlayImageSrc, setOverlayImageSrc] = useState("")
+  const previousSrc = useRef(src)
+
+  // Reset image loaded state when src changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: src is a prop that triggers reset
+  useEffect(() => {
+    setImageLoaded(false)
+  }, [src])
+
+  // Crossfade effect when src changes
+  useEffect(() => {
+    if (src !== previousSrc.current && previousSrc.current) {
+      // Store old image and show overlay
+      setOverlayImageSrc(previousSrc.current)
+      setShowOverlay(true)
+
+      // Start fade out after brief delay
+      setTimeout(() => setShowOverlay(false), 100)
+    }
+
+    // Update ref for next comparison
+    previousSrc.current = src
+  }, [src])
+
+  // Auto-hide badge after completion
+  useEffect(() => {
+    if (status === "completed") {
+      const timer = setTimeout(() => setHideBadge(true), BADGE_HIDE_DELAY)
+      return () => clearTimeout(timer)
+    } else {
+      setHideBadge(false)
+    }
+  }, [status])
 
   return (
     <div
-      className={`relative bg-neutral-0 rounded-lg overflow-hidden border ${borderColor} ${className}`}
+      className={`w-full aspect-[217/290] rounded-lg shadow-md p-4 transition-colors duration-300 ${
+        status === "error" ? "bg-red-200" : "bg-white"
+      } ${className}`}
     >
-      <div className="aspect-square relative">
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
+      <div className="relative w-full h-full border border-gray-200 rounded overflow-hidden">
+        {/* New image - bottom layer */}
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-full object-contain transition-opacity duration-700"
+          style={{ opacity: imageLoaded ? 1 : 0 }}
+          onLoad={() => setImageLoaded(true)}
+        />
 
+        {/* Crossfade overlay - old image fades out */}
+        {overlayImageSrc && (
+          <img
+            src={overlayImageSrc}
+            alt={`${alt} (previous)`}
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-1000"
+            style={{ opacity: showOverlay ? 1 : 0 }}
+          />
+        )}
+
+        {/* Loading placeholder */}
+        {!imageLoaded && <div className="absolute inset-0 bg-gray-100"></div>}
+
+        {/* Status badge with optional spinner */}
         {status && (
-          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/50 text-white">
-            <span className="text-sm">{status}</span>
+          <div
+            className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs flex items-center gap-1"
+            style={{
+              opacity: hideBadge ? 0 : 1,
+              transition: `opacity ${BADGE_FADE_DURATION} ease-out`,
+            }}
+          >
+            {status === "processing" && (
+              <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin"></div>
+            )}
+            {status}
           </div>
         )}
 
