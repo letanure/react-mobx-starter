@@ -198,14 +198,18 @@ When commits are pushed to `main`, semantic-release will:
 - [x] Add error boundary for graceful error handling
 - [x] Set up path aliases and folder structure
 - [x] Set up CI/CD workflow
-- [ ] Implement style system
-  - [ ] add tailwind
+- [x] Implement style system
+  - [x] Add Tailwind CSS v4 with Vite plugin
 - [ ] Define basic page layout, 2 columns, side + main
 - [ ] Implement image upload component
 - [ ] Image Upload
 - [ ] Image View
 - [ ] Folder management
 - [ ] Persistence
+- [ ] Docker setup for containerized development
+- [ ] Security headers implementation
+- [ ] Accessibility testing integration
+- [ ] Performance budget monitoring
 
 ## Technical Decisions
 
@@ -243,3 +247,7 @@ When commits are pushed to `main`, semantic-release will:
   - **What**: Organized folder structure with specific path aliases
   - **Why**: Clean imports, better code organization, easier refactoring
   - **How**: Specific aliases for each folder (`@/components/*`, `@/hooks/*`, etc.) with fallback `@/*` for root files
+- Styling Framework
+  - **What**: Tailwind CSS with PostCSS
+  - **Why**: Utility-first CSS framework with excellent DX, built-in dark mode, and optimal performance
+  - **How**: Traditional PostCSS setup due to Vite 7 compatibility, uses @tailwind directives
