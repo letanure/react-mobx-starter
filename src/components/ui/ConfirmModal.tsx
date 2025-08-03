@@ -1,15 +1,22 @@
 import { Modal } from "./Modal"
 import { Text } from "./Text"
 
+interface ConfirmAction {
+  label: string
+  onClick: () => void
+  variant?: "primary" | "danger" | "secondary"
+}
+
 interface ConfirmModalProps {
   isOpen: boolean
   onClose: () => void
-  onConfirm: () => void
+  onConfirm?: () => void
   title?: string
   message: string
   confirmText?: string
   cancelText?: string
   variant?: "danger" | "warning" | "info"
+  actions?: ConfirmAction[]
 }
 
 export function ConfirmModal({
@@ -21,29 +28,42 @@ export function ConfirmModal({
   confirmText = "Confirm",
   cancelText = "Cancel",
   variant = "danger",
+  actions,
 }: ConfirmModalProps) {
   const handleConfirm = () => {
-    onConfirm()
+    onConfirm?.()
     onClose()
   }
+
+  // Use custom actions if provided, otherwise use default confirm/cancel
+  const modalActions = actions || [
+    {
+      label: cancelText,
+      onClick: onClose,
+      variant: "secondary" as const,
+    },
+    {
+      label: confirmText,
+      onClick: handleConfirm,
+      variant: (variant === "danger" ? "danger" : "primary") as const,
+    },
+  ]
 
   return (
     <Modal
       open={isOpen}
       onClose={onClose}
       title={title}
-      actions={[
-        {
-          label: cancelText,
-          onClick: onClose,
-          variant: "secondary",
+      actions={modalActions.map((action) => ({
+        label: action.label,
+        onClick: () => {
+          action.onClick()
+          if (action.onClick !== onClose) {
+            onClose()
+          }
         },
-        {
-          label: confirmText,
-          onClick: handleConfirm,
-          variant: variant === "danger" ? "danger" : "primary",
-        },
-      ]}
+        variant: action.variant || "primary",
+      }))}
       closable={false}
     >
       <Text as="p" className="text-gray-700">

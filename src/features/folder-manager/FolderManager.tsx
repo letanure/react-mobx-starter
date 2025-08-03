@@ -30,9 +30,26 @@ export const FolderManager = observer(() => {
     setConfirmDeleteFolderId(id)
   }
 
-  const handleConfirmDelete = () => {
+  const handleDeleteFolderOnly = () => {
     if (confirmDeleteFolderId) {
       folderStore.remove(confirmDeleteFolderId)
+      setConfirmDeleteFolderId(null)
+    }
+  }
+
+  const handleDeleteFolderAndImages = () => {
+    if (confirmDeleteFolderId) {
+      const folder = folderStore.getById(confirmDeleteFolderId)
+      const imageIds = folder ? [...folder.imageIds] : []
+
+      // Remove folder first
+      folderStore.remove(confirmDeleteFolderId)
+
+      // Then remove images
+      if (imageIds.length > 0) {
+        imageStore.removeByIds(imageIds)
+      }
+
       setConfirmDeleteFolderId(null)
     }
   }
@@ -85,12 +102,30 @@ export const FolderManager = observer(() => {
       <ConfirmModal
         isOpen={!!confirmDeleteFolderId}
         onClose={() => setConfirmDeleteFolderId(null)}
-        onConfirm={handleConfirmDelete}
         title="Delete Folder"
-        message={`Are you sure you want to delete "${confirmDeleteFolderId ? folderStore.getById(confirmDeleteFolderId)?.name : ""}"?`}
-        confirmText="Delete"
-        cancelText="Cancel"
-        variant="danger"
+        message={`Are you sure you want to delete "${confirmDeleteFolderId ? folderStore.getById(confirmDeleteFolderId)?.name : ""}"?${
+          confirmDeleteFolderId &&
+          folderStore.getById(confirmDeleteFolderId)?.imageIds.length
+            ? ` This folder contains ${folderStore.getById(confirmDeleteFolderId)?.imageIds.length} image(s).`
+            : ""
+        }`}
+        actions={[
+          {
+            label: "Cancel",
+            onClick: () => setConfirmDeleteFolderId(null),
+            variant: "secondary",
+          },
+          {
+            label: "Delete folder",
+            onClick: handleDeleteFolderOnly,
+            variant: "danger",
+          },
+          {
+            label: "Delete all",
+            onClick: handleDeleteFolderAndImages,
+            variant: "danger",
+          },
+        ]}
       />
     </>
   )
