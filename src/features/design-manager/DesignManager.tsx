@@ -13,7 +13,7 @@ export const DesignManager = observer(() => {
     // If a folder is active, add uploaded images to it
     if (folderStore.activeId) {
       imageIds.forEach((imageId) => {
-        folderStore.addImageToFolder(folderStore.activeId as string, imageId)
+        folderStore.addImageToFolder(folderStore.activeId, imageId)
       })
     }
   }

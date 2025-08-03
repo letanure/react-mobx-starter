@@ -1,7 +1,6 @@
-export interface ApiResponse<T, E = unknown> {
-  error: boolean
-  data: T | E
-}
+export type ApiResponse<T, E = unknown> =
+  | { error: false; data: T }
+  | { error: true; data: E }
 
 interface ApiClientConfig {
   baseURL: string

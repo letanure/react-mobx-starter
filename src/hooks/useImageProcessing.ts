@@ -26,7 +26,7 @@ export function useAutoBackgroundRemoval() {
             continue
           }
 
-          const processedBlob = apiResult.data as Blob
+          const processedBlob = apiResult.data
           imageStore.update(image.id, {
             status: "completed",
             src: URL.createObjectURL(processedBlob),

@@ -21,7 +21,7 @@ export class FolderStore {
     return sanitized || "Untitled"
   }
 
-  add(name: string): void {
+  add(name: string) {
     const date = new Date()
     const folder: Folder = {
       id: crypto.randomUUID(),
@@ -34,7 +34,7 @@ export class FolderStore {
     this.activeId = folder.id
   }
 
-  update(id: string, data: Partial<Omit<Folder, "id" | "createdAt">>): void {
+  update(id: string, data: Partial<Omit<Folder, "id" | "createdAt">>) {
     const folder = this.folders.find((f) => f.id === id)
     if (folder) {
       // Sanitize name if it's being updated
@@ -50,7 +50,7 @@ export class FolderStore {
     }
   }
 
-  remove(id: string): void {
+  remove(id: string) {
     const index = this.folders.findIndex((f) => f.id === id)
     if (index !== -1) {
       this.folders.splice(index, 1)
@@ -61,7 +61,7 @@ export class FolderStore {
     }
   }
 
-  setActive(id: string | null): void {
+  setActive(id: string | null) {
     this.activeId = id
   }
 
@@ -73,7 +73,7 @@ export class FolderStore {
     return this.folders
   }
 
-  addImageToFolder(folderId: string, imageId: string): void {
+  addImageToFolder(folderId: string, imageId: string) {
     const folder = this.folders.find((f) => f.id === folderId)
     if (folder && !folder.imageIds.includes(imageId)) {
       folder.imageIds.push(imageId)

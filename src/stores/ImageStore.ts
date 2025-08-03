@@ -55,6 +55,14 @@ export class ImageStore {
   ) {
     const image = this.images.get(id)
     if (image) {
+      // Revoke old URL if we're updating the src to prevent memory leaks
+      if (
+        updates.src &&
+        updates.src !== image.src &&
+        image.src.startsWith("blob:")
+      ) {
+        URL.revokeObjectURL(image.src)
+      }
       Object.assign(image, updates)
     }
   }
@@ -84,5 +92,15 @@ export class ImageStore {
 
   getByStatus(status: ImageStatus) {
     return this.getAll().filter((img) => img.status === status)
+  }
+
+  // Cleanup method to revoke all blob URLs
+  dispose() {
+    this.images.forEach((image) => {
+      if (image.src.startsWith("blob:")) {
+        URL.revokeObjectURL(image.src)
+      }
+    })
+    this.images.clear()
   }
 }

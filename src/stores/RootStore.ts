@@ -80,4 +80,9 @@ export class RootStore {
       this.folderStore.folders.push(folder)
     })
   }
+
+  // Cleanup method for app shutdown
+  dispose() {
+    this.imageStore.dispose()
+  }
 }
