@@ -5,7 +5,6 @@ import type { ImageModel, ImageStatus } from "@/stores/ImageStore"
 interface PersistedImage {
   id: string
   fileName: string
-  fileType: string
   fileBuffer: ArrayBuffer
   processedBuffer?: ArrayBuffer
   status: string
@@ -28,8 +27,8 @@ class PhotoRoomDB extends Dexie {
     super("photoroom")
 
     this.version(1).stores({
-      images: "id, fileName, fileType, status, createdAt",
-      folders: "id, name, createdAt, updatedAt",
+      images: "id",
+      folders: "id",
     })
   }
 }
@@ -39,14 +38,16 @@ export class PersistenceService {
 
   // Image persistence
   async saveImages(images: ImageModel[]): Promise<void> {
-    const persistedImages = await Promise.all(images.map(this.serializeImage))
+    const persistedImages = await Promise.all(
+      images.map((img) => this.serializeImage(img)),
+    )
     await this.db.images.clear()
     await this.db.images.bulkPut(persistedImages)
   }
 
   async loadImages(): Promise<ImageModel[]> {
     const persistedImages = await this.db.images.toArray()
-    return persistedImages.map(this.deserializeImage)
+    return persistedImages.map((img) => this.deserializeImage(img))
   }
 
   // Folder persistence
@@ -80,7 +81,6 @@ export class PersistenceService {
     return {
       id: image.id,
       fileName: image.file.name,
-      fileType: image.file.type,
       fileBuffer: await image.file.arrayBuffer(),
       processedBuffer: image.processedBlob
         ? await image.processedBlob.arrayBuffer()
@@ -91,12 +91,15 @@ export class PersistenceService {
   }
 
   private deserializeImage(persisted: PersistedImage): ImageModel {
+    // Detect MIME type from file extension
+    const mimeType = this.getMimeTypeFromFileName(persisted.fileName)
+
     const file = new File([persisted.fileBuffer], persisted.fileName, {
-      type: persisted.fileType,
+      type: mimeType,
     })
 
     const processedBlob = persisted.processedBuffer
-      ? new Blob([persisted.processedBuffer], { type: persisted.fileType })
+      ? new Blob([persisted.processedBuffer], { type: mimeType })
       : undefined
 
     return {
@@ -109,5 +112,18 @@ export class PersistenceService {
       status: persisted.status as ImageStatus,
       createdAt: new Date(persisted.createdAt),
     }
+  }
+
+  private getMimeTypeFromFileName(fileName: string): string {
+    const extension = fileName.split(".").pop()?.toLowerCase()
+    const mimeTypes: Record<string, string> = {
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      png: "image/png",
+      gif: "image/gif",
+      webp: "image/webp",
+      svg: "image/svg+xml",
+    }
+    return mimeTypes[extension || ""] || "image/jpeg"
   }
 }

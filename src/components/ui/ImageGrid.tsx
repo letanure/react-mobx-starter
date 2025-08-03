@@ -11,12 +11,20 @@ interface ImageData {
 
 interface ImageGridProps {
   images: ImageData[]
+  selectedIds?: Set<string>
+  onToggleSelection?: (imageId: string) => void
+  onDeleteSingle?: (imageId: string) => void
 }
 
 const STAGGER_DELAY = 100 // ms between each card animation
 const EXIT_DURATION = 200 // ms for exit animation
 
-export function ImageGrid({ images }: ImageGridProps) {
+export function ImageGrid({
+  images,
+  selectedIds,
+  onToggleSelection,
+  onDeleteSingle,
+}: ImageGridProps) {
   const [animatedIds, setAnimatedIds] = useState<Set<string>>(new Set())
   const [exitingIds, setExitingIds] = useState<Set<string>>(new Set())
   const [displayImages, setDisplayImages] = useState(images)
@@ -83,6 +91,15 @@ export function ImageGrid({ images }: ImageGridProps) {
                   : "Original image"
               }
               status={image.status}
+              selected={selectedIds?.has(image.id) || false}
+              onToggleSelection={
+                onToggleSelection
+                  ? () => onToggleSelection(image.id)
+                  : undefined
+              }
+              onRemove={
+                onDeleteSingle ? () => onDeleteSingle(image.id) : undefined
+              }
             />
           </div>
         )

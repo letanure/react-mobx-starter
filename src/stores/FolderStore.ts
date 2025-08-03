@@ -73,11 +73,28 @@ export class FolderStore {
     return this.folders
   }
 
-  addImageToFolder(folderId: string, imageId: string) {
+  addImagesToFolder(folderId: string, imageIds: string[]) {
     const folder = this.folders.find((f) => f.id === folderId)
-    if (folder && !folder.imageIds.includes(imageId)) {
-      folder.imageIds.push(imageId)
-      folder.updatedAt = new Date()
+    if (folder) {
+      imageIds.forEach((imageId) => {
+        if (!folder.imageIds.includes(imageId)) {
+          folder.imageIds.push(imageId)
+        }
+      })
+      if (imageIds.length > 0) {
+        folder.updatedAt = new Date()
+      }
     }
+  }
+
+  removeImages(imageIds: string[]) {
+    // Remove images from their folders (each image can only be in one folder)
+    this.folders.forEach((folder) => {
+      const originalLength = folder.imageIds.length
+      folder.imageIds = folder.imageIds.filter((id) => !imageIds.includes(id))
+      if (folder.imageIds.length !== originalLength) {
+        folder.updatedAt = new Date()
+      }
+    })
   }
 }

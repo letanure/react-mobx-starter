@@ -13,7 +13,7 @@ interface IconButtonProps {
 }
 
 const sizeStyles: Record<IconButtonSize, { button: string; icon: number }> = {
-  small: { button: "p-1", icon: 14 },
+  small: { button: "p-1", icon: 16 },
   medium: { button: "p-2", icon: 16 },
   large: { button: "p-3", icon: 20 },
 }

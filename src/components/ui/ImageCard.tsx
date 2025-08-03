@@ -1,121 +1,94 @@
-import { type ReactNode, useEffect, useRef, useState } from "react"
+import { IconCheck, IconTrash } from "@tabler/icons-react"
+import { useState } from "react"
 import type { ImageStatus } from "@/stores/ImageStore"
+import { IconButton } from "./IconButton"
 
 interface ImageCardProps {
   src: string
   alt?: string
   status?: ImageStatus
   onRemove?: () => void
-  actions?: ReactNode
   className?: string
+  selected?: boolean
+  onToggleSelection?: () => void
 }
-
-// Animation constants
-const BADGE_HIDE_DELAY = 1500
-const BADGE_FADE_DURATION = "0.5s"
 
 export function ImageCard({
   src,
   alt = "Image",
   status,
   onRemove,
-  actions,
   className = "",
+  selected = false,
+  onToggleSelection,
 }: ImageCardProps) {
-  const [hideBadge, setHideBadge] = useState(false)
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [showOverlay, setShowOverlay] = useState(false)
-  const [overlayImageSrc, setOverlayImageSrc] = useState("")
-  const previousSrc = useRef(src)
-
-  // Reset image loaded state when src changes
-  // biome-ignore lint/correctness/useExhaustiveDependencies: src is a prop that triggers reset
-  useEffect(() => {
-    setImageLoaded(false)
-  }, [src])
-
-  // Crossfade effect when src changes
-  useEffect(() => {
-    if (src !== previousSrc.current && previousSrc.current) {
-      // Store old image and show overlay
-      setOverlayImageSrc(previousSrc.current)
-      setShowOverlay(true)
-
-      // Start fade out after brief delay
-      setTimeout(() => setShowOverlay(false), 100)
-    }
-
-    // Update ref for next comparison
-    previousSrc.current = src
-  }, [src])
-
-  // Auto-hide badge after completion
-  useEffect(() => {
-    if (status === "completed") {
-      const timer = setTimeout(() => setHideBadge(true), BADGE_HIDE_DELAY)
-      return () => clearTimeout(timer)
-    } else {
-      setHideBadge(false)
-    }
-  }, [status])
+  const [imageError, setImageError] = useState(false)
 
   return (
     <div
-      className={`w-full aspect-[217/290] rounded-lg shadow-md p-4 transition-colors duration-300 ${
+      className={`w-full aspect-[217/290] rounded-lg shadow-md p-4 transition-all duration-300 ${
         status === "error" ? "bg-red-200" : "bg-white"
-      } ${className}`}
+      } ${selected ? "ring-2 ring-blue-500" : ""} ${className}`}
     >
-      <div className="relative w-full h-full border border-gray-200 rounded overflow-hidden">
-        {/* New image - bottom layer */}
-        <img
-          src={src}
-          alt={alt}
-          className="w-full h-full object-contain transition-opacity duration-700"
-          style={{ opacity: imageLoaded ? 1 : 0 }}
-          onLoad={() => setImageLoaded(true)}
-        />
-
-        {/* Crossfade overlay - old image fades out */}
-        {overlayImageSrc && (
+      <div className="relative w-full h-full border border-gray-200 rounded overflow-hidden group">
+        {/* Image with loading state */}
+        {!imageError ? (
           <img
-            src={overlayImageSrc}
-            alt={`${alt} (previous)`}
-            className="absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-1000"
-            style={{ opacity: showOverlay ? 1 : 0 }}
+            src={src}
+            alt={alt}
+            className="w-full h-full object-contain"
+            onError={() => setImageError(true)}
           />
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+            <span className="text-sm">Failed to load</span>
+          </div>
         )}
 
-        {/* Loading placeholder */}
-        {!imageLoaded && <div className="absolute inset-0 bg-gray-100"></div>}
+        {/* Dark overlay on hover */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-        {/* Status badge with optional spinner */}
+        {/* Controls overlay - visible on hover or when selected */}
+        <div
+          className={`absolute inset-0 ${selected || "opacity-0 group-hover:opacity-100"} transition-opacity`}
+        >
+          {onToggleSelection && (
+            <button
+              type="button"
+              onClick={onToggleSelection}
+              className={`absolute top-2 left-2 w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${
+                selected
+                  ? "bg-blue-500 border-blue-500 text-white"
+                  : "bg-white/80 border-gray-300 hover:border-blue-400"
+              }`}
+              aria-label={selected ? "Deselect image" : "Select image"}
+            >
+              {selected && <IconCheck size={16} />}
+            </button>
+          )}
+
+          {onRemove && (
+            <div className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded">
+              <IconButton
+                icon={IconTrash}
+                onClick={onRemove}
+                size="small"
+                variant="danger"
+                title="Delete image"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Status badge */}
         {status && status !== "processed" && (
-          <div
-            className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs flex items-center gap-1"
-            style={{
-              opacity: hideBadge ? 0 : 1,
-              transition: `opacity ${BADGE_FADE_DURATION} ease-out`,
-            }}
-          >
+          <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs flex items-center gap-1">
             {status === "processing" && (
-              <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />
             )}
             {status}
           </div>
         )}
-
-        {onRemove && (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="absolute top-2 right-2 bg-white/80 hover:bg-white p-1 rounded-lg transition-colors"
-            aria-label="Remove image"
-          >
-            X
-          </button>
-        )}
-
-        {actions && <div className="absolute bottom-2 right-2">{actions}</div>}
       </div>
     </div>
   )

@@ -55,15 +55,17 @@ export class ImageStore {
   ) {
     const image = this.images.get(id)
     if (image) {
-      // Revoke old URL if we're updating the src to prevent memory leaks
-      if (
-        updates.src &&
-        updates.src !== image.src &&
-        image.src.startsWith("blob:")
-      ) {
-        URL.revokeObjectURL(image.src)
-      }
+      // Store old URL for delayed revocation
+      const oldSrc = image.src
+
       Object.assign(image, updates)
+
+      // Revoke old URL after a delay to allow UI transitions
+      if (updates.src && updates.src !== oldSrc && oldSrc.startsWith("blob:")) {
+        setTimeout(() => {
+          URL.revokeObjectURL(oldSrc)
+        }, 2000) // 2 second delay for transitions
+      }
     }
   }
 
@@ -73,6 +75,10 @@ export class ImageStore {
       URL.revokeObjectURL(image.src)
       this.images.delete(id)
     }
+  }
+
+  removeByIds(ids: string[]) {
+    ids.forEach((id) => this.remove(id))
   }
 
   // Query Operations
