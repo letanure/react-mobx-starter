@@ -97,4 +97,14 @@ export class FolderStore {
       }
     })
   }
+
+  moveImagesToFolder(imageIds: string[], targetFolderId: string | null) {
+    // First remove images from all folders
+    this.removeImages(imageIds)
+
+    // Then add to target folder if specified
+    if (targetFolderId) {
+      this.addImagesToFolder(targetFolderId, imageIds)
+    }
+  }
 }

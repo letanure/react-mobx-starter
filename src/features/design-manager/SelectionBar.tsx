@@ -1,7 +1,9 @@
-import { IconTrash } from "@tabler/icons-react"
+import { IconFolder, IconTrash } from "@tabler/icons-react"
 import { Button } from "@/components/ui/Button"
 import { IconButton } from "@/components/ui/IconButton"
+import { Select } from "@/components/ui/Select"
 import { Text } from "@/components/ui/Text"
+import type { Folder } from "@/stores/FolderStore"
 
 interface SelectionBarProps {
   selectedCount: number
@@ -9,6 +11,9 @@ interface SelectionBarProps {
   onDeleteSelected: () => void
   onSelectAll: () => void
   hasSelection: boolean
+  folders: Folder[]
+  currentFolderId: string | null
+  onMoveToFolder: (folderId: string | null) => void
 }
 
 export function SelectionBar({
@@ -17,6 +22,9 @@ export function SelectionBar({
   onDeleteSelected,
   onSelectAll,
   hasSelection,
+  folders,
+  currentFolderId,
+  onMoveToFolder,
 }: SelectionBarProps) {
   return (
     <div
@@ -28,6 +36,24 @@ export function SelectionBar({
         <Button label="Select All" onClick={onSelectAll} variant="secondary" />
 
         <Button label="Clear" onClick={onClearSelection} variant="secondary" />
+
+        <div className="flex items-center gap-2 px-2 border-l border-gray-200">
+          <IconFolder size={16} className="text-gray-500" />
+          <Select
+            options={[
+              { value: "none", label: "No folder" },
+              ...folders.map((folder) => ({
+                value: folder.id,
+                label: folder.name,
+              })),
+            ]}
+            value={currentFolderId || "none"}
+            onChange={(value) =>
+              onMoveToFolder(value === "none" ? null : value)
+            }
+            placeholder="Move to folder"
+          />
+        </div>
 
         <IconButton
           icon={IconTrash}

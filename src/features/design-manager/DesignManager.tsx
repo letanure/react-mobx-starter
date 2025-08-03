@@ -75,6 +75,12 @@ export const DesignManager = observer(() => {
     setShowSingleDeleteConfirm(false)
   }
 
+  const handleMoveToFolder = (targetFolderId: string | null) => {
+    const imageIds = Array.from(selectedIds)
+    folderStore.moveImagesToFolder(imageIds, targetFolderId)
+    setSelectedIds(new Set())
+  }
+
   // Filter images based on active folder - MobX observer handles reactivity
   const getDisplayImages = () => {
     if (!folderStore.activeId) {
@@ -113,6 +119,9 @@ export const DesignManager = observer(() => {
         onDeleteSelected={handleDeleteSelectedClick}
         onSelectAll={handleSelectAll}
         hasSelection={selectedIds.size > 0}
+        folders={folderStore.getAll()}
+        currentFolderId={folderStore.activeId}
+        onMoveToFolder={handleMoveToFolder}
       />
 
       {/* Single delete confirmation modal */}
