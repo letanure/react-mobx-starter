@@ -1,308 +1,96 @@
 # Photoroom Test Project
 
-A technical test project built with Vite, React, and TypeScript.
+Image processing app with background removal. Clean architecture, MobX state management, and code organization.
 
-## Getting Started
+## TLDR
 
-### Prerequisites
+**Tech Stack**: React + TypeScript + MobX + Tailwind + Photoroom API  
+**Features**: Upload images → Auto background removal → Organize in folders → Persist locally  
+**Architecture**: Feature-based folders, flat MobX stores, service layer pattern  
 
-- Node.js v22 or higher
-- npm v10.0.0 or higher
-
-### Installation
+## Quick Start
 
 ```bash
-# Using nvm
-nvm use
-
-# Install dependencies
+# Install & run
 npm install
-```
-
-### Development
-
-```bash
 npm run dev
+
+# Add Photoroom API key to .env.local
+echo "VITE_PHOTOROOM_API_KEY=your_key_here" > .env.local
 ```
 
-### Build
-
+**Development Commands:**
 ```bash
-npm run build
+npm run dev          # Start dev server
+npm run build        # Production build
+pnpm lint           # Check code quality
+pnpm test           # Run tests
 ```
 
-### Code Quality
+## Architecture Overview
 
-```bash
-# Lint (TypeScript + Biome)
-pnpm lint
-
-# Fix linting issues
-pnpm lint:fix
-
-# Format code
-pnpm format
-
-# Check formatting
-pnpm format:check
-
-# Type check only
-pnpm type:check
-
-# Run all checks
-pnpm check:all
+**Feature-Based Structure:**
+```
+features/design-manager/    # Image upload, processing, display
+features/folder-manager/    # Folder creation, organization (tag-like)
+components/ui/             # Reusable UI components
+stores/                    # Flat MobX stores (minimal dependencies)
+services/                  # External integrations (Photoroom API, persistence)
 ```
 
-### Testing
+**Development Approach:**
 
-```bash
-# Run tests in watch mode
-pnpm test
+**Preparation:**
+- Studied Photoroom web app for naming conventions (designs vs images) and UX patterns
+- Set up blank React project with linting, testing, and path aliases
 
-# Run tests once (CI mode)
-pnpm test:run
+**Planning & Execution:**
+- Defined feature order: Upload → Processing → Gallery → Folders → Link folders to images → Persistence
+- Focused on data flow with MobX stores and clean code organization
+- Built UI components from scratch (instead of shadcn/ui) to demonstrate component architecture, but shadcdn will be fine too
+- Prioritized user experience - see results immediately after upload
 
-# Run tests with UI
-pnpm test:ui
 
-# Run tests with coverage
-pnpm test:coverage
-```
+## Development Process
 
-**Test Structure:**
+**Phase 1: Foundation**
+- Vite + React + TypeScript setup
+- Component architecture with Tailwind
+- MobX store pattern establishment
 
-- Tests are colocated with their components (e.g., `App.tsx` and `App.test.tsx`)
-- Global test setup in `src/test/setup.ts`
-- Pre-commit hook runs related tests for changed files
+**Phase 2: Core Features**
+- Image upload with validation
+- Photoroom API integration
+- Auto-processing pipeline with status tracking
 
-### Project Structure
+**Phase 3: Organization**
+- Folder system (tag-like for future evolution)  
+- Multi-selection with bulk operations
+- Persistence layer with IndexedDB
 
-```
-src/
-├── assets/           # Static assets
-│   ├── icons/        # SVG icons
-│   ├── images/       # Photos, graphics
-│   └── fonts/        # Custom fonts
-├── components/       # Smart/container components
-│   └── ui/          # Dumb/presentational components
-├── hooks/           # Custom React hooks
-├── utils/           # Utility functions
-├── types/           # TypeScript type definitions
-├── lib/             # Third-party library configurations
-├── store/           # State management
-├── constants/       # App constants
-├── contexts/        # React contexts
-├── styles/          # CSS files
-└── test/           # Test utilities and setup
-```
+**Phase 4: Resilience**
+- Auto-retry for interrupted API calls (user reloads during processing)
+- Graceful error handling and recovery
+- Professional code organization standards
 
-**Path Aliases & Import Rules:**
-```tsx
-// Cross-folder imports: Use specific aliases (no file extensions)
-import { ErrorBoundary } from '@/components/ErrorBoundary'
-import { Button } from '@/components/ui/Button'
-import { useAuth } from '@/hooks/useAuth'
-import { formatDate } from '@/utils/formatDate'
-import type { User } from '@/types/User'
-import { api } from '@/lib/api'
-import { useStore } from '@/store/useStore'
-import { API_URL } from '@/constants/config'
-import { AuthContext } from '@/contexts/AuthContext'
 
-// Assets and styles: Include extensions
-import logo from '@/assets/icons/logo.svg'
-import '@/styles/index.css'
+**MobX Store Design:**
+- **Flat architecture** - Stores don't depend on each other
+- **Clear boundaries** - ImageStore, FolderStore, SelectionStore
 
-// Colocated files: Use relative imports (no extensions)
-import App from './App'
-import { MyComponent } from './MyComponent'
-```
+**Why This Architecture:**
+- **Folders as tags** - Simple model that can evolve to full tagging system
+- **Feature flow** - Upload → Process → Organize (clear user journey)
+- **Maintainable** - Each store has single responsibility
+- **Testable** - Isolated concerns, dependency injection ready
 
-**Import Rules:**
-1. **Cross-folder** → Use `@/folder/file` (no extensions)
-2. **Colocated files** → Use `./file` (no extensions)  
-3. **Assets/CSS** → Include extensions
-4. **No catch-all alias** → Forces intentional organization
+## Additional Details
 
-### Commit Convention
+**Code Organization:**
+Components follow consistent patterns - Types, Store access, State, Event handlers. See existing components for examples.
 
-This project uses [Conventional Commits](https://www.conventionalcommits.org/). Commit messages must follow the format:
+**Persistence Strategy:**
+IndexedDB with Dexie handles image blobs and metadata. Auto-saves on state changes, recovers interrupted API calls on reload.
 
-```
-<type>(<scope>): <subject>
-```
-
-Allowed types:
-
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, semicolons, etc)
-- `refactor`: Code refactoring
-- `test`: Adding or updating tests
-- `chore`: Maintenance tasks
-
-Examples:
-
-```bash
-git commit -m "feat: add image upload component"
-git commit -m "fix: resolve memory leak in image viewer"
-git commit -m "docs: update API documentation"
-```
-
-### Release Process
-
-Releases are automated using semantic-release. Based on your commit messages:
-
-- `fix:` commits trigger a patch release (0.0.X)
-- `feat:` commits trigger a minor release (0.X.0)
-- `BREAKING CHANGE:` in commit body triggers a major release (X.0.0)
-
-**Manual Release:**
-
-```bash
-# Dry run to see what would happen
-pnpm release:dry-run
-
-# Perform actual release
-pnpm release
-```
-
-**Automatic Release (CI/CD):**
-When commits are pushed to `main`, semantic-release will:
-
-1. Analyze commits since last release
-2. Determine version bump type
-3. Update package.json version
-4. Generate/update CHANGELOG.md
-5. Create git tag
-6. Push changes back to repository
-
-### Architecture
-
-See [Architecture Guidelines](./docs/architecture.md) for:
-- Folder structure and organization
-- Component patterns (Smart/Dumb)
-- Import rules and boundaries
-- Naming conventions
-
-### Roadmap
-
-- [x] Initialize Vite + React + SWC project
-- [x] Configure Node version (v22)
-- [x] Set up code quality tools
-  - [x] Add Biome for formatting and linting
-  - [x] Remove ESLint in favor of Biome
-  - [x] Add TypeScript type checking to lint command
-  - [x] Add Git hooks with lint-staged
-- [x] Set up Git hooks
-  - [x] Pre-commit hook with lint-staged
-  - [x] Commit-msg hook with commitlint
-- [x] Set up automated releases
-  - [x] Semantic-release for version management
-  - [x] Auto-generated CHANGELOG.md
-  - [x] Git tags on releases
-- [x] Add testing framework (Vitest + React Testing Library)
-- [x] Add error boundary for graceful error handling
-- [x] Set up path aliases and folder structure
-- [x] Set up CI/CD workflow
-- [x] Implement style system
-  - [x] Add Tailwind CSS v4 with Vite plugin
-- [x] Define basic page layout, 2 columns, side + main
-- [x] Implement image upload component
-- [x] Image Upload
-- [x] Image View
-- [ ] Folder management
-- [ ] Persistence
-
-### Refinement Ideas (Post-MVP)
-
-> **Implementation Flow**: Each item builds on the previous, creating cumulative value for the interview demo.
-
-<!-- Foundation -->
-- [ ] Add loading states during processing
-- [ ] Toast notifications for user feedback
-<!-- Resilience -->
-- [ ] Implement retry mechanisms for failed API calls
-- [ ] Proper error boundaries with retry logic
-- [ ] Graceful degradation when API is unavailable
-- [ ] Add proper error logging service
-<!-- Architecture -->
-- [ ] Add custom hooks for complex logic (`useImageProcessing`, `useErrorBoundary`)
-- [ ] Add dependency injection for services
-- [ ] Implement observer pattern for notifications
-
-<!-- User Experience -->
-- [ ] Add image comparison (before/after) view
-- [ ] Add keyboard navigation support
-- [ ] Improve accessibility (ARIA labels, focus management)
-- [ ] Add subtle animations and transitions
-- [ ] Batch processing with progress tracking
-
-<!-- Performance -->
-- [ ] Memoization strategies
-- [ ] Image lazy loading 
-- [ ] Caching strategies
-- [ ] Optimize bundle size (analyze and code split)
-
-<!-- Advanced Features -->
-- [ ] Background processing with Web Workers
-- [ ] Implement optimistic updates
-
-<!-- Quality Assurance -->
-- [ ] Mock service implementations
-- [ ] Component testing patterns
-- [ ] Store testing with MobX
-- [ ] Add Storybook for UI components
-- [ ] Implement proper testing coverage
-- [ ] Docker setup for containerized development
-- [ ] Security headers implementation
-- [ ] Accessibility testing integration
-- [ ] Performance budget monitoring
-- [ ] Extract magic numbers to constants
-- [ ] Add proper error logging service
-- [ ] Implement proper testing coverage
-- [ ] Add Storybook for UI components
-- [ ] Performance optimizations (memoization, virtualization)
-- [ ] Proper environment variables setup
-
-## Technical Decisions
-
-- Node Version Management
-  - **What**: Use Node v22 (LTS)
-  - **Why**: Latest LTS version
-  - **How**: Multiple version files to support different version managers
-- Build Tool
-  - **What**: Vite with SWC
-  - **Why**: Its the best way in 2025
-- Framework
-  - **What**: React 19 with TypeScript
-  - **Why**: Project requirement
-- Code Quality
-  - **What**: Biome for linting/formatting + TypeScript for type checking
-  - **Why**: Single fast tool instead of ESLint + Prettier, better performance
-  - **How**: Biome handles style/formatting, TypeScript handles type safety
-- Git Hooks
-  - **What**: Husky + lint-staged + commitlint
-  - **Why**: Enforce code quality and commit message standards automatically
-  - **How**: Pre-commit runs linting/formatting on staged files and related tests, commit-msg validates commit format
-- Automated Releases
-  - **What**: Semantic-release with conventional commits
-  - **Why**: Automated versioning, changelogs, and releases based on commit messages
-  - **How**: Analyzes commits, bumps version, updates CHANGELOG, creates git tags
-- Testing Framework
-  - **What**: Vitest + React Testing Library
-  - **Why**: Fast, Vite-native testing with excellent DX and React integration
-  - **How**: Colocated tests, runs in watch mode during development, automated in pre-commit
-- Error Handling
-  - **What**: React Error Boundary component
-  - **Why**: Prevents app crashes, provides graceful error handling and recovery
-  - **How**: Global ErrorBoundary wraps the app, catches JavaScript errors in components
-- Project Structure
-  - **What**: Organized folder structure with specific path aliases
-  - **Why**: Clean imports, better code organization, easier refactoring
-  - **How**: Specific aliases for each folder (`@/components/*`, `@/hooks/*`, etc.) with fallback `@/*` for root files
-- Styling Framework
-  - **What**: Tailwind CSS with PostCSS
-  - **Why**: Utility-first CSS framework with excellent DX, built-in dark mode, and optimal performance
-  - **How**: Traditional PostCSS setup due to Vite 7 compatibility, uses @tailwind directives
+**Quality Setup:**
+Biome (linting + formatting), TypeScript (type checking), Vitest (testing), pre-commit hooks with lint-staged.

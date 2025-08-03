@@ -9,10 +9,16 @@ import { useStore } from "@/hooks/useStores"
 import { FolderItem } from "./FolderItem"
 
 export const FolderManager = observer(() => {
+  // Store access
   const { folderStore, imageStore } = useStore()
-  const folders = folderStore.getAll()
+
+  // State
   const [showCreateForm, setShowCreateForm] = useState(false)
 
+  // Computed values
+  const folders = folderStore.getAll()
+
+  // Event handlers
   const handleCreateFolder = (name: string) => {
     folderStore.add(name)
     setShowCreateForm(false)
@@ -32,7 +38,11 @@ export const FolderManager = observer(() => {
         onClick={() => handleSelectFolder(null)}
       >
         All Images
-        <Text variant="caption" muted className="ml-2">
+        <Text
+          variant="caption"
+          color={folderStore.activeId === null ? "inherit" : "muted"}
+          spacing="sm"
+        >
           ({imageStore.count})
         </Text>
       </Button>

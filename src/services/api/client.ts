@@ -1,3 +1,4 @@
+// Types
 export type ApiResponse<T, E = unknown> =
   | { error: false; data: T }
   | { error: true; data: E }
@@ -13,6 +14,7 @@ export function createApiClient(config: ApiClientConfig) {
     requestData?: unknown,
   ): Promise<ApiResponse<TResponse, TError>> {
     try {
+      // Handle FormData vs JSON content
       const isFormData = requestData instanceof FormData
 
       const response = await fetch(`${config.baseURL}${endpoint}`, {
@@ -35,7 +37,7 @@ export function createApiClient(config: ApiClientConfig) {
         }
       }
 
-      // Handle blob responses (like images)
+      // Handle blob responses
       const contentType = response.headers.get("content-type")
       if (contentType && !contentType.includes("application/json")) {
         const blob = await response.blob()

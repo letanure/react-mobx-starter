@@ -24,7 +24,6 @@ if (!API_KEY) {
   console.warn("Photoroom API key not found in environment variables")
 }
 
-// Create API client instance
 const apiClient = createApiClient({
   baseURL: "https://sdk.photoroom.com/v1",
   headers: {
@@ -33,7 +32,7 @@ const apiClient = createApiClient({
   },
 })
 
-// API function
+// Service functions
 export async function removeBackground(
   file: File,
   options: BackgroundRemovalOptions = {},

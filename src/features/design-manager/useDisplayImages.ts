@@ -1,19 +1,22 @@
 import { useStore } from "@/hooks/useStores"
+import type { ImageModel } from "@/stores/ImageStore"
 
-export function useDisplayImages() {
+/**
+ * Gets images to display based on folder selection.
+ * @returns All images or filtered by active folder
+ */
+export function useDisplayImages(): ImageModel[] {
   const { imageStore, folderStore } = useStore()
 
-  // Filter images based on active folder - MobX observer handles reactivity
-  const getDisplayImages = () => {
-    if (!folderStore.activeId) {
-      // Show ALL images when no folder is selected
-      return imageStore.getAll()
-    }
+  // Avoid double lookups
+  const activeFolder = folderStore.activeId
+    ? folderStore.getById(folderStore.activeId)
+    : null
 
-    // Show folder-specific images
-    const folder = folderStore.getById(folderStore.activeId)
-    return imageStore.getByIds(folder?.imageIds || [])
+  // No filtering needed
+  if (!folderStore.activeId) {
+    return imageStore.getAll()
   }
 
-  return getDisplayImages()
+  return imageStore.getByIds(activeFolder?.imageIds || [])
 }

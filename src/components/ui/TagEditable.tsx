@@ -11,6 +11,7 @@ import { IconButton } from "./IconButton"
 import { Input } from "./Input"
 import { Text } from "./Text"
 
+// Types
 type TagState = "create" | "edit" | "view"
 
 interface TagEditableProps {
@@ -23,6 +24,14 @@ interface TagEditableProps {
   onSelect?: () => void
 }
 
+// Styles
+const tagEditStyles = "bg-accent-500 text-white border-accent-500"
+
+const tagViewStyles: Record<string, string> = {
+  selected: "bg-accent-500 text-white border-accent-500",
+  default: "bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200",
+}
+
 export function TagEditable({
   name = "",
   count = 0,
@@ -32,9 +41,15 @@ export function TagEditable({
   onDelete,
   onSelect,
 }: TagEditableProps) {
+  // State
   const [tagState, setTagState] = useState<TagState>(defaultState)
   const [editValue, setEditValue] = useState(name)
 
+  // Computed values
+  const isEditing = tagState === "create" || tagState === "edit"
+  const isViewing = tagState === "view"
+
+  // Event handlers
   const handleSave = () => {
     onSave(editValue)
     setTagState("view")
@@ -54,13 +69,12 @@ export function TagEditable({
     setTagState("edit")
   }
 
-  const isEditing = tagState === "create" || tagState === "edit"
-  const isViewing = tagState === "view"
-
   return (
     <div className="flex items-center gap-1">
       {isEditing && (
-        <div className="flex items-center justify-between px-4 py-2 rounded-lg font-medium transition-colors border bg-accent-500 text-white border-accent-500 w-auto min-w-[200px]">
+        <div
+          className={`flex items-center justify-between px-4 py-2 rounded-lg font-medium transition-colors border w-auto min-w-[200px] ${tagEditStyles}`}
+        >
           <div className="flex items-center">
             <IconFolderOpen size={16} className="mr-2" />
             <Input
@@ -71,7 +85,7 @@ export function TagEditable({
               placeholder="Enter name"
               autoFocus
             />
-            <Text variant="caption" muted className="ml-2">
+            <Text variant="caption" color="inherit" spacing="sm">
               ({count})
             </Text>
           </div>
@@ -97,9 +111,7 @@ export function TagEditable({
       {isViewing && (
         <div
           className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors border ${
-            isSelected
-              ? "bg-accent-500 text-white border-accent-500"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200"
+            tagViewStyles[isSelected ? "selected" : "default"]
           }`}
         >
           <button
@@ -113,7 +125,11 @@ export function TagEditable({
               <IconFolder size={16} className="mr-2" />
             )}
             {name}
-            <Text variant="caption" muted className="ml-2">
+            <Text
+              variant="caption"
+              color={isSelected ? "inherit" : "muted"}
+              spacing="sm"
+            >
               ({count})
             </Text>
           </button>

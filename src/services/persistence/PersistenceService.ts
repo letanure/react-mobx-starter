@@ -2,6 +2,7 @@ import Dexie, { type Table } from "dexie"
 import type { Folder } from "@/stores/FolderStore"
 import type { ImageModel, ImageStatus } from "@/stores/ImageStore"
 
+// Types
 interface PersistedImage {
   id: string
   fileName: string
@@ -19,6 +20,7 @@ interface PersistedFolder {
   updatedAt: string
 }
 
+// Database
 class PhotoRoomDB extends Dexie {
   images!: Table<PersistedImage>
   folders!: Table<PersistedFolder>
@@ -33,10 +35,20 @@ class PhotoRoomDB extends Dexie {
   }
 }
 
+// Constants
+const MIME_TYPES: Record<string, string> = {
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  png: "image/png",
+  gif: "image/gif",
+  webp: "image/webp",
+  svg: "image/svg+xml",
+}
+
 export class PersistenceService {
   private db = new PhotoRoomDB()
 
-  // Image persistence
+  // Image operations
   async saveImages(images: ImageModel[]): Promise<void> {
     const persistedImages = await Promise.all(
       images.map((img) => this.serializeImage(img)),
@@ -50,7 +62,7 @@ export class PersistenceService {
     return persistedImages.map((img) => this.deserializeImage(img))
   }
 
-  // Folder persistence
+  // Folder operations
   async saveFolders(folders: Folder[]): Promise<void> {
     const persistedFolders = folders.map((folder) => ({
       id: folder.id,
@@ -76,7 +88,7 @@ export class PersistenceService {
     }))
   }
 
-  // Private serialization helpers
+  // Serialization helpers
   private async serializeImage(image: ImageModel): Promise<PersistedImage> {
     return {
       id: image.id,
@@ -91,7 +103,6 @@ export class PersistenceService {
   }
 
   private deserializeImage(persisted: PersistedImage): ImageModel {
-    // Detect MIME type from file extension
     const mimeType = this.getMimeTypeFromFileName(persisted.fileName)
 
     const file = new File([persisted.fileBuffer], persisted.fileName, {
@@ -116,14 +127,6 @@ export class PersistenceService {
 
   private getMimeTypeFromFileName(fileName: string): string {
     const extension = fileName.split(".").pop()?.toLowerCase()
-    const mimeTypes: Record<string, string> = {
-      jpg: "image/jpeg",
-      jpeg: "image/jpeg",
-      png: "image/png",
-      gif: "image/gif",
-      webp: "image/webp",
-      svg: "image/svg+xml",
-    }
-    return mimeTypes[extension || ""] || "image/jpeg"
+    return MIME_TYPES[extension || ""] || "image/jpeg"
   }
 }

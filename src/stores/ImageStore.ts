@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx"
 
+// Types
 export type ImageStatus =
   | "uploaded"
   | "processing"
@@ -11,24 +12,25 @@ export interface ImageModel {
   id: string
   file: File
   src: string
-  processedBlob?: Blob // Store the processed image blob
+  processedBlob?: Blob
   status: ImageStatus
   createdAt: Date
 }
 
 export class ImageStore {
+  // Properties
   images = new Map<string, ImageModel>()
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  // Getters
+  // Computed values
   get count(): number {
     return this.images.size
   }
 
-  // CRUD Operations
+  // CRUD operations
   add(files: File[]): string[] {
     const imageIds: string[] = []
 
@@ -55,16 +57,15 @@ export class ImageStore {
   ) {
     const image = this.images.get(id)
     if (image) {
-      // Store old URL for delayed revocation
       const oldSrc = image.src
 
       Object.assign(image, updates)
 
-      // Revoke old URL after a delay to allow UI transitions
+      // Cleanup old blob URL after transition
       if (updates.src && updates.src !== oldSrc && oldSrc.startsWith("blob:")) {
         setTimeout(() => {
           URL.revokeObjectURL(oldSrc)
-        }, 2000) // 2 second delay for transitions
+        }, 2000)
       }
     }
   }
@@ -81,7 +82,7 @@ export class ImageStore {
     ids.forEach((id) => this.remove(id))
   }
 
-  // Query Operations
+  // Query operations
   get(id: string) {
     return this.images.get(id)
   }
@@ -100,7 +101,7 @@ export class ImageStore {
     return this.getAll().filter((img) => img.status === status)
   }
 
-  // Cleanup method to revoke all blob URLs
+  // Cleanup operations
   dispose() {
     this.images.forEach((image) => {
       if (image.src.startsWith("blob:")) {

@@ -3,7 +3,12 @@ import { useEffect } from "react"
 import { useStore } from "@/hooks/useStores"
 import { removeBackground } from "@/services/photoroom/photoroomService"
 
+/**
+ * Auto-processes uploaded images with background removal.
+ * Watches for new uploads and processes them asynchronously.
+ */
 export function useAutoBackgroundRemoval() {
+  // Store access
   const { imageStore } = useStore()
 
   useEffect(() => {
@@ -12,12 +17,12 @@ export function useAutoBackgroundRemoval() {
       async (newUploadedImages) => {
         if (newUploadedImages.length === 0) return
 
-        // Mark all as processing immediately to remove from "uploaded" status
+        // Prevent race conditions by marking immediately
         for (const image of newUploadedImages) {
           imageStore.update(image.id, { status: "processing" })
         }
 
-        // Then process each one async
+        // Process each image
         for (const image of newUploadedImages) {
           const apiResult = await removeBackground(image.file)
 
@@ -30,13 +35,13 @@ export function useAutoBackgroundRemoval() {
           imageStore.update(image.id, {
             status: "completed",
             src: URL.createObjectURL(processedBlob),
-            processedBlob: processedBlob, // Store the processed blob for persistence
+            processedBlob: processedBlob,
           })
 
-          // Auto-hide badge after delay by changing status to "processed"
+          // Hide badge after delay
           setTimeout(() => {
             imageStore.update(image.id, { status: "processed" })
-          }, 1500) // Match BADGE_HIDE_DELAY from ImageCard
+          }, 1500)
         }
       },
     )

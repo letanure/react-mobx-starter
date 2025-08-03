@@ -5,8 +5,10 @@ import { useStore } from "@/hooks/useStores"
 import { ImageGrid } from "./ImageGrid"
 
 export const DesignManager = observer(() => {
+  // Store access
   const { imageStore, folderStore } = useStore()
 
+  // Event handlers
   const handleUpload = (files: File[]) => {
     const imageIds = imageStore.add(files)
 

@@ -38,7 +38,7 @@ describe("ErrorBoundary", () => {
       </ErrorBoundary>,
     )
 
-    expect(screen.getByText("Something went wrong.")).toBeInTheDocument()
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument()
     expect(
       screen.getByRole("button", { name: "Try again" }),
     ).toBeInTheDocument()
@@ -65,7 +65,7 @@ describe("ErrorBoundary", () => {
       </ErrorBoundary>,
     )
 
-    expect(screen.getByText("Something went wrong.")).toBeInTheDocument()
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument()
 
     const tryAgainButton = screen.getByRole("button", { name: "Try again" })
     expect(tryAgainButton).toBeInTheDocument()

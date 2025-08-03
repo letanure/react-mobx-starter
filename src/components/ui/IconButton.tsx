@@ -1,5 +1,6 @@
 import type { Icon } from "@tabler/icons-react"
 
+// Types
 type IconButtonSize = "small" | "medium" | "large"
 type IconButtonVariant = "default" | "danger" | "accent" | "light"
 
@@ -12,6 +13,7 @@ interface IconButtonProps {
   type?: "button" | "submit" | "reset"
 }
 
+// Styles
 const sizeStyles: Record<IconButtonSize, { button: string; icon: number }> = {
   small: { button: "p-1", icon: 16 },
   medium: { button: "p-2", icon: 16 },
@@ -33,6 +35,7 @@ export function IconButton({
   title,
   type = "button",
 }: IconButtonProps) {
+  // Computed values
   const sizeConfig = sizeStyles[size]
   const variantClass = variantStyles[variant]
 

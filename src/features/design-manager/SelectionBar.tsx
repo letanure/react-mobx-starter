@@ -10,11 +10,28 @@ import { Text } from "@/components/ui/Text"
 import { useStore } from "@/hooks/useStores"
 import { useDisplayImages } from "./useDisplayImages"
 
+// Styles
+const barStyles = {
+  base: "fixed bottom-4 left-1/2 bg-white border border-gray-200 rounded-lg shadow-lg px-4 py-2 flex items-center gap-4 z-10 transition-all duration-300",
+  controls: "flex items-center gap-2",
+  folderSection: "flex items-center gap-2 px-2 border-l border-gray-200",
+  folderIcon: "text-gray-500",
+}
+
+const visibilityStyles: Record<string, string> = {
+  visible: "translate-y-0 translate-x-[-50%] opacity-100",
+  hidden: "translate-y-full translate-x-[-50%] opacity-0",
+}
+
 export const SelectionBar = observer(() => {
+  // Store access
   const { selectionStore, folderStore, imageStore } = useStore()
-  const [showBulkDeleteConfirm, setShowBulkDeleteConfirm] = useState(false)
   const displayImages = useDisplayImages()
 
+  // State
+  const [showBulkDeleteConfirm, setShowBulkDeleteConfirm] = useState(false)
+
+  // Event handlers
   const handleSelectAll = () => {
     const allImageIds = displayImages.map((img) => img.id)
     selectionStore.selectAllVisible(allImageIds)
@@ -41,17 +58,28 @@ export const SelectionBar = observer(() => {
     folderStore.moveImagesToFolder(imageIds, targetFolderId)
     selectionStore.clear()
   }
+
+  // Computed values
   const folders = folderStore.getAll()
   const hasSelection = selectionStore.hasSelection
+  const visibilityClass = visibilityStyles[hasSelection ? "visible" : "hidden"]
+
+  const barClassName = [barStyles.base, visibilityClass].join(" ")
+
+  const folderOptions = [
+    { value: "none", label: "No folder" },
+    ...folders.map((folder) => ({
+      value: folder.id,
+      label: folder.name,
+    })),
+  ]
 
   return (
     <>
-      <div
-        className={`fixed bottom-4 left-1/2 bg-white border border-gray-200 rounded-lg shadow-lg px-4 py-2 flex items-center gap-4 z-10 transition-all duration-300 ${hasSelection ? "translate-y-0 translate-x-[-50%] opacity-100" : "translate-y-full translate-x-[-50%] opacity-0"}`}
-      >
+      <div className={barClassName}>
         <Text size="sm">{selectionStore.count} selected</Text>
 
-        <div className="flex items-center gap-2">
+        <div className={barStyles.controls}>
           <Button
             label="Select All"
             onClick={handleSelectAll}
@@ -64,16 +92,10 @@ export const SelectionBar = observer(() => {
             variant="secondary"
           />
 
-          <div className="flex items-center gap-2 px-2 border-l border-gray-200">
-            <IconFolder size={16} className="text-gray-500" />
+          <div className={barStyles.folderSection}>
+            <IconFolder size={16} className={barStyles.folderIcon} />
             <Select
-              options={[
-                { value: "none", label: "No folder" },
-                ...folders.map((folder) => ({
-                  value: folder.id,
-                  label: folder.name,
-                })),
-              ]}
+              options={folderOptions}
               value={folderStore.activeId || "none"}
               onChange={(value) =>
                 handleMoveToFolder(value === "none" ? null : value)

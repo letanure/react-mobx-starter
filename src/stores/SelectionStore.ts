@@ -1,15 +1,14 @@
 import { makeAutoObservable, observable } from "mobx"
-import type { RootStore } from "./RootStore"
 
 export class SelectionStore {
+  // Properties
   selectedIds = observable.set<string>()
-  private rootStore: RootStore
 
-  constructor(rootStore: RootStore) {
-    this.rootStore = rootStore
+  constructor() {
     makeAutoObservable(this)
   }
 
+  // Computed values
   get count() {
     return this.selectedIds.size
   }
@@ -22,19 +21,18 @@ export class SelectionStore {
     return this.selectedIds.size > 0
   }
 
+  // Query operations
+  isSelected(imageId: string) {
+    return this.selectedIds.has(imageId)
+  }
+
+  // Selection operations
   toggle(imageId: string) {
     if (this.selectedIds.has(imageId)) {
       this.selectedIds.delete(imageId)
     } else {
       this.selectedIds.add(imageId)
     }
-  }
-
-  selectAll() {
-    const allImages = this.rootStore.imageStore.getAll()
-    allImages.forEach((image) => {
-      this.selectedIds.add(image.id)
-    })
   }
 
   selectAllVisible(imageIds: string[]) {
@@ -45,9 +43,5 @@ export class SelectionStore {
 
   clear() {
     this.selectedIds.clear()
-  }
-
-  isSelected(imageId: string) {
-    return this.selectedIds.has(imageId)
   }
 }

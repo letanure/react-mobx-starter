@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx"
 
+// Types
 export interface Folder {
   id: string
   name: string
@@ -9,6 +10,7 @@ export interface Folder {
 }
 
 export class FolderStore {
+  // Properties
   folders: Folder[] = []
   activeId: string | null = null
 
@@ -16,11 +18,7 @@ export class FolderStore {
     makeAutoObservable(this)
   }
 
-  private sanitizeFolderName(name: string): string {
-    const sanitized = name.trim().replace(/\s+/g, " ").slice(0, 50)
-    return sanitized || "Untitled"
-  }
-
+  // CRUD operations
   add(name: string) {
     const date = new Date()
     const folder: Folder = {
@@ -35,9 +33,8 @@ export class FolderStore {
   }
 
   update(id: string, data: Partial<Omit<Folder, "id" | "createdAt">>) {
-    const folder = this.folders.find((f) => f.id === id)
+    const folder = this.folders.find((item) => item.id === id)
     if (folder) {
-      // Sanitize name if it's being updated
       const updatedData = { ...data }
       if (updatedData.name) {
         updatedData.name = this.sanitizeFolderName(updatedData.name)
@@ -51,30 +48,32 @@ export class FolderStore {
   }
 
   remove(id: string) {
-    const index = this.folders.findIndex((f) => f.id === id)
+    const index = this.folders.findIndex((item) => item.id === id)
     if (index !== -1) {
       this.folders.splice(index, 1)
-      // Reset activeId if we're deleting the active folder
       if (this.activeId === id) {
         this.activeId = null
       }
     }
   }
 
+  // Selection operations
   setActive(id: string | null) {
     this.activeId = id
   }
 
+  // Query operations
   getById(id: string): Folder | undefined {
-    return this.folders.find((f) => f.id === id)
+    return this.folders.find((item) => item.id === id)
   }
 
   getAll(): Folder[] {
     return this.folders
   }
 
+  // Image management
   addImagesToFolder(folderId: string, imageIds: string[]) {
-    const folder = this.folders.find((f) => f.id === folderId)
+    const folder = this.folders.find((item) => item.id === folderId)
     if (folder) {
       imageIds.forEach((imageId) => {
         if (!folder.imageIds.includes(imageId)) {
@@ -88,7 +87,6 @@ export class FolderStore {
   }
 
   removeImages(imageIds: string[]) {
-    // Remove images from their folders (each image can only be in one folder)
     this.folders.forEach((folder) => {
       const originalLength = folder.imageIds.length
       folder.imageIds = folder.imageIds.filter((id) => !imageIds.includes(id))
@@ -99,12 +97,16 @@ export class FolderStore {
   }
 
   moveImagesToFolder(imageIds: string[], targetFolderId: string | null) {
-    // First remove images from all folders
     this.removeImages(imageIds)
 
-    // Then add to target folder if specified
     if (targetFolderId) {
       this.addImagesToFolder(targetFolderId, imageIds)
     }
+  }
+
+  // Utility functions
+  private sanitizeFolderName(name: string): string {
+    const sanitized = name.trim().replace(/\s+/g, " ").slice(0, 50)
+    return sanitized || "Untitled"
   }
 }

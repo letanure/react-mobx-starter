@@ -9,8 +9,10 @@ export function FileUpload({
   onFilesSelected,
   disabled = false,
 }: FileUploadProps) {
+  // Refs
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  // Event handlers
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
     if (files) {

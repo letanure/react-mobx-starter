@@ -1,6 +1,7 @@
 import { Modal } from "./Modal"
 import { Text } from "./Text"
 
+// Types
 interface ConfirmAction {
   label: string
   onClick: () => void
@@ -30,12 +31,13 @@ export function ConfirmModal({
   variant = "danger",
   actions,
 }: ConfirmModalProps) {
+  // Event handlers
   const handleConfirm = () => {
     onConfirm?.()
     onClose()
   }
 
-  // Use custom actions if provided, otherwise use default confirm/cancel
+  // defaults to confirm cacel if no action provided
   const modalActions = actions || [
     {
       label: cancelText,
@@ -45,7 +47,8 @@ export function ConfirmModal({
     {
       label: confirmText,
       onClick: handleConfirm,
-      variant: (variant === "danger" ? "danger" : "primary") as const,
+      variant:
+        variant === "danger" ? ("danger" as const) : ("primary" as const),
     },
   ]
 
@@ -66,7 +69,7 @@ export function ConfirmModal({
       }))}
       closable={false}
     >
-      <Text as="p" className="text-gray-700">
+      <Text as="p" color="muted">
         {message}
       </Text>
     </Modal>

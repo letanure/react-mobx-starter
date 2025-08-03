@@ -5,14 +5,19 @@ import { ConfirmModal } from "@/components/ui/ConfirmModal"
 import { TagEditable } from "@/components/ui/TagEditable"
 import { useStore } from "@/hooks/useStores"
 
+// Types
 interface FolderItemProps {
   folderId: string
 }
 
 export const FolderItem = observer(({ folderId }: FolderItemProps) => {
+  // Store access
   const { folderStore, imageStore } = useStore()
+
+  // State
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
+  // Computed values
   const folder = folderStore.getById(folderId)
   if (!folder) return null
 
@@ -20,6 +25,7 @@ export const FolderItem = observer(({ folderId }: FolderItemProps) => {
   const imageCount = folder.imageIds.length
   const isSelected = folderStore.activeId === folder.id
 
+  // Event handlers
   const handleDeleteFolderOnly = () => {
     folderStore.remove(folderId)
     setShowDeleteConfirm(false)
@@ -28,10 +34,8 @@ export const FolderItem = observer(({ folderId }: FolderItemProps) => {
   const handleDeleteFolderAndImages = () => {
     const imageIds = [...folder.imageIds]
 
-    // Remove folder first
     folderStore.remove(folderId)
 
-    // Then remove images
     if (imageIds.length > 0) {
       imageStore.removeByIds(imageIds)
     }

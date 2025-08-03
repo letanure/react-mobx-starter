@@ -7,40 +7,35 @@ import { ImageStore } from "./ImageStore"
 import { SelectionStore } from "./SelectionStore"
 
 export class RootStore {
+  // Public stores
   imageStore: ImageStore
   folderStore: FolderStore
   selectionStore: SelectionStore
+
+  // State
   isHydrating = true
 
+  // Private services
   private persistenceService: PersistenceService
 
   constructor() {
-    makeAutoObservable(this)
-
+    // Initialize stores
     this.imageStore = new ImageStore()
     this.folderStore = new FolderStore()
-    this.selectionStore = new SelectionStore(this)
+    this.selectionStore = new SelectionStore()
+
+    // Initialize services
     this.persistenceService = new PersistenceService()
 
+    // Setup MobX
+    makeAutoObservable(this)
+
+    // Initialize app
     this.hydrate()
     this.setupAutoPersistence()
   }
 
-  private setupAutoPersistence() {
-    reaction(
-      () => [
-        this.imageStore.images.size,
-        this.folderStore.folders.length,
-        ...Array.from(this.imageStore.images.values()).map((img) => img.status),
-        ...this.folderStore.folders.flatMap((f) => f.imageIds),
-      ],
-      () => {
-        this.persistAll()
-      },
-      { delay: 100 },
-    )
-  }
-
+  // Hydration methods
   async hydrate() {
     const [images, folders] = await Promise.all([
       this.persistenceService.loadImages(),
@@ -52,17 +47,6 @@ export class RootStore {
 
     await new Promise((resolve) => setTimeout(resolve, 300))
     this.setHydrating(false)
-  }
-
-  private setHydrating = action((value: boolean) => {
-    this.isHydrating = value
-  })
-
-  async persistAll() {
-    await Promise.all([
-      this.persistenceService.saveImages(this.imageStore.getAll()),
-      this.persistenceService.saveFolders(this.folderStore.getAll()),
-    ])
   }
 
   private hydrateImageStore(images: ImageModel[]) {
@@ -84,7 +68,35 @@ export class RootStore {
     })
   }
 
-  // Cleanup method for app shutdown
+  // State management
+  private setHydrating = action((value: boolean) => {
+    this.isHydrating = value
+  })
+
+  // Persistence methods
+  private setupAutoPersistence() {
+    reaction(
+      () => [
+        this.imageStore.images.size,
+        this.folderStore.folders.length,
+        ...Array.from(this.imageStore.images.values()).map((img) => img.status),
+        ...this.folderStore.folders.flatMap((folder) => folder.imageIds),
+      ],
+      () => {
+        this.persistAll()
+      },
+      { delay: 100 },
+    )
+  }
+
+  async persistAll() {
+    await Promise.all([
+      this.persistenceService.saveImages(this.imageStore.getAll()),
+      this.persistenceService.saveFolders(this.folderStore.getAll()),
+    ])
+  }
+
+  // Cleanup
   dispose() {
     this.imageStore.dispose()
   }
