@@ -1,10 +1,10 @@
-import { Counter } from "@/components/Counter"
-import { Layout } from "@/layouts/Layout"
+import { Layout } from "@/components/layouts/Layout"
+import { DesignManager } from "@/features/design-manager/DesignManager"
 
 function App() {
   return (
     <Layout>
-      <Counter />
+      <DesignManager />
     </Layout>
   )
 }

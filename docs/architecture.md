@@ -8,11 +8,13 @@ src/
 │   └── ui/              # Design system components
 ├── features/            # Feature-based modules
 │   └── [feature-name]/  # Self-contained features
+├── stores/              # MobX stores
+├── providers/           # React context providers
+├── hooks/               # Custom React hooks
 ├── services/            # External integrations
 ├── layouts/             # Page layouts
 ├── types/               # TypeScript definitions
 ├── utils/               # Helper functions
-├── hooks/               # Custom React hooks
 ├── constants/           # App constants
 ├── App.tsx              # Root component
 └── main.tsx             # Entry point
@@ -122,3 +124,54 @@ Before creating a new UI component, ask:
 3. Can it be composed from existing components?
 
 If yes to all, add to `/components/ui/`. Otherwise, keep it in the feature folder.
+
+## UI Library Choice: Custom vs Third-Party
+
+This project uses **custom UI components** instead of libraries like Radix UI or shadcn/ui for the following reasons:
+
+### Why Custom Components
+1. **Architectural demonstration** - Shows component design and API thinking
+2. **Full control** - No external dependencies or constraints
+3. **Simplicity** - Our needs are basic (Grid, ImageCard, FileUpload)
+4. **Learning focus** - Interview project emphasizes custom implementation skills
+
+### Alternative Considerations
+- **Radix UI**: Excellent for production apps needing complex accessibility
+- **shadcn/ui**: Great for rapid development with modern React patterns
+- **Trade-off**: Custom components require more maintenance but offer full ownership
+
+**Decision**: Custom components align with the project's goal of demonstrating architectural and implementation skills rather than library integration knowledge.
+
+## State Management
+
+### MobX Store Pattern
+
+This project uses **React Context + MobX** pattern instead of direct store imports for demonstration purposes. While direct imports (`import { imageStore } from '@/stores'`) would be simpler for this small app, the provider pattern showcases:
+
+1. **Dependency injection** - Easy to swap store implementations
+2. **Testing** - Can inject mock stores for unit tests  
+3. **Single instance** - Guarantees one store instance across the app
+4. **React integration** - Follows React patterns for state provision
+
+**Trade-off**: More boilerplate for educational/showcase value over simplicity.
+
+### Store Architecture
+
+```
+stores/
+├── RootStore.ts       # Container for all stores
+├── ImageStore.ts      # Image management logic
+└── index.ts           # Store exports
+
+providers/
+└── StoreProvider.tsx  # React context provider
+
+hooks/
+└── useStores.ts       # Store access hooks
+```
+
+**Usage in components:**
+```tsx
+const imageStore = useImageStore() // via React context
+// Alternative: import { imageStore } from '@/stores' (simpler)
+```

@@ -9,12 +9,13 @@ export default defineConfig({
   resolve: {
     alias: {
       "@/components": path.resolve(__dirname, "./src/components"),
-      "@/layouts": path.resolve(__dirname, "./src/layouts"),
       "@/hooks": path.resolve(__dirname, "./src/hooks"),
       "@/utils": path.resolve(__dirname, "./src/utils"),
       "@/types": path.resolve(__dirname, "./src/types"),
       "@/lib": path.resolve(__dirname, "./src/lib"),
-      "@/store": path.resolve(__dirname, "./src/store"),
+      "@/stores": path.resolve(__dirname, "./src/stores"),
+      "@/providers": path.resolve(__dirname, "./src/providers"),
+      "@/features": path.resolve(__dirname, "./src/features"),
       "@/assets": path.resolve(__dirname, "./src/assets"),
       "@/constants": path.resolve(__dirname, "./src/constants"),
       "@/contexts": path.resolve(__dirname, "./src/contexts"),
