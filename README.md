@@ -31,18 +31,36 @@ npm run dev
 npm run build
 ```
 
-### Lint
+### Code Quality
 
 ```bash
-npm run lint
+# Lint (TypeScript + Biome)
+pnpm lint
+
+# Fix linting issues
+pnpm lint:fix
+
+# Format code
+pnpm format
+
+# Check formatting
+pnpm format:check
+
+# Type check only
+pnpm type:check
+
+# Run all checks
+pnpm check:all
 ```
 
 ### Roadmap
 
 - [x] Initialize Vite + React + SWC project
 - [x] Configure Node version (v22)
-- [ ] Set up code quality tools
-  - [ ] Add Biome for formatting and additional linting
+- [x] Set up code quality tools
+  - [x] Add Biome for formatting and linting
+  - [x] Remove ESLint in favor of Biome
+  - [x] Add TypeScript type checking to lint command
   - [ ] Add Git hooks with lint-staged
 - [ ] Set up Git hooks (pre-commit)
 - [ ] Add testing framework (Vitest + React Testing Library)
@@ -68,3 +86,7 @@ npm run lint
 - Framework
   - **What**: React 19 with TypeScript
   - **Why**: Project requirement
+- Code Quality
+  - **What**: Biome for linting/formatting + TypeScript for type checking
+  - **Why**: Single fast tool instead of ESLint + Prettier, better performance
+  - **How**: Biome handles style/formatting, TypeScript handles type safety
