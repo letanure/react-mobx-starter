@@ -19,9 +19,11 @@ export function ImageCard({
   actions,
   className = "",
 }: ImageCardProps) {
+  const borderColor = status === "error" ? "border-red-500" : "border-neutral-3"
+
   return (
     <div
-      className={`relative bg-neutral-0 rounded-lg overflow-hidden border border-neutral-3 ${className}`}
+      className={`relative bg-neutral-0 rounded-lg overflow-hidden border ${borderColor} ${className}`}
     >
       <div className="aspect-square relative">
         <img src={src} alt={alt} className="w-full h-full object-cover" />

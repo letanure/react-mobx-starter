@@ -3,8 +3,9 @@ import { makeAutoObservable } from "mobx"
 export interface ImageModel {
   id: string
   file: File
-  url: string
+  src: string
   status: "uploaded" | "processing" | "completed" | "error"
+  createdAt: Date
 }
 
 export class ImageStore {
@@ -22,24 +23,36 @@ export class ImageStore {
     return Array.from(this.images.values())
   }
 
+  getByStatus(status: ImageModel["status"]) {
+    return this.getAll().filter((img) => img.status === status)
+  }
+
   add(files: File[]) {
     files.forEach((file) => {
       const id = crypto.randomUUID()
       const image: ImageModel = {
         id,
         file,
-        url: URL.createObjectURL(file),
+        src: URL.createObjectURL(file),
         status: "uploaded",
+        createdAt: new Date(),
       }
 
       this.images.set(id, image)
     })
   }
 
+  update(id: string, updates: Partial<Pick<ImageModel, "status" | "src">>) {
+    const image = this.images.get(id)
+    if (image) {
+      Object.assign(image, updates)
+    }
+  }
+
   remove(id: string) {
     const image = this.images.get(id)
     if (image) {
-      URL.revokeObjectURL(image.url)
+      URL.revokeObjectURL(image.src)
       this.images.delete(id)
     }
   }

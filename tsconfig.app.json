@@ -37,7 +37,8 @@
       "@/assets/*": ["./src/assets/*"],
       "@/constants/*": ["./src/constants/*"],
       "@/contexts/*": ["./src/contexts/*"],
-      "@/styles/*": ["./src/styles/*"]
+      "@/styles/*": ["./src/styles/*"],
+      "@/services/*": ["./src/services/*"]
     }
   },
   "include": ["src"]

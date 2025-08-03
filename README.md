@@ -208,39 +208,63 @@ See [Architecture Guidelines](./docs/architecture.md) for:
 - [x] Set up CI/CD workflow
 - [x] Implement style system
   - [x] Add Tailwind CSS v4 with Vite plugin
-- [ ] Define basic page layout, 2 columns, side + main
-- [ ] Implement image upload component
-- [ ] Image Upload
-- [ ] Image View
+- [x] Define basic page layout, 2 columns, side + main
+- [x] Implement image upload component
+- [x] Image Upload
+- [x] Image View
 - [ ] Folder management
 - [ ] Persistence
+
+### Refinement Ideas (Post-MVP)
+
+> **Implementation Flow**: Each item builds on the previous, creating cumulative value for the interview demo.
+
+<!-- Foundation -->
+- [ ] Add loading states during processing
+- [ ] Toast notifications for user feedback
+<!-- Resilience -->
+- [ ] Implement retry mechanisms for failed API calls
+- [ ] Proper error boundaries with retry logic
+- [ ] Graceful degradation when API is unavailable
+- [ ] Add proper error logging service
+<!-- Architecture -->
+- [ ] Add custom hooks for complex logic (`useImageProcessing`, `useErrorBoundary`)
+- [ ] Add dependency injection for services
+- [ ] Implement observer pattern for notifications
+
+<!-- User Experience -->
+- [ ] Add image comparison (before/after) view
+- [ ] Add keyboard navigation support
+- [ ] Improve accessibility (ARIA labels, focus management)
+- [ ] Add subtle animations and transitions
+- [ ] Batch processing with progress tracking
+
+<!-- Performance -->
+- [ ] Memoization strategies
+- [ ] Image lazy loading 
+- [ ] Caching strategies
+- [ ] Optimize bundle size (analyze and code split)
+
+<!-- Advanced Features -->
+- [ ] Background processing with Web Workers
+- [ ] Implement optimistic updates
+
+<!-- Quality Assurance -->
+- [ ] Mock service implementations
+- [ ] Component testing patterns
+- [ ] Store testing with MobX
+- [ ] Add Storybook for UI components
+- [ ] Implement proper testing coverage
 - [ ] Docker setup for containerized development
 - [ ] Security headers implementation
 - [ ] Accessibility testing integration
 - [ ] Performance budget monitoring
-
-### Refinement Ideas (Post-MVP)
-
-- [ ] Add loading states and skeleton screens
-- [ ] Implement proper error boundaries with retry logic
-- [ ] Add keyboard navigation support
-- [ ] Optimize bundle size (analyze and code split)
-- [ ] Add proper loading indicators for async operations
-- [ ] Implement proper form validation
-- [ ] Add toast notifications for user feedback
-- [ ] Improve accessibility (ARIA labels, focus management)
-- [ ] Add subtle animations and transitions
-- [ ] Implement proper image lazy loading
-- [ ] Add proper TypeScript types (no `any`)
 - [ ] Extract magic numbers to constants
 - [ ] Add proper error logging service
 - [ ] Implement proper testing coverage
 - [ ] Add Storybook for UI components
 - [ ] Performance optimizations (memoization, virtualization)
-- [ ] SEO meta tags (if applicable)
-- [ ] Progressive Web App features
 - [ ] Proper environment variables setup
-- [ ] API response caching strategy
 
 ## Technical Decisions
 

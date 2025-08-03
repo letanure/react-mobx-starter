@@ -175,3 +175,44 @@ hooks/
 const imageStore = useImageStore() // via React context
 // Alternative: import { imageStore } from '@/stores' (simpler)
 ```
+
+## Image Processing Architecture
+
+### Current Implementation: Orchestration in Component
+
+The current implementation handles image upload and processing orchestration directly in the `DesignManager` component through a `handleUpload` function. This approach:
+
+**Pros:**
+- Explicit and traceable flow
+- Easy to debug and understand
+- Clear component responsibility
+
+**Cons:**
+- Mixes UI concerns with processing logic
+- Component knows too much about the process
+
+### Future Consideration: MobX Reactions
+
+An alternative approach using MobX `reaction()` could automatically process images when their status changes to "pending":
+
+```tsx
+// In store or service
+reaction(
+  () => store.images.filter(img => img.status === 'pending'),
+  (pendingImages) => pendingImages.forEach(processImage)
+)
+```
+
+**Analysis:**
+- ✅ **Pros**: Truly reactive, clean separation, automatic processing
+- ❌ **Cons**: Hidden control flow, harder to debug, potential race conditions
+- ⚠️ **Trade-off**: Elegant but potentially too "magical" for team onboarding
+
+**Decision**: For now, we extract the orchestration logic to a custom hook (`useImageUpload`) which provides a good balance of separation and clarity. This can be evolved to use reactions if the team has deep MobX expertise.
+
+### Recommended Evolution Path
+
+1. **Current**: Component with orchestration logic
+2. **Next**: Extract to `useImageUpload` hook (better separation)
+3. **Future**: Consider MobX reactions if team expertise allows
+4. **Alternative**: Event-driven service layer for complex workflows
