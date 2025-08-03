@@ -49,6 +49,11 @@ export const FolderItem = observer(({ folderId }: FolderItemProps) => {
 
   const handleSelect = () => {
     folderStore.setActive(folderId)
+
+    // Update URL - in real app this would be React Router
+    const url = new URL(window.location.href)
+    url.searchParams.set("folder", folderId)
+    window.history.replaceState({}, "", url.toString())
   }
 
   const handleSave = (name: string) => {
