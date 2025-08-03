@@ -77,6 +77,32 @@ git commit -m "fix: resolve memory leak in image viewer"
 git commit -m "docs: update API documentation"
 ```
 
+### Release Process
+
+Releases are automated using semantic-release. Based on your commit messages:
+
+- `fix:` commits trigger a patch release (0.0.X)
+- `feat:` commits trigger a minor release (0.X.0)
+- `BREAKING CHANGE:` in commit body triggers a major release (X.0.0)
+
+**Manual Release:**
+```bash
+# Dry run to see what would happen
+pnpm release:dry-run
+
+# Perform actual release
+pnpm release
+```
+
+**Automatic Release (CI/CD):**
+When commits are pushed to `main`, semantic-release will:
+1. Analyze commits since last release
+2. Determine version bump type
+3. Update package.json version
+4. Generate/update CHANGELOG.md
+5. Create git tag
+6. Push changes back to repository
+
 ### Roadmap
 
 - [x] Initialize Vite + React + SWC project
@@ -89,6 +115,10 @@ git commit -m "docs: update API documentation"
 - [x] Set up Git hooks
   - [x] Pre-commit hook with lint-staged
   - [x] Commit-msg hook with commitlint
+- [x] Set up automated releases
+  - [x] Semantic-release for version management
+  - [x] Auto-generated CHANGELOG.md
+  - [x] Git tags on releases
 - [ ] Add testing framework (Vitest + React Testing Library)
 - [-] Set up CI/CD workflow
 - [ ] Implement style system
@@ -120,3 +150,7 @@ git commit -m "docs: update API documentation"
   - **What**: Husky + lint-staged + commitlint
   - **Why**: Enforce code quality and commit message standards automatically
   - **How**: Pre-commit runs linting/formatting on staged files, commit-msg validates commit format
+- Automated Releases
+  - **What**: Semantic-release with conventional commits
+  - **Why**: Automated versioning, changelogs, and releases based on commit messages
+  - **How**: Analyzes commits, bumps version, updates CHANGELOG, creates git tags
