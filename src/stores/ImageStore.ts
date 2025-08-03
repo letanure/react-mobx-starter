@@ -1,10 +1,17 @@
 import { makeAutoObservable } from "mobx"
 
+export type ImageStatus =
+  | "uploaded"
+  | "processing"
+  | "completed"
+  | "processed"
+  | "error"
+
 export interface ImageModel {
   id: string
   file: File
   src: string
-  status: "uploaded" | "processing" | "completed" | "error"
+  status: ImageStatus
   createdAt: Date
 }
 
@@ -15,19 +22,15 @@ export class ImageStore {
     makeAutoObservable(this)
   }
 
-  get(id: string) {
-    return this.images.get(id)
+  // Getters
+  get count(): number {
+    return this.images.size
   }
 
-  getAll() {
-    return Array.from(this.images.values())
-  }
+  // CRUD Operations
+  add(files: File[]): string[] {
+    const imageIds: string[] = []
 
-  getByStatus(status: ImageModel["status"]) {
-    return this.getAll().filter((img) => img.status === status)
-  }
-
-  add(files: File[]) {
     files.forEach((file) => {
       const id = crypto.randomUUID()
       const image: ImageModel = {
@@ -39,7 +42,10 @@ export class ImageStore {
       }
 
       this.images.set(id, image)
+      imageIds.push(id)
     })
+
+    return imageIds
   }
 
   update(id: string, updates: Partial<Pick<ImageModel, "status" | "src">>) {
@@ -55,5 +61,24 @@ export class ImageStore {
       URL.revokeObjectURL(image.src)
       this.images.delete(id)
     }
+  }
+
+  // Query Operations
+  get(id: string) {
+    return this.images.get(id)
+  }
+
+  getAll() {
+    return Array.from(this.images.values())
+  }
+
+  getByIds(imageIds: string[]): ImageModel[] {
+    return imageIds
+      .map((id) => this.images.get(id))
+      .filter(Boolean) as ImageModel[]
+  }
+
+  getByStatus(status: ImageStatus) {
+    return this.getAll().filter((img) => img.status === status)
   }
 }

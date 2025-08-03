@@ -6,10 +6,10 @@ import { ConfirmModal } from "@/components/ui/ConfirmModal"
 import { HorizontalBar } from "@/components/ui/HorizontalBar"
 import { TagEditable } from "@/components/ui/TagEditable"
 import { Text } from "@/components/ui/Text"
-import { useFolderStore } from "@/hooks/useStores"
+import { useStore } from "@/hooks/useStores"
 
 export const FolderManager = observer(() => {
-  const folderStore = useFolderStore()
+  const { folderStore, imageStore } = useStore()
   const folders = folderStore.getAll()
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [confirmDeleteFolderId, setConfirmDeleteFolderId] = useState<
@@ -48,7 +48,7 @@ export const FolderManager = observer(() => {
         >
           All Images
           <Text variant="caption" muted className="ml-2">
-            (0)
+            ({imageStore.count})
           </Text>
         </Button>
 

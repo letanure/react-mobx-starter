@@ -31,6 +31,11 @@ export function useAutoBackgroundRemoval() {
             status: "completed",
             src: URL.createObjectURL(processedBlob),
           })
+
+          // Auto-hide badge after delay by changing status to "processed"
+          setTimeout(() => {
+            imageStore.update(image.id, { status: "processed" })
+          }, 1500) // Match BADGE_HIDE_DELAY from ImageCard
         }
       },
     )

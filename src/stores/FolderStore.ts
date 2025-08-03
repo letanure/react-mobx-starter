@@ -72,4 +72,12 @@ export class FolderStore {
   getAll(): Folder[] {
     return this.folders
   }
+
+  addImageToFolder(folderId: string, imageId: string): void {
+    const folder = this.folders.find((f) => f.id === folderId)
+    if (folder && !folder.imageIds.includes(imageId)) {
+      folder.imageIds.push(imageId)
+      folder.updatedAt = new Date()
+    }
+  }
 }

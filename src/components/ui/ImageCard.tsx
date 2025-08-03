@@ -1,11 +1,10 @@
 import { type ReactNode, useEffect, useRef, useState } from "react"
-
-type Status = "uploaded" | "processing" | "completed" | "error"
+import type { ImageStatus } from "@/stores/ImageStore"
 
 interface ImageCardProps {
   src: string
   alt?: string
-  status?: Status
+  status?: ImageStatus
   onRemove?: () => void
   actions?: ReactNode
   className?: string
@@ -90,7 +89,7 @@ export function ImageCard({
         {!imageLoaded && <div className="absolute inset-0 bg-gray-100"></div>}
 
         {/* Status badge with optional spinner */}
-        {status && (
+        {status && status !== "processed" && (
           <div
             className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs flex items-center gap-1"
             style={{
