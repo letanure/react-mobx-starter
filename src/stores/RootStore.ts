@@ -4,10 +4,12 @@ import type { Folder } from "./FolderStore"
 import { FolderStore } from "./FolderStore"
 import type { ImageModel } from "./ImageStore"
 import { ImageStore } from "./ImageStore"
+import { SelectionStore } from "./SelectionStore"
 
 export class RootStore {
   imageStore: ImageStore
   folderStore: FolderStore
+  selectionStore: SelectionStore
   isHydrating = true
 
   private persistenceService: PersistenceService
@@ -17,6 +19,7 @@ export class RootStore {
 
     this.imageStore = new ImageStore()
     this.folderStore = new FolderStore()
+    this.selectionStore = new SelectionStore(this)
     this.persistenceService = new PersistenceService()
 
     this.hydrate()
