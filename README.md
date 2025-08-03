@@ -75,6 +75,55 @@ pnpm test:coverage
 - Global test setup in `src/test/setup.ts`
 - Pre-commit hook runs related tests for changed files
 
+### Project Structure
+
+```
+src/
+├── assets/           # Static assets
+│   ├── icons/        # SVG icons
+│   ├── images/       # Photos, graphics
+│   └── fonts/        # Custom fonts
+├── components/       # Smart/container components
+│   └── ui/          # Dumb/presentational components
+├── hooks/           # Custom React hooks
+├── utils/           # Utility functions
+├── types/           # TypeScript type definitions
+├── lib/             # Third-party library configurations
+├── store/           # State management
+├── constants/       # App constants
+├── contexts/        # React contexts
+├── styles/          # CSS files
+└── test/           # Test utilities and setup
+```
+
+**Path Aliases & Import Rules:**
+```tsx
+// Cross-folder imports: Use specific aliases (no file extensions)
+import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { Button } from '@/components/ui/Button'
+import { useAuth } from '@/hooks/useAuth'
+import { formatDate } from '@/utils/formatDate'
+import type { User } from '@/types/User'
+import { api } from '@/lib/api'
+import { useStore } from '@/store/useStore'
+import { API_URL } from '@/constants/config'
+import { AuthContext } from '@/contexts/AuthContext'
+
+// Assets and styles: Include extensions
+import logo from '@/assets/icons/logo.svg'
+import '@/styles/index.css'
+
+// Colocated files: Use relative imports (no extensions)
+import App from './App'
+import { MyComponent } from './MyComponent'
+```
+
+**Import Rules:**
+1. **Cross-folder** → Use `@/folder/file` (no extensions)
+2. **Colocated files** → Use `./file` (no extensions)  
+3. **Assets/CSS** → Include extensions
+4. **No catch-all alias** → Forces intentional organization
+
 ### Commit Convention
 
 This project uses [Conventional Commits](https://www.conventionalcommits.org/). Commit messages must follow the format:
@@ -147,6 +196,7 @@ When commits are pushed to `main`, semantic-release will:
   - [x] Git tags on releases
 - [x] Add testing framework (Vitest + React Testing Library)
 - [x] Add error boundary for graceful error handling
+- [x] Set up path aliases and folder structure
 - [x] Set up CI/CD workflow
 - [ ] Implement style system
   - [ ] add tailwind
@@ -189,3 +239,7 @@ When commits are pushed to `main`, semantic-release will:
   - **What**: React Error Boundary component
   - **Why**: Prevents app crashes, provides graceful error handling and recovery
   - **How**: Global ErrorBoundary wraps the app, catches JavaScript errors in components
+- Project Structure
+  - **What**: Organized folder structure with specific path aliases
+  - **Why**: Clean imports, better code organization, easier refactoring
+  - **How**: Specific aliases for each folder (`@/components/*`, `@/hooks/*`, etc.) with fallback `@/*` for root files
