@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --color-accent-400: #4d3de3;
+  --color-accent-500: #410cd9;
+  --color-accent-600: #280197;
+
+  --color-positive-500: #00a66f;
+  --color-negative-500: #ff3333;
+
+  --color-neutral-0: #ffffff;
+  --color-neutral-1: #f2f3f7;
+  --color-neutral-2: #e6e7ed;
+  --color-neutral-3: #d9dae0;
+  --color-neutral-7: #707177;
+  --color-neutral-8: #404147;
+  --color-neutral-9: #000000;
+
+  --color-ci-background: #f2f6f9;
+  --color-ci-text: #1c273a;
+}

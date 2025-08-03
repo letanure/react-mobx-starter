@@ -178,6 +178,14 @@ When commits are pushed to `main`, semantic-release will:
 5. Create git tag
 6. Push changes back to repository
 
+### Architecture
+
+See [Architecture Guidelines](./docs/architecture.md) for:
+- Folder structure and organization
+- Component patterns (Smart/Dumb)
+- Import rules and boundaries
+- Naming conventions
+
 ### Roadmap
 
 - [x] Initialize Vite + React + SWC project
