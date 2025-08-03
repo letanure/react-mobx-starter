@@ -53,6 +53,30 @@ pnpm type:check
 pnpm check:all
 ```
 
+### Commit Convention
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/). Commit messages must follow the format:
+
+```
+<type>(<scope>): <subject>
+```
+
+Allowed types:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, semicolons, etc)
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks
+
+Examples:
+```bash
+git commit -m "feat: add image upload component"
+git commit -m "fix: resolve memory leak in image viewer"
+git commit -m "docs: update API documentation"
+```
+
 ### Roadmap
 
 - [x] Initialize Vite + React + SWC project
@@ -61,8 +85,10 @@ pnpm check:all
   - [x] Add Biome for formatting and linting
   - [x] Remove ESLint in favor of Biome
   - [x] Add TypeScript type checking to lint command
-  - [ ] Add Git hooks with lint-staged
-- [ ] Set up Git hooks (pre-commit)
+  - [x] Add Git hooks with lint-staged
+- [x] Set up Git hooks
+  - [x] Pre-commit hook with lint-staged
+  - [x] Commit-msg hook with commitlint
 - [ ] Add testing framework (Vitest + React Testing Library)
 - [-] Set up CI/CD workflow
 - [ ] Implement style system
@@ -90,3 +116,7 @@ pnpm check:all
   - **What**: Biome for linting/formatting + TypeScript for type checking
   - **Why**: Single fast tool instead of ESLint + Prettier, better performance
   - **How**: Biome handles style/formatting, TypeScript handles type safety
+- Git Hooks
+  - **What**: Husky + lint-staged + commitlint
+  - **Why**: Enforce code quality and commit message standards automatically
+  - **How**: Pre-commit runs linting/formatting on staged files, commit-msg validates commit format
