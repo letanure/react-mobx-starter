@@ -1,3 +1,24 @@
+# [1.1.0](https://github.com/letanure/react-mobx-starter/compare/v1.0.0...v1.1.0) (2025-08-05)
+
+
+### Bug Fixes
+
+* correct import path for useIsMobile hook ([2c8e0cb](https://github.com/letanure/react-mobx-starter/commit/2c8e0cb70b59aa06ce2f752201c242255e30abf4))
+
+
+### Features
+
+* add @total-typescript/ts-reset dependency and update tsconfig for improved TypeScript support ([3a28f3f](https://github.com/letanure/react-mobx-starter/commit/3a28f3f8ab055acd9388a762be40da7605e19d7c))
+* add CI/CD workflows and improve project structure ([4a1a56c](https://github.com/letanure/react-mobx-starter/commit/4a1a56c83744ec91fda3a52f208d5a0a9f46f97e))
+* add Playwright E2E testing with visual regression ([3824aa2](https://github.com/letanure/react-mobx-starter/commit/3824aa23fafad76c8eb696102fd6f0f2ebd08d82))
+* add production environment configuration and update .gitignore ([940fc18](https://github.com/letanure/react-mobx-starter/commit/940fc185b092ca7448787c23a165d69a7848493a))
+* add Storybook ([c0fd409](https://github.com/letanure/react-mobx-starter/commit/c0fd4094cd02321d7b4cfc66b9bcac1edf057b1c))
+* add useIsMobile hook for responsive design support ([1af9fd2](https://github.com/letanure/react-mobx-starter/commit/1af9fd24448720aa0f14438dd792521d5907a236))
+* enhance application structure with new routing, error handling, and provider composition ([fb15581](https://github.com/letanure/react-mobx-starter/commit/fb15581bf5fd9cf36538acbbfa58bd78485da366))
+* implement error boundary with demo and logging functionality ([ed355d9](https://github.com/letanure/react-mobx-starter/commit/ed355d98f824d0d5998d44b5f08158dcdae0abf6))
+* implement sidebar component with context and mobile support ([5a52dc2](https://github.com/letanure/react-mobx-starter/commit/5a52dc2b9465cea2d756ea3f193977224fda6878))
+* refactor routing and API structure, add centralized config, and enhance localization support ([65277f9](https://github.com/letanure/react-mobx-starter/commit/65277f9dc0359401dbf83a39384de5fbec37ce96))
+
 # 1.0.0 (2025-08-05)
 
 
