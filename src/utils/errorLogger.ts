@@ -11,10 +11,7 @@
  * For development, it logs to console with additional context.
  */
 
-interface ErrorInfo {
-  componentStack: string
-  errorBoundary?: string
-}
+import type { ErrorInfo } from "react"
 
 export function logError(error: Error, errorInfo: ErrorInfo) {
   // In development, log to console with full details
