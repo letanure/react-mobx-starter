@@ -8,6 +8,12 @@ import { todoTranslations } from "@/features/todo/i18n/en"
 export const en = {
   todo: todoTranslations,
   demo: demoTranslations,
+  theme: {
+    toggle: "Toggle theme",
+    light: "Light",
+    dark: "Dark",
+    system: "System",
+  },
   time: {
     justNow: "just now",
     minutesAgo_one: "{{count}} minute ago",

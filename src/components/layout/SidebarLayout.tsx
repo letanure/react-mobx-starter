@@ -1,8 +1,7 @@
 import type { ReactNode } from "react"
-import { useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import { useLocation } from "react-router-dom"
 import { AppSidebar } from "@/components/AppSidebar"
-import { getAllNavigationItems } from "@/config/navigation"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,6 +16,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { getAllNavigationItems } from "@/config/navigation"
 
 interface SidebarLayoutProps {
   children: ReactNode

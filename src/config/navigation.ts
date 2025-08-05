@@ -6,8 +6,8 @@
  */
 
 import type { TFunction } from "i18next"
-import { routeConfigs, type RouteConfig } from "./routes"
 import type { NavigationItem, NavigationSection } from "@/types/navigation"
+import { type RouteConfig, routeConfigs } from "./routes"
 
 /**
  * Extract navigation items from route configurations

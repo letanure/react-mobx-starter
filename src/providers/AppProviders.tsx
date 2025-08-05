@@ -3,6 +3,7 @@ import { ErrorBoundary } from "react-error-boundary"
 import { I18nextProvider } from "react-i18next"
 import { BrowserRouter } from "react-router-dom"
 import { ErrorFallback } from "@/components/ui/ErrorFallback"
+import { ThemeProvider } from "@/contexts/ThemeContext"
 import i18n from "@/i18n"
 import { StoreProvider } from "@/providers/StoreProvider"
 import { logError } from "@/utils"
@@ -19,11 +20,13 @@ interface AppProvidersProps {
 export function AppProviders({ children }: AppProvidersProps) {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} onError={logError}>
-      <I18nextProvider i18n={i18n}>
-        <BrowserRouter>
-          <StoreProvider>{children}</StoreProvider>
-        </BrowserRouter>
-      </I18nextProvider>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <I18nextProvider i18n={i18n}>
+          <BrowserRouter>
+            <StoreProvider>{children}</StoreProvider>
+          </BrowserRouter>
+        </I18nextProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   )
 }
