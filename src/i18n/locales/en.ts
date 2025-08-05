@@ -2,10 +2,12 @@
  * English locale translations aggregated from features
  */
 
+import { demoTranslations } from "@/features/demo/i18n/en"
 import { todoTranslations } from "@/features/todo/i18n/en"
 
 export const en = {
   todo: todoTranslations,
+  demo: demoTranslations,
   time: {
     justNow: "just now",
     minutesAgo_one: "{{count}} minute ago",

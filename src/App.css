@@ -1,4 +1,4 @@
 /* App-level styles */
 #root {
-  padding: 2rem;
+  /* Removed padding to allow sidebar layout to use full viewport */
 }

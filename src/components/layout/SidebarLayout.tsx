@@ -1,45 +1,101 @@
 import type { ReactNode } from "react"
-import { demoRoutes } from "@/features/demo/routes"
-import { todoRoutes } from "@/features/todo/routes"
+import { useLocation } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import { AppSidebar } from "@/components/AppSidebar"
+import { getAllNavigationItems } from "@/config/navigation"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
 
 interface SidebarLayoutProps {
   children: ReactNode
 }
 
 export function SidebarLayout({ children }: SidebarLayoutProps) {
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-64 bg-sidebar border-r border-sidebar-border p-4">
-          <nav>
-            <h2 className="font-semibold text-sidebar-foreground mb-4">
-              Navigation
-            </h2>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href={todoRoutes.path}
-                  className="block px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
-                >
-                  Todos
-                </a>
-              </li>
-              <li>
-                <a
-                  href={demoRoutes.path}
-                  className="block px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
-                >
-                  Error Demo
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </aside>
+  const location = useLocation()
+  const { t } = useTranslation()
 
-        {/* Main content */}
-        <main className="flex-1 p-6">{children}</main>
-      </div>
-    </div>
+  // Derive breadcrumbs from navigation config to maintain consistency with sidebar
+  const getBreadcrumbItems = () => {
+    const path = location.pathname
+    const allNavItems = getAllNavigationItems(t)
+
+    // Match current page to navigation items to ensure breadcrumb accuracy
+    const currentItem = allNavItems.find((item) => item.url === path)
+
+    if (currentItem) {
+      if (path === "/") {
+        // Root level needs no parent breadcrumb for simplicity
+        return [
+          { label: currentItem.title, href: currentItem.url, isPage: true },
+        ]
+      } else {
+        // Show hierarchy to help users understand their location
+        return [
+          { label: t("todo.navigation.all"), href: "/", isPage: false },
+          { label: currentItem.title, href: currentItem.url, isPage: true },
+        ]
+      }
+    }
+
+    // Prevent broken breadcrumbs on unregistered routes
+    return [{ label: "Application", href: "/", isPage: true }]
+  }
+
+  const breadcrumbItems = getBreadcrumbItems()
+
+  return (
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "280px",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar />
+      <SidebarInset>
+        <header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+          <Breadcrumb>
+            <BreadcrumbList>
+              {breadcrumbItems.map((item, index) => (
+                <div key={item.href} className="flex items-center">
+                  {index > 0 && (
+                    <BreadcrumbSeparator className="hidden md:block" />
+                  )}
+                  <BreadcrumbItem
+                    className={index === 0 ? "hidden md:block" : ""}
+                  >
+                    {item.isPage ? (
+                      <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink href={item.href}>
+                        {item.label}
+                      </BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                </div>
+              ))}
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

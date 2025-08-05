@@ -11,9 +11,15 @@ export const todoTranslations = {
   delete: "Delete",
   clearCompleted: "Clear completed",
   navigation: {
+    section: "Todo Lists",
     all: "All",
     active: "Active",
     completed: "Completed",
+  },
+  pages: {
+    all: "All Todos",
+    active: "Active Todos",
+    completed: "Completed Todos",
   },
   stats: {
     active: "active",
