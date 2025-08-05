@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
+import { ApiExample } from "@/components/examples/ApiExample"
 import { Button } from "@/components/ui/Button"
 import { TodoNavigation } from "@/features/todo/TodoNavigation"
 import { useStore } from "@/hooks/useStores"
@@ -88,6 +89,10 @@ export const TodoList = observer(() => {
           )}
         </div>
       )}
+
+      <div className="mt-8">
+        <ApiExample />
+      </div>
     </div>
   )
 })
