@@ -8,8 +8,36 @@ This project uses a **dual snapshot approach** to handle cross-platform differen
 
 - **Local Snapshots**: `tests/e2e/.snapshots/` (gitignored) - platform-specific snapshots for development
 - **CI Snapshots**: `tests/e2e/.snapshots-ci/` (tracked in git) - consistent Linux-based snapshots for CI/CD
+- **Browser**: Uses Chromium only for consistent visual regression testing
+- **Viewports**: Desktop only (1280x720) - mobile testing coming soon
 - **Platform Names**: Local snapshots include platform suffix (e.g., `-darwin`, `-linux`, `-win32`)
 - **CI Consistency**: CI snapshots use Docker to ensure identical rendering across environments
+
+## Testing Strategy
+
+### Desktop Testing
+- **Viewport**: 1280x720 (HD resolution)
+- **Browser**: Chromium (Desktop Chrome)
+- **Purpose**: Ensure UI looks correct on standard desktop screens
+
+### Mobile Testing
+- **Device**: Pixel 5 emulation
+- **Viewport**: 393x851 with 2.75 device scale factor
+- **Browser**: Mobile Chrome
+- **Note**: Limited to static screenshots until responsive design is improved
+
+### Visual Test Sequence
+Screenshots are taken in a logical flow with numbered prefixes for easy ordering:
+
+**Desktop Flow:**
+1. **desktop-01-empty-state** - Initial app load without any todos
+2. **desktop-02-with-one-item** - App after adding first todo item
+3. **desktop-03-item-completed** - App with completed todo item
+4. **desktop-04-with-statistics** - App showing todo statistics with multiple items
+
+**Mobile Flow:**
+1. **mobile-01-empty-state** - Todo page on mobile viewport
+2. **mobile-02-home-page** - Home page on mobile viewport
 
 ## Getting Started
 
@@ -78,6 +106,19 @@ pnpm test:e2e:ui
 # - Actual (current)
 # - Diff (highlighted changes)
 ```
+
+## Snapshot Naming Convention
+
+Snapshots use numbered prefixes for natural ordering in file explorers:
+- Pattern: `{test-file}-{test-suite}-{device}-{number}-{description}-{browser}-{platform}.png`
+
+Example filenames:
+- `todo-app.spec.ts-...-desktop-01-empty-state-chromium-darwin.png`
+- `todo-app.spec.ts-...-desktop-02-with-one-item-chromium-darwin.png`
+- `todo-app.spec.ts-...-desktop-03-item-completed-chromium-darwin.png`
+- `todo-app.spec.ts-...-desktop-04-with-statistics-chromium-darwin.png`
+
+The numbered prefixes ensure snapshots appear in the order they were taken, making it easy to understand the user flow.
 
 ## Best Practices
 

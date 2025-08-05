@@ -44,10 +44,12 @@ export default defineConfig({
 
   /* Visual comparison settings */
   expect: {
-    /* Threshold for screenshot comparisons */
-    threshold: 0.2,
     /* Animation handling */
-    toHaveScreenshot: { animations: "disabled" },
+    toHaveScreenshot: {
+      animations: "disabled",
+      /* Threshold for screenshot comparisons */
+      threshold: 0.2,
+    },
   },
 
   /* Configure projects for major browsers */
@@ -57,35 +59,11 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
 
+    /* Mobile viewport testing */
     {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      name: "mobile-chrome",
+      use: { ...devices["Pixel 5"] },
     },
-
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
   /* Run your local dev server before starting the tests */
