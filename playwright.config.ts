@@ -12,7 +12,7 @@ import { defineConfig, devices } from "@playwright/test"
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./e2e",
+  testDir: "./tests/e2e",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -22,11 +22,14 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
-  /* Store all snapshots in a single .snapshots folder */
-  snapshotDir: "./e2e/.snapshots",
-  snapshotPathTemplate:
-    "{snapshotDir}/{testFileDir}/{testFileName}-{testName}-{arg}-{projectName}-{platform}{ext}",
+  reporter: [["html", { outputFolder: "./tests/playwright-report" }]],
+  /* Store snapshots based on environment */
+  snapshotDir: process.env.CI
+    ? "./tests/e2e/.snapshots-ci"
+    : "./tests/e2e/.snapshots",
+  snapshotPathTemplate: process.env.CI
+    ? "{snapshotDir}/{testFileName}-{testName}-{arg}-{projectName}{ext}"
+    : "{snapshotDir}/{testFileName}-{testName}-{arg}-{projectName}-{platform}{ext}",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

@@ -25,6 +25,9 @@ npm run test:unit     # Run unit tests once
 npm run test:unit:ui  # Run unit tests with UI
 npm run test:e2e      # Run E2E tests
 npm run test:e2e:ui   # Run E2E tests with UI
+npm run test:e2e:update-ci # Update CI snapshots using Docker
+pnpm storybook       # Run Storybook dev server
+pnpm storybook:build # Build Storybook static files
 pnpm lint:fix        # Auto-fix linting issues
 pnpm type:check      # TypeScript type checking
 pnpm check:all       # Run all checks
@@ -37,9 +40,69 @@ pnpm check:all       # Run all checks
 - **MobX** - State management
 - **Tailwind CSS 4** - Utility-first CSS
 - **Vitest** + **React Testing Library** - Testing
+- **Playwright** - E2E testing with visual regression
+- **Storybook** - Component development and documentation  
 - **Biome** - Linting & formatting (replaces ESLint + Prettier)
+- **Husky** + **lint-staged** - Git hooks for code quality
 
-## Project Structure
+## CI/CD Pipeline
+
+Automated quality assurance and deployment pipeline:
+
+- **CI Workflow**: Runs on every push/PR - linting, type checking, unit tests, E2E tests, and build verification
+- **Release Workflow**: Automated semantic versioning and changelog generation on main branch  
+- **Deploy Workflow**: Production deployment after CI passes (ready for Vercel/Netlify)
+- **Security Workflow**: Weekly dependency audits and CodeQL security scans
+
+All workflows run in parallel for fast feedback and use GitHub Actions for zero-config automation.
+
+**Visual Regression Testing**: Local snapshots (gitignored) for development, CI snapshots (tracked) for consistent cross-platform testing.
+
+### CI/CD Pipeline Flow
+
+```mermaid
+graph TB
+    subgraph "Developer Workflow"
+        A[Code Changes] --> B[Git Push/PR]
+        B --> C{Branch?}
+        C -->|feature/*| D[CI Workflow]
+        C -->|main| E[CI + Release]
+    end
+    
+    subgraph "CI Workflow (Parallel Jobs)"
+        D --> F[Lint & Type Check]
+        D --> G[Unit Tests]
+        D --> H[Build Verification]
+        D --> I[E2E Tests]
+        D --> J[Storybook Build]
+        
+        F --> K{All Pass?}
+        G --> K
+        H --> K
+        I --> K
+        J --> K
+    end
+    
+    subgraph "Release & Deploy"
+        E --> L[Security Scan]
+        K -->|✅| M[Ready for Merge]
+        E --> N[Semantic Release]
+        N --> O[Generate Changelog]
+        N --> P[Create Git Tag]
+        N --> Q[Deploy Workflow]
+        Q --> R[Production Deployment]
+    end
+    
+    subgraph "Quality Gates"
+        S[Pre-commit Hooks] --> A
+        T[Conventional Commits] --> B
+        U[Visual Regression] --> I
+    end
+```
+
+## Architecture Overview
+
+### Project Structure
 
 ```
 src/
@@ -51,6 +114,114 @@ src/
 ├── providers/       # React context providers
 ├── types/           # TypeScript type definitions
 └── utils/           # Helper functions
+```
+
+### System Architecture
+
+```mermaid
+graph TB
+    subgraph "Frontend Application"
+        A[App.tsx] --> B[AppProviders]
+        B --> C[Router]
+        B --> D[MobX Stores]
+        B --> E[Error Boundary]
+        
+        C --> F[Feature Routes]
+        F --> G[Layout System]
+        G --> H[Components]
+        
+        D --> I[Selection Store]
+        D --> J[Other Stores]
+        
+        H --> K[shadcn/ui]
+        H --> L[Custom Components]
+    end
+    
+    subgraph "Testing Layer"
+        M[Vitest + RTL] --> H
+        N[Playwright E2E] --> A
+        O[Storybook] --> H
+    end
+    
+    subgraph "Build & Deploy"
+        P[Vite] --> A
+        Q[GitHub Actions] --> P
+        Q --> M
+        Q --> N
+        R[Production Build] --> S[Deployment]
+    end
+```
+
+### State Management Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Component
+    participant P as Provider
+    participant S as MobX Store
+    participant A as Actions
+    
+    C->>P: useStore()
+    P->>S: Access store instance
+    S->>C: Return observable state
+    
+    C->>A: User interaction
+    A->>S: Update state
+    S->>C: Re-render (observer)
+    
+    Note over C,S: MobX automatically tracks dependencies
+```
+
+### Routing Architecture
+
+```mermaid
+graph LR
+    subgraph "Route Configuration"
+        A[features/*/routes.ts] --> B[Route Processor]
+        B --> C[Layout Mapping]
+        C --> D[React Router]
+    end
+    
+    subgraph "Layout System"
+        D --> E{Layout Type}
+        E --> F[Sidebar Layout]
+        E --> G[Fullscreen Layout]
+        E --> H[Default Layout]
+    end
+    
+    subgraph "Components"
+        F --> I[Navigation]
+        F --> J[Content Area]
+        G --> K[Full Content]
+        H --> L[Basic Content]
+    end
+```
+
+### Testing Strategy
+
+```mermaid
+graph TD
+    A[Application Code] --> B{Testing Levels}
+    
+    B --> C[Unit Tests]
+    C --> D[Vitest + RTL]
+    C --> E[Component Testing]
+    C --> F[Store Testing]
+    
+    B --> G[Integration Tests]
+    G --> H[Feature Testing]
+    G --> I[Route Testing]
+    
+    B --> J[E2E Tests]
+    J --> K[Playwright]
+    J --> L[Visual Regression]
+    
+    B --> M[Component Documentation]
+    M --> N[Storybook]
+    
+    D --> O[CI/CD Pipeline]
+    K --> O
+    N --> O
 ```
 
 ## Design Decisions

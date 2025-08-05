@@ -101,27 +101,19 @@ test.describe("Todo App - E2E Demo Tests", () => {
     // Configure for consistent screenshots across environments
     await page.setViewportSize({ width: 1280, height: 720 })
 
-    // Take screenshot of empty state
-    await expect(page.locator(".todo-container")).toHaveScreenshot(
-      "empty-state.png",
-    )
+    // Take full page screenshot of empty state
+    await expect(page).toHaveScreenshot("todo-empty-state.png")
 
-    // Add a todo and take screenshot of the todo list area
+    // Add a todo and take full page screenshot
     await helpers.addTodo("Sample todo for visual test")
-    await expect(page.locator(".todo-container")).toHaveScreenshot(
-      "with-item.png",
-    )
+    await expect(page).toHaveScreenshot("todo-with-item.png")
 
-    // Complete todo and take screenshot
+    // Complete todo and take full page screenshot
     await helpers.toggleTodo(0)
-    await expect(page.locator(".todo-container")).toHaveScreenshot(
-      "completed-state.png",
-    )
+    await expect(page).toHaveScreenshot("todo-completed-state.png")
 
-    // Screenshot of statistics area when visible
-    await helpers.expectVisible(page.locator(".todo-stats"))
-    await expect(page.locator(".todo-stats")).toHaveScreenshot(
-      "stats-section.png",
-    )
+    // Add another todo to show statistics
+    await helpers.addTodo("Another todo item")
+    await expect(page).toHaveScreenshot("todo-with-stats.png")
   })
 })

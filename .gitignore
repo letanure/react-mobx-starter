@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Package manager stores
+.pnpm-store/
+.yarn/
+.npm/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -37,10 +42,14 @@ FEATURES_ROADMAP.md
 
 # Playwright
 /test-results/
+/tests/test-results/
 /playwright-report/
+/tests/playwright-report/
 /blob-report/
+/tests/blob-report/
 /playwright/.cache/
 
 # Visual regression snapshots
-/e2e/.snapshots/          # Local snapshots (gitignored)
-/e2e/*-snapshots/         # Old format snapshots (gitignored)
+/tests/e2e/.snapshots/          # Local snapshots (gitignored)
+/tests/e2e/*-snapshots/         # Old format snapshots (gitignored)
+!/tests/e2e/.snapshots-ci/      # CI snapshots (tracked in git)
