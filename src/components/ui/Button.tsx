@@ -1,11 +1,12 @@
 interface ButtonProps {
-  onClick: () => void
+  onClick?: () => void
   children: React.ReactNode
+  type?: 'button' | 'submit' | 'reset'
 }
 
-export function Button({ onClick, children }: ButtonProps) {
+export function Button({ onClick, children, type = 'button' }: ButtonProps) {
   return (
-    <button type="button" onClick={onClick}>
+    <button type={type} onClick={onClick}>
       {children}
     </button>
   )

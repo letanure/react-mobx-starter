@@ -21,7 +21,10 @@ npm run dev          # Start development server
 npm run build        # Production build
 npm run preview      # Preview production build
 npm run test         # Run tests in watch mode
-npm run test:run     # Run tests once
+npm run test:unit     # Run unit tests once
+npm run test:unit:ui  # Run unit tests with UI
+npm run test:e2e      # Run E2E tests
+npm run test:e2e:ui   # Run E2E tests with UI
 pnpm lint:fix        # Auto-fix linting issues
 pnpm type:check      # TypeScript type checking
 pnpm check:all       # Run all checks

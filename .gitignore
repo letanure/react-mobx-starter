@@ -34,3 +34,13 @@ dist-ssr
 # Project documentation (generated/local)
 CLAUDE.md
 FEATURES_ROADMAP.md
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Visual regression snapshots
+/e2e/.snapshots/          # Local snapshots (gitignored)
+/e2e/*-snapshots/         # Old format snapshots (gitignored)
