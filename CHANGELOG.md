@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/letanure/react-mobx-starter/compare/v1.1.1...v1.2.0) (2025-08-05)
+
+
+### Bug Fixes
+
+* remove deprecated husky lines from pre-push hook ([5d95f71](https://github.com/letanure/react-mobx-starter/commit/5d95f714f5841efcd751163fcd1f661abf9035f6))
+
+
+### Features
+
+* add comprehensive performance monitoring setup ([841c5e7](https://github.com/letanure/react-mobx-starter/commit/841c5e718e99e1f3f43160ab0d02847f97c5ee8e))
+
 ## [1.1.1](https://github.com/letanure/react-mobx-starter/compare/v1.1.0...v1.1.1) (2025-08-05)
 
 
