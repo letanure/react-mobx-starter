@@ -6,7 +6,7 @@ import "./App.css"
 function App() {
   // Example: Using environment variables
   if (import.meta.env.VITE_DEBUG) {
-    console.log("TodoList rendered - API URL:", import.meta.env.VITE_API_URL)
+    console.log("Example ENV - API URL:", import.meta.env.VITE_API_URL)
   }
 
   return (
