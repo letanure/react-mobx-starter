@@ -1,19 +1,5 @@
 /**
- * i18n Configuration
- *
- * Sets up internationalization for the application.
- * Currently supports English only, but can be easily extended
- * to support multiple languages.
- *
- * Features:
- * - Feature-based translation organization
- * - Type-safe translation keys
- * - Namespace support (todo.title, etc.)
- *
- * Usage:
- * import { useTranslation } from 'react-i18next'
- * const { t } = useTranslation()
- * t('todo.title') // "Todo List"
+ * i18n configuration with feature-based translations
  */
 
 import i18n from "i18next"
@@ -26,7 +12,7 @@ i18n.use(initReactI18next).init({
   debug: false,
 
   interpolation: {
-    escapeValue: false, // React already escapes values
+    escapeValue: false, // NOTE: React already escapes values
   },
 
   resources: {

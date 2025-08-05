@@ -5,7 +5,7 @@
  * Uses Vue Router-like nested syntax with layout control.
  */
 
-import type { RouteConfig } from "@/types/routes"
+import type { RouteConfig } from "@/config/routes"
 import { TodoList } from "./TodoList"
 
 export const todoRoutes: RouteConfig = {

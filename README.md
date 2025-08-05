@@ -50,6 +50,45 @@ src/
 └── utils/           # Helper functions
 ```
 
+## Design Decisions
+
+> Simple explanations of architectural choices made in this starter kit
+
+### Provider Composition Pattern
+**What**: All React providers (ErrorBoundary, Router, Stores) are composed in `AppProviders.tsx`
+**Why**: Avoids "provider hell" in App.tsx and makes testing easier
+**Usage**: Same provider setup in both app and tests
+
+```typescript
+// Clean App.tsx
+<AppProviders>
+  <Routes>...</Routes>
+</AppProviders>
+
+// Easy testing
+render(<AppProviders><YourComponent /></AppProviders>)
+```
+
+### Feature-Based Routing
+**What**: Routes are defined in feature folders and automatically processed
+**Why**: Keeps related code together and supports layout inheritance
+**Usage**: Add routes in `features/[name]/routes.ts`
+
+```typescript
+export const myRoutes = {
+  path: "/my-feature",
+  layout: "sidebar",
+  component: MyComponent,
+  children: [...]
+}
+```
+
+### MobX + React Context
+**What**: MobX stores accessed via React Context, not direct imports
+**Why**: Better testability and cleaner component dependencies
+**Usage**: `const { myStore } = useStore()` in components
+```
+
 ## Coding Challenge Guidelines
 
 ### 1. Start with Planning

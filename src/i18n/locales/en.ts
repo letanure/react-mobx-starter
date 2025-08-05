@@ -1,9 +1,5 @@
 /**
- * English locale translations
- *
- * This file aggregates all English translations from features.
- * Following the feature-based pattern, translations are imported from
- * individual features and organized into namespaces.
+ * English locale translations aggregated from features
  */
 
 import { todoTranslations } from "@/features/todo/i18n/en"

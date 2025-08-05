@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { routes } from "@/config/routes"
 
 interface SidebarLayoutProps {
   children: ReactNode
@@ -17,7 +18,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="/"
+                  href={routes.todos.all}
                   className="block px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
                 >
                   Todos
@@ -25,10 +26,10 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
               </li>
               <li>
                 <a
-                  href="/settings"
+                  href={routes.demo}
                   className="block px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
                 >
-                  Settings
+                  Error Demo
                 </a>
               </li>
             </ul>

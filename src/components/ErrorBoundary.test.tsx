@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react"
+import { screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
+import { describe, expect, it } from "vitest"
+import { renderWithProviders, suppressConsoleError } from "@/test/utils"
 import { ErrorBoundary } from "./ErrorBoundary"
 
 // Test component that throws an error
@@ -12,17 +13,10 @@ const ThrowError = ({ shouldThrow }: { shouldThrow: boolean }) => {
 }
 
 describe("ErrorBoundary", () => {
-  // Suppress console.error for these tests
-  const originalError = console.error
-  beforeEach(() => {
-    console.error = vi.fn()
-  })
-  afterEach(() => {
-    console.error = originalError
-  })
+  suppressConsoleError()
 
   it("renders children when there is no error", () => {
-    render(
+    renderWithProviders(
       <ErrorBoundary>
         <ThrowError shouldThrow={false} />
       </ErrorBoundary>,
@@ -32,7 +26,7 @@ describe("ErrorBoundary", () => {
   })
 
   it("renders error fallback when there is an error", () => {
-    render(
+    renderWithProviders(
       <ErrorBoundary>
         <ThrowError shouldThrow={true} />
       </ErrorBoundary>,
@@ -47,7 +41,7 @@ describe("ErrorBoundary", () => {
   it("renders custom fallback when provided", () => {
     const customFallback = <div>Custom error message</div>
 
-    render(
+    renderWithProviders(
       <ErrorBoundary fallback={customFallback}>
         <ThrowError shouldThrow={true} />
       </ErrorBoundary>,
@@ -59,7 +53,7 @@ describe("ErrorBoundary", () => {
   it("shows try again button when error occurs", async () => {
     const user = userEvent.setup()
 
-    render(
+    renderWithProviders(
       <ErrorBoundary>
         <ThrowError shouldThrow={true} />
       </ErrorBoundary>,
@@ -70,7 +64,7 @@ describe("ErrorBoundary", () => {
     const tryAgainButton = screen.getByRole("button", { name: "Try again" })
     expect(tryAgainButton).toBeInTheDocument()
 
-    // Just verify the button is clickable - state reset is complex to test
+    // NOTE: Full state reset testing requires complex setup
     await user.click(tryAgainButton)
   })
 })

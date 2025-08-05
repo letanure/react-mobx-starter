@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
 import { routes } from "@/config/routes"
-import { cn } from "@/utils"
+import { cn } from "@/lib/utils"
 
 export function TodoNavigation() {
   const location = useLocation()

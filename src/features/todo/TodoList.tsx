@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/Button"
 import { routes } from "@/config/routes"
 import { TodoNavigation } from "@/features/todo/TodoNavigation"
 import { useStore } from "@/hooks/useStores"
-import { cn, getRelativeTime } from "@/utils"
+import { cn } from "@/lib/utils"
+import { getRelativeTime } from "@/utils"
 import "./TodoList.css"
 
 export const TodoList = observer(() => {
@@ -15,7 +16,6 @@ export const TodoList = observer(() => {
   const location = useLocation()
   const { t } = useTranslation()
 
-  // Filter todos based on current route
   const filteredTodos = (() => {
     switch (location.pathname) {
       case routes.todos.active:

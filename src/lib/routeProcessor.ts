@@ -1,5 +1,5 @@
 import type { LayoutType } from "@/components/layout"
-import type { RouteConfig } from "@/types/routes"
+import type { RouteConfig } from "@/config/routes"
 
 interface FlatRoute {
   path: string
@@ -8,6 +8,11 @@ interface FlatRoute {
   meta?: RouteConfig["meta"]
 }
 
+/**
+ * Processes nested route configurations into flat routes for React Router
+ * @param routeConfigs - Nested route configurations from features
+ * @returns Flat array of routes with inherited layouts
+ */
 export function processRoutes(routeConfigs: RouteConfig[]): FlatRoute[] {
   const flatRoutes: FlatRoute[] = []
 
