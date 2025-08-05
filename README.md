@@ -130,8 +130,8 @@ graph TB
         F --> G[Layout System]
         G --> H[Components]
         
-        D --> I[Selection Store]
-        D --> J[Other Stores]
+        D --> I[Domain Stores]
+        D --> J[UI Stores]
         
         H --> K[shadcn/ui]
         H --> L[Custom Components]
