@@ -16,6 +16,11 @@ export const TodoList = observer(() => {
   const location = useLocation()
   const { t } = useTranslation()
 
+  // Example: Using environment variables
+  if (import.meta.env.VITE_DEBUG) {
+    console.log("TodoList rendered - API URL:", import.meta.env.VITE_API_URL)
+  }
+
   const filteredTodos = (() => {
     switch (location.pathname) {
       case todoPaths.active:
