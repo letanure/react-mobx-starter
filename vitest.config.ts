@@ -14,7 +14,7 @@ export default defineConfig({
       "**/e2e/**",
       "**/tests-examples/**",
       "**/.{idea,git,cache,output,temp}/**",
-      "**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,playwright}.config.*"
-    ]
+      "**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,playwright}.config.*",
+    ],
   },
 })
