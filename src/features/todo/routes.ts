@@ -2,10 +2,29 @@
  * Todo feature routes
  *
  * Define all routes related to the todo feature here.
- * These routes are then exported from the global routes config.
+ * Uses Vue Router-like nested syntax with layout control.
  */
-export const todoRoutes = {
-  all: "/",
-  active: "/active",
-  completed: "/completed",
+
+import type { RouteConfig } from "@/types/routes"
+import { TodoList } from "./TodoList"
+
+export const todoRoutes: RouteConfig = {
+  path: "/",
+  layout: "sidebar",
+  component: TodoList,
+  meta: { title: "Todo List" },
+  children: [
+    {
+      path: "",
+      component: TodoList,
+    },
+    {
+      path: "active",
+      component: TodoList,
+    },
+    {
+      path: "completed",
+      component: TodoList,
+    },
+  ],
 } as const

@@ -2,24 +2,32 @@
  * Global Routes Configuration
  *
  * This file centralizes all application routes by importing them from features.
- * This pattern provides:
- * - Feature co-location (routes live with their features)
- * - Global access (import from one place)
- * - Type safety (TypeScript will catch route typos)
- * - Easy refactoring (change route in one place)
+ * Uses Vue Router-like nested routing with layout inheritance and type safety.
  *
  * Usage:
- * import { routes } from '@/config/routes'
- * <Link to={routes.todos.active}>Active</Link>
+ * - Routes are processed automatically with layout inheritance
+ * - Type-safe path generation utilities available
+ * - Feature co-location maintained (routes live with their features)
  */
 
 import { todoRoutes } from "@/features/todo/routes"
+import { processRoutes } from "@/lib/routeProcessor"
+import type { RouteConfig } from "@/types/routes"
 
-export { todoRoutes }
+// Collect all feature routes
+export const routeConfigs: RouteConfig[] = [
+  todoRoutes,
+  // Add more feature routes here
+]
 
+// Process routes for React Router
+export const processedRoutes = processRoutes(routeConfigs)
+
+// Legacy support - simple route paths (can remove later)
 export const routes = {
-  todos: todoRoutes,
+  todos: {
+    all: "/",
+    active: "/active",
+    completed: "/completed",
+  },
 } as const
-
-// Type helper for route values
-export type RouteValue = (typeof routes.todos)[keyof typeof routes.todos]

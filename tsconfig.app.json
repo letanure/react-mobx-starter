@@ -33,6 +33,7 @@
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/utils/*": ["./src/utils/*"],
@@ -53,7 +54,8 @@
       "@/components": ["./src/components"],
       "@/stores": ["./src/stores"],
       "@/features": ["./src/features"],
-      "@/config": ["./src/config"]
+      "@/config": ["./src/config"],
+      "@/types": ["./src/types"]
     }
   },
   "include": ["src"]
