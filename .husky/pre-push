@@ -1,2 +1,2 @@
-echo "Running type check and build before push..."
-pnpm type:check && pnpm build
+echo "Running type check, build, and bundle size check before push..."
+pnpm type:check && pnpm build && pnpm size:check
