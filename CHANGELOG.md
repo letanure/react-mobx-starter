@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/letanure/react-mobx-starter/compare/v1.1.0...v1.1.1) (2025-08-05)
+
+
+### Bug Fixes
+
+* restore proper Button component with shadcn/ui implementation ([6102578](https://github.com/letanure/react-mobx-starter/commit/61025784399d2462364f3bfc17fad81ae2c26f98))
+
 # [1.1.0](https://github.com/letanure/react-mobx-starter/compare/v1.0.0...v1.1.0) (2025-08-05)
 
 
