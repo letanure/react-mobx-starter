@@ -8,6 +8,3 @@ export const useStore = () => {
   }
   return store
 }
-
-export const useImageStore = () => useStore().imageStore
-export const useFolderStore = () => useStore().folderStore

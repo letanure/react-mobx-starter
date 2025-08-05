@@ -1,27 +1,18 @@
-import { observer } from "mobx-react-lite"
-import { Layout } from "@/components/layouts/Layout"
-import { LoadingOverlay } from "@/components/ui/LoadingOverlay"
-import { DesignManager } from "@/features/design-manager/DesignManager"
-import { FolderManager } from "@/features/folder-manager/FolderManager"
-import { useCleanup } from "@/hooks/useCleanup"
-import { useAutoBackgroundRemoval } from "@/hooks/useImageProcessing"
-import { useStore } from "@/hooks/useStores"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { routes } from "@/config/routes"
+import { TodoList } from "@/features/todo/TodoList"
+import "./App.css"
 
-const App = observer(() => {
-  const { isHydrating } = useStore()
-  useAutoBackgroundRemoval()
-  useCleanup()
-
+function App() {
   return (
-    <div className="relative">
-      <Layout>
-        <FolderManager />
-        <DesignManager />
-      </Layout>
-
-      {isHydrating && <LoadingOverlay />}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path={routes.todos.all} element={<TodoList />} />
+        <Route path={routes.todos.active} element={<TodoList />} />
+        <Route path={routes.todos.completed} element={<TodoList />} />
+      </Routes>
+    </BrowserRouter>
   )
-})
+}
 
 export default App

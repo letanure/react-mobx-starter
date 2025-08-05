@@ -1,19 +1,19 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-import "@/styles/index.css"
-import { ErrorBoundary } from "@/components/ErrorBoundary"
+import "@/styles/global.css"
+import "@/i18n"
 import { StoreProvider } from "@/providers/StoreProvider"
 import App from "./App"
 
 const rootElement = document.getElementById("root")
-if (!rootElement) throw new Error("Failed to find the root element")
-
-createRoot(rootElement).render(
-  <StrictMode>
-    <ErrorBoundary>
+if (rootElement) {
+  createRoot(rootElement).render(
+    <StrictMode>
       <StoreProvider>
         <App />
       </StoreProvider>
-    </ErrorBoundary>
-  </StrictMode>,
-)
+    </StrictMode>,
+  )
+} else {
+  throw new Error('Root element with id "root" not found.')
+}
