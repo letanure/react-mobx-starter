@@ -29,6 +29,7 @@ npm run test:e2e:update-ci # Update CI snapshots using Docker
 pnpm storybook       # Run Storybook dev server
 pnpm storybook:build # Build Storybook static files
 pnpm lint:fix        # Auto-fix linting issues
+pnpm lint:dead-code  # Find unused files and dependencies
 pnpm type:check      # TypeScript type checking
 pnpm check:all       # Run all checks
 ```
