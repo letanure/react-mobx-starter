@@ -3,11 +3,11 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
 import { Button } from "@/components/ui/Button"
-import { routes } from "@/config/routes"
 import { TodoNavigation } from "@/features/todo/TodoNavigation"
 import { useStore } from "@/hooks/useStores"
 import { cn } from "@/lib/utils"
 import { getRelativeTime } from "@/utils"
+import { todoPaths } from "./routePaths"
 import "./TodoList.css"
 
 export const TodoList = observer(() => {
@@ -18,9 +18,9 @@ export const TodoList = observer(() => {
 
   const filteredTodos = (() => {
     switch (location.pathname) {
-      case routes.todos.active:
+      case todoPaths.active:
         return todoStore.todos.filter((todo) => !todo.completed)
-      case routes.todos.completed:
+      case todoPaths.completed:
         return todoStore.todos.filter((todo) => todo.completed)
       default:
         return todoStore.todos
@@ -63,7 +63,9 @@ export const TodoList = observer(() => {
             <span className={cn(todo.completed && "completed")}>
               {todo.text}
             </span>
-            <span className="todo-time">{getRelativeTime(todo.createdAt)}</span>
+            <span className="todo-time">
+              {getRelativeTime(todo.createdAt, t)}
+            </span>
             <Button onClick={() => todoStore.deleteTodo(todo.id)}>
               {t("todo.delete")}
             </Button>

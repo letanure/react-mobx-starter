@@ -1,4 +1,9 @@
-/* Todo List Styles */
+/* 
+ * TODO: Convert to Tailwind classes
+ * This CSS file serves as an example of when custom CSS might be needed.
+ * Generally prefer Tailwind utility classes over custom CSS.
+ * Keep this file only for complex animations or very specific styling.
+ */
 .todo-container {
   margin: 2em auto;
   max-width: 800px;

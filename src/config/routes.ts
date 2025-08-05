@@ -1,5 +1,5 @@
 /**
- * Centralized route configuration with Vue Router-like nested routing
+ * Application routes configuration
  */
 
 import type { LayoutType } from "@/components/layout"
@@ -22,11 +22,3 @@ export interface RouteConfig {
 export const routeConfigs: RouteConfig[] = [todoRoutes, demoRoutes]
 
 export const processedRoutes = processRoutes(routeConfigs)
-export const routes = {
-  todos: {
-    all: "/",
-    active: "/active",
-    completed: "/completed",
-  },
-  demo: "/demo",
-} as const

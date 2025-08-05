@@ -1,16 +1,16 @@
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
-import { routes } from "@/config/routes"
 import { cn } from "@/lib/utils"
+import { todoPaths } from "./routePaths"
 
 export function TodoNavigation() {
   const location = useLocation()
   const { t } = useTranslation()
 
   const navigationItems = [
-    { label: t("todo.navigation.all"), path: routes.todos.all },
-    { label: t("todo.navigation.active"), path: routes.todos.active },
-    { label: t("todo.navigation.completed"), path: routes.todos.completed },
+    { label: t("todo.navigation.all"), path: todoPaths.all },
+    { label: t("todo.navigation.active"), path: todoPaths.active },
+    { label: t("todo.navigation.completed"), path: todoPaths.completed },
   ]
 
   return (

@@ -12,19 +12,34 @@ export function formatDate(date: Date): string {
 }
 
 /**
- * Get relative time string (e.g., "2 hours ago", "just now")
+ * Get relative time string with i18n support
+ * @param date - The date to format
+ * @param t - i18n translation function
+ * @returns Localized relative time string
  */
-export function getRelativeTime(date: Date): string {
+export function getRelativeTime(
+  date: Date,
+  t: (key: string, options?: { count: number }) => string,
+): string {
   const now = new Date()
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
 
-  if (diffInSeconds < 60) return "just now"
-  if (diffInSeconds < 3600)
-    return `${Math.floor(diffInSeconds / 60)} minutes ago`
-  if (diffInSeconds < 86400)
-    return `${Math.floor(diffInSeconds / 3600)} hours ago`
-  if (diffInSeconds < 604800)
-    return `${Math.floor(diffInSeconds / 86400)} days ago`
+  if (diffInSeconds < 60) return t("time.justNow")
+
+  if (diffInSeconds < 3600) {
+    const minutes = Math.floor(diffInSeconds / 60)
+    return t("time.minutesAgo", { count: minutes })
+  }
+
+  if (diffInSeconds < 86400) {
+    const hours = Math.floor(diffInSeconds / 3600)
+    return t("time.hoursAgo", { count: hours })
+  }
+
+  if (diffInSeconds < 604800) {
+    const days = Math.floor(diffInSeconds / 86400)
+    return t("time.daysAgo", { count: days })
+  }
 
   return formatDate(date)
 }
