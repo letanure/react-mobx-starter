@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/letanure/react-mobx-starter/compare/v1.2.0...v1.3.0) (2025-08-05)
+
+
+### Features
+
+* add bundle size budgets and automated enforcement ([4c869ea](https://github.com/letanure/react-mobx-starter/commit/4c869eafe8e6707dedf99db4157fa96cd1cfa9d5))
+
 # [1.2.0](https://github.com/letanure/react-mobx-starter/compare/v1.1.1...v1.2.0) (2025-08-05)
 
 
