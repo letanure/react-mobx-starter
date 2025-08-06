@@ -9,6 +9,12 @@ export class TodoStore {
     makeAutoObservable(this)
   }
 
+  // Persistence configuration
+  static persistenceConfig = {
+    enabled: true,
+    key: "todoStore",
+  }
+
   // Actions
   addTodo(text: string) {
     const todo: Todo = {
