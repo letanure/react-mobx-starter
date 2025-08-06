@@ -5,7 +5,7 @@ import { Stack } from "@/components/custom-ui/Stack"
 import { Form } from "@/components/ui/form"
 import { FormActions } from "./FormActions"
 import { FormLayout } from "./FormLayout"
-import type { FormBuilderProps, BaseFormFieldConfig } from "./types"
+import type { BaseFormFieldConfig, FormBuilderProps } from "./types"
 
 export function FormBuilder<TSchema extends z.ZodObject<z.ZodRawShape>>({
   fields,
@@ -17,6 +17,7 @@ export function FormBuilder<TSchema extends z.ZodObject<z.ZodRawShape>>({
   submittingLabel = submitLabel,
   resetLabel,
   showReset = false,
+  resetAfterSubmit = false,
   className,
   autoComplete = "on",
 }: FormBuilderProps<TSchema>) {
@@ -41,7 +42,7 @@ export function FormBuilder<TSchema extends z.ZodObject<z.ZodRawShape>>({
         return value === 0 || value === "" || value == null
       if (fieldConfig.type === "checkbox") return value === false
       if (fieldConfig.type === "select" && fieldConfig.multiple)
-        return !value || value.length === 0
+        return !value || (Array.isArray(value) && value.length === 0)
       if (
         [
           "date",
@@ -83,6 +84,9 @@ export function FormBuilder<TSchema extends z.ZodObject<z.ZodRawShape>>({
     try {
       const processedData = processFormData(data as Record<string, unknown>)
       await onSubmit(processedData as FormData)
+      if (resetAfterSubmit) {
+        form.reset()
+      }
     } catch (error) {
       console.error("Form submission error:", error)
     }

@@ -23,4 +23,23 @@ export const en = {
     daysAgo_one: "{{count}} day ago",
     daysAgo_other: "{{count}} days ago",
   },
+  validation: {
+    required: "This field is required",
+    requiredSelect: "Please select an option",
+    email: "Please enter a valid email address",
+    minLength: "Must be at least {{min}} characters long",
+    maxLength: "Must be at most {{max}} characters long",
+    minNumber: "Must be at least {{min}}",
+    maxNumber: "Must be at most {{max}}",
+    invalidFormat: "Invalid format",
+    url: "Please enter a valid URL",
+    phone: "Please enter a valid phone number",
+    positiveNumber: "Must be a positive number",
+    integer: "Must be a whole number",
+    invalid_type: "This field is required", // Fallback for React Hook Form's invalid_type error
+    array: {
+      minItems: "At least {{min}} items are required",
+      maxItems: "At most {{max}} items are allowed",
+    },
+  },
 }

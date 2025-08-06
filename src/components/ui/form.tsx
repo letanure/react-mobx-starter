@@ -10,6 +10,7 @@ import {
   useFormContext,
   useFormState,
 } from "react-hook-form"
+import { useTranslation } from "react-i18next"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 
@@ -134,7 +135,23 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
 
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message ?? "") : props.children
+  const { t } = useTranslation()
+
+  let body = props.children
+
+  if (error) {
+    // If we have a custom message from Zod, use it
+    if (error.message && error.message !== "Invalid input") {
+      body = error.message
+    } else if (error.type) {
+      // Use error type as i18n key fallback
+      body = t(`validation.${error.type}`, {
+        defaultValue: error.message || "Invalid input",
+      })
+    } else {
+      body = String(error?.message ?? "")
+    }
+  }
 
   if (!body) {
     return null

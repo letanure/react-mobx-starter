@@ -200,6 +200,7 @@ export interface FormBuilderProps<TSchema extends z.ZodObject<z.ZodRawShape>> {
   submittingLabel?: string
   resetLabel: string
   showReset?: boolean
+  resetAfterSubmit?: boolean
   className?: string
   autoComplete?: "off" | "on"
 }
