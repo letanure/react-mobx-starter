@@ -4,6 +4,7 @@ import {
   useFieldArray as useRHFFieldArray,
 } from "react-hook-form"
 import type { FieldArrayConfig } from "../types"
+import { useFieldArrayValidation } from "./useFieldArrayValidation"
 
 export interface UseFieldArrayOptions {
   name: string
@@ -11,8 +12,7 @@ export interface UseFieldArrayOptions {
 }
 
 export function useFieldArray({ name, fieldConfig }: UseFieldArrayOptions) {
-  const { control, formState, setError, clearErrors, trigger } =
-    useFormContext()
+  const { control, trigger } = useFormContext()
   const { fields, append, remove } = useRHFFieldArray({ control, name })
 
   // Create default value for new rows
@@ -89,6 +89,13 @@ export function useFieldArray({ name, fieldConfig }: UseFieldArrayOptions) {
     return fields.map((_, index) => index).filter((index) => !isRowEmpty(index))
   }, [fields, isRowEmpty])
 
+  // Use validation hook for form validation logic
+  const { getValidationStatus } = useFieldArrayValidation({
+    name,
+    fieldConfig,
+    getNonEmptyRowIndices,
+  })
+
   // Always ensure there's an empty row at the bottom for adding
   useEffect(() => {
     if (fields.length === 0) {
@@ -96,36 +103,11 @@ export function useFieldArray({ name, fieldConfig }: UseFieldArrayOptions) {
     }
   }, [append, createDefaultValue, fields.length])
 
-  // Validate array length against minItems requirement
-  useEffect(() => {
-    const nonEmptyCount = getNonEmptyRowIndices().length
-    const hasMinItemsError =
-      fieldConfig.minItems && nonEmptyCount < fieldConfig.minItems
-
-    if (formState.isSubmitted) {
-      if (hasMinItemsError) {
-        setError(name, {
-          type: "minItems",
-          message: `Minimum ${fieldConfig.minItems} items required (currently ${nonEmptyCount})`,
-        })
-      } else {
-        clearErrors(name)
-      }
-    }
-  }, [
-    fieldConfig.minItems,
-    formState.isSubmitted,
-    setError,
-    clearErrors,
-    getNonEmptyRowIndices,
-    name,
-  ])
-
   // Add new row
   const addRow = useCallback(async () => {
-    const nonEmptyCount = getNonEmptyRowIndices().length
+    const { canAdd } = getValidationStatus()
 
-    if (fieldConfig.maxItems && nonEmptyCount >= fieldConfig.maxItems) {
+    if (!canAdd) {
       return
     }
 
@@ -134,14 +116,7 @@ export function useFieldArray({ name, fieldConfig }: UseFieldArrayOptions) {
     if (!isValid) return
 
     append(createDefaultValue())
-  }, [
-    getNonEmptyRowIndices,
-    fieldConfig.maxItems,
-    trigger,
-    name,
-    append,
-    createDefaultValue,
-  ])
+  }, [getValidationStatus, trigger, name, append, createDefaultValue])
 
   // Remove row
   const removeRow = useCallback(
@@ -151,16 +126,12 @@ export function useFieldArray({ name, fieldConfig }: UseFieldArrayOptions) {
     [remove],
   )
 
-  // Check if we can add more items
-  const canAdd = useCallback(() => {
-    const nonEmptyCount = getNonEmptyRowIndices().length
-    return !fieldConfig.maxItems || nonEmptyCount < fieldConfig.maxItems
-  }, [getNonEmptyRowIndices, fieldConfig.maxItems])
-
   // Check if we can remove items (always allow removing if more than 1 item)
   const canRemove = useCallback(() => {
     return fields.length > 1
   }, [fields.length])
+
+  const { canAdd } = getValidationStatus()
 
   return {
     fields,
@@ -168,10 +139,11 @@ export function useFieldArray({ name, fieldConfig }: UseFieldArrayOptions) {
     remove,
     addRow,
     removeRow,
-    canAdd: canAdd(),
+    canAdd,
     canRemove: canRemove(),
     isRowEmpty,
     getNonEmptyRowIndices,
     createDefaultValue,
+    getValidationStatus,
   }
 }
