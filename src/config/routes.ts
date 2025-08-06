@@ -7,6 +7,7 @@ import { demoRoutes } from "@/features/demo/routes"
 import { homeRoutes } from "@/features/home/routes"
 import { todoRoutes } from "@/features/todo/routes"
 import { processRoutes } from "@/lib/routeProcessor"
+import { errorRoutes } from "@/pages/routes"
 
 export interface RouteConfig {
   path: string
@@ -28,6 +29,11 @@ export interface RouteConfig {
   children?: RouteConfig[]
 }
 
-export const routeConfigs: RouteConfig[] = [homeRoutes, todoRoutes, demoRoutes]
+export const routeConfigs: RouteConfig[] = [
+  homeRoutes,
+  todoRoutes,
+  demoRoutes,
+  errorRoutes,
+]
 
 export const processedRoutes = processRoutes(routeConfigs)
