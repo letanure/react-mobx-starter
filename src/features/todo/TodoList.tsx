@@ -2,6 +2,11 @@
 import { observer } from "mobx-react-lite"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
+import {
+  Animated,
+  AnimatedGroup,
+  AnimatedLayout,
+} from "@/components/custom-ui/Animated"
 import { Stack } from "@/components/custom-ui/Stack"
 import { Text } from "@/components/custom-ui/Text"
 import { useStore } from "@/hooks/useStores"
@@ -38,23 +43,40 @@ export const TodoList = observer(() => {
       <TodoForm onSubmit={(text) => todoStore.addTodo(text)} />
 
       <Stack spacing="xs">
-        {filteredTodos.length === 0 && <TodoEmpty />}
-        {filteredTodos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onToggle={(id) => todoStore.toggleTodo(id)}
-            onDelete={(id) => todoStore.deleteTodo(id)}
-          />
-        ))}
+        {filteredTodos.length === 0 && (
+          <Animated effect="fade" delay={0.2}>
+            <TodoEmpty />
+          </Animated>
+        )}
+        <AnimatedLayout>
+          <AnimatedGroup>
+            {filteredTodos.map((todo) => (
+              <Animated
+                key={todo.id}
+                in="slideUp"
+                out="slideRight"
+                duration="fast"
+                layout
+              >
+                <TodoItem
+                  todo={todo}
+                  onToggle={(id) => todoStore.toggleTodo(id)}
+                  onDelete={(id) => todoStore.deleteTodo(id)}
+                />
+              </Animated>
+            ))}
+          </AnimatedGroup>
+        </AnimatedLayout>
       </Stack>
 
       {todoStore.totalCount > 0 && (
-        <TodoStats
-          activeCount={todoStore.activeCount}
-          completedCount={todoStore.completedCount}
-          onClearCompleted={() => todoStore.clearCompleted()}
-        />
+        <Animated effect="scale" delay={0.3} transformOrigin="bottom-center">
+          <TodoStats
+            activeCount={todoStore.activeCount}
+            completedCount={todoStore.completedCount}
+            onClearCompleted={() => todoStore.clearCompleted()}
+          />
+        </Animated>
       )}
     </Stack>
   )
