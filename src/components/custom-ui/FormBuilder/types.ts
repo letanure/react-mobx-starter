@@ -24,11 +24,45 @@ export type FieldType =
   | "date"
   | "datetime-local"
   | "time"
+  | "month"
+  | "week"
+  | "calendar"
+  | "date-picker"
+  | "date-range-picker"
 
 export interface SelectOption {
   label: string
   value: string
   disabled?: boolean
+}
+
+export interface BaseFieldProps {
+  name: string
+  label: string
+  placeholder?: string
+  required?: boolean
+  disabled?: boolean
+  className?: string
+  autoComplete?:
+    | "off"
+    | "on"
+    | "name"
+    | "given-name"
+    | "family-name"
+    | "email"
+    | "username"
+    | "current-password"
+    | "new-password"
+    | "tel"
+    | "street-address"
+    | "postal-code"
+    | "country"
+    | "bday"
+    | "cc-name"
+    | "cc-number"
+    | "cc-exp"
+    | "cc-csc"
+    | string
 }
 
 export interface BaseFieldConfig {
@@ -74,6 +108,8 @@ export interface InputFieldConfig extends BaseFieldConfig {
     | "date"
     | "datetime-local"
     | "time"
+    | "month"
+    | "week"
   min?: number | string
   max?: number | string
   step?: number | string
@@ -103,12 +139,41 @@ export interface RadioFieldConfig extends BaseFieldConfig {
   options: SelectOption[]
 }
 
+export interface CalendarFieldConfig extends BaseFieldConfig {
+  type: "calendar"
+  mode?: "single" | "multiple" | "range"
+  fromDate?: Date
+  toDate?: Date
+  disabled?: Date[] | ((date: Date) => boolean)
+}
+
+export interface DatePickerFieldConfig extends BaseFieldConfig {
+  type: "date-picker"
+  fromDate?: Date
+  toDate?: Date
+  disabled?: Date[] | ((date: Date) => boolean)
+  dateFormat?: string
+  showInput?: boolean
+}
+
+export interface DateRangePickerFieldConfig extends BaseFieldConfig {
+  type: "date-range-picker"
+  fromDate?: Date
+  toDate?: Date
+  disabled?: Date[] | ((date: Date) => boolean)
+  dateFormat?: string
+  numberOfMonths?: number
+}
+
 export type FormFieldConfig =
   | InputFieldConfig
   | TextareaFieldConfig
   | SelectFieldConfig
   | CheckboxFieldConfig
   | RadioFieldConfig
+  | CalendarFieldConfig
+  | DatePickerFieldConfig
+  | DateRangePickerFieldConfig
 
 export interface FormBuilderProps<TSchema extends z.ZodObject<z.ZodRawShape>> {
   fields: FormFieldConfig[]

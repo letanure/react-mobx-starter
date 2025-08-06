@@ -1,14 +1,19 @@
 import { FormLabel } from "@/components/ui/form"
 
 interface FieldLabelProps {
-  children: React.ReactNode
+  label: string
   isRequired?: boolean
+  htmlFor?: string
 }
 
-export function FieldLabel({ children, isRequired = false }: FieldLabelProps) {
+export function FieldLabel({
+  label,
+  isRequired = false,
+  htmlFor,
+}: FieldLabelProps) {
   return (
-    <FormLabel className="inline-block min-h-[1.5rem]">
-      {children}
+    <FormLabel htmlFor={htmlFor} className="inline-block min-h-[1.5rem]">
+      {label}
       {isRequired && (
         <span className="ml-1 text-destructive font-semibold">*</span>
       )}

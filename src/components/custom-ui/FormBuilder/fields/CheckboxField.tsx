@@ -33,7 +33,7 @@ export function CheckboxField({
             />
           </FormControl>
           <div className="space-y-1 leading-none">
-            <FieldLabel isRequired={isRequired}>{field.label}</FieldLabel>
+            <FieldLabel label={field.label} isRequired={isRequired} />
             {field.description && (
               <FormDescription>{field.description}</FormDescription>
             )}

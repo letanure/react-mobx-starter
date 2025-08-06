@@ -22,7 +22,7 @@ export function RadioField({ field, control, isRequired }: RadioFieldProps) {
       name={field.name}
       render={({ field: formField }) => (
         <FormItem>
-          <FieldLabel isRequired={isRequired}>{field.label}</FieldLabel>
+          <FieldLabel label={field.label} isRequired={isRequired} />
           <FormControl>
             <RadioGroup
               onValueChange={formField.onChange}

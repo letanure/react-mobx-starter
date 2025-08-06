@@ -27,7 +27,7 @@ export function SelectField({ field, control, isRequired }: SelectFieldProps) {
       name={field.name}
       render={({ field: formField }) => (
         <FormItem>
-          <FieldLabel isRequired={isRequired}>{field.label}</FieldLabel>
+          <FieldLabel label={field.label} isRequired={isRequired} />
           <Select
             onValueChange={formField.onChange}
             value={formField.value || ""}
