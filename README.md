@@ -15,29 +15,29 @@ Open [http://localhost:5173](http://localhost:5173) - you're ready to code.
 
 This starter includes everything you need for a modern React application:
 
-- ⚡ **Vite** for lightning-fast builds
-- 🎨 **Tailwind CSS** for styling
-- 🧩 **shadcn/ui** component library
-- 📦 **MobX** for state management
-- 🧪 **Vitest + Playwright** for testing
-- 📚 **Storybook** for component development
-- 🔧 **TypeScript** with strict mode
-- 🚀 **GitHub Actions** CI/CD pipeline
+- **Vite** for lightning-fast builds
+- **Tailwind CSS** for styling
+- **shadcn/ui** component library
+- **MobX** for state management
+- **Vitest + Playwright** for testing
+- **Storybook** for component development
+- **TypeScript** with strict mode
+- **GitHub Actions** CI/CD pipeline
 
 ## Project Structure
 
 ```
 src/
 ├── features/           # Feature modules - your main code goes here
-│   ├── todo/          # Example: Todo app with MobX store
-│   ├── demo/          # Example: API integration, error handling
-│   └── home/          # Example: Landing page
+│   └── todo/          # Example: Todo app with MobX store
+│       ├── TodoStore.ts    # MobX store
+│       ├── routes.ts       # Route configuration
+│       └── i18n/           # Translations
 │
 ├── components/         # Reusable UI components
 │   ├── ui/            # shadcn/ui components (Button, Card, etc.)
 │   ├── custom-ui/     # Custom components
-│   │   ├── FormBuilder/   # Dynamic form generator with Zod
-│   │   └── Animated.tsx   # Animation wrapper components
+│   │   └── FormBuilder/   # Dynamic form generator with Zod
 │   └── layout/        # Layout components (Sidebar, Fullscreen)
 │
 ├── stores/            # Global MobX stores
@@ -50,35 +50,38 @@ src/
 ├── lib/               # Utility libraries
 ├── services/          # API clients & external services
 └── test/              # Test utilities & mocks
+
+tests/                 # E2E tests
+└── e2e/              # Playwright tests
 ```
 
 ## Where to Find Things
 
-### 🎯 Starting a New Feature?
+### Starting a New Feature?
 Create a new folder in `src/features/` with:
 - Your components
 - Local state/store
 - Route configuration (`routes.ts`)
 - Keep it self-contained
 
-### 🎨 Need a UI Component?
+### Need a UI Component?
 - Check `src/components/ui/` for shadcn components
 - Check `src/components/custom-ui/` for custom components
 - Use `npx shadcn@latest add [component]` to add more
 
-### 📝 Working with Forms?
+### Working with Forms?
 Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 - Dynamic field generation
 - Zod validation
 - All field types included
 - See examples in Storybook
 
-### 🔄 Managing State?
+### Managing State?
 - Feature-specific: Create a store in your feature folder
 - Global state: Add to `src/stores/RootStore.ts`
 - Access via `useStores()` hook
 
-### 🧪 Writing Tests?
+### Writing Tests?
 - Unit tests: Next to your code as `*.test.tsx`
 - E2E tests: In `tests/` folder
 - Test utilities: `src/test/utils.tsx`
@@ -171,4 +174,4 @@ Check the `/docs` folder for:
 
 ---
 
-Happy coding! 🚀
+Happy coding!
