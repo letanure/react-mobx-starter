@@ -170,10 +170,6 @@ export const MutedLargeText: Story = {
 
 // Variants showcase
 export const AllVariants: Story = {
-  args: {
-    tag: "p",
-    children: "Sample text",
-  },
   render: () => (
     <div className="space-y-4">
       <Text tag="p" variant="default">
@@ -209,10 +205,6 @@ export const AllVariants: Story = {
 
 // Sizes showcase
 export const AllSizes: Story = {
-  args: {
-    tag: "div",
-    children: "Sample text",
-  },
   render: () => (
     <div className="space-y-2">
       <Text tag="div" size="xs">
@@ -251,10 +243,6 @@ export const AllSizes: Story = {
 
 // Alignment showcase
 export const AllAlignments: Story = {
-  args: {
-    tag: "p",
-    children: "Sample text",
-  },
   render: () => (
     <div className="w-96 space-y-4 border p-4">
       <Text tag="p" align="left">
