@@ -119,48 +119,39 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 ## Architecture Overview
 
 ```mermaid
-graph TB
-    subgraph "Application Layer"
-        Router[React Router]
-        Layout[Layout Wrapper]
+graph LR
+    subgraph "Your Feature"
+        F[📁 features/my-feature/]
+        F --> FC[Components.tsx]
+        F --> FS[Store.ts]
+        F --> FR[routes.ts]
+        F --> FI[i18n/en.ts]
     end
     
-    subgraph "Feature Layer"
-        Todo[Todo Feature]
-        Demo[Demo Feature]
-        Home[Home Feature]
+    subgraph "App Automatically Uses"
+        RR[🗂️ Root Router]
+        RS[🗃️ Root Store]
+        SB[🔧 Sidebar Nav]
     end
     
-    subgraph "UI Layer"
-        FormBuilder[FormBuilder]
-        CustomUI[Custom UI Components]
-        ShadcnUI[shadcn/ui Components]
+    subgraph "Your Feature Consumes"
+        UI[🎨 UI Components]
+        UT[⚙️ Utils]
+        SV[🌐 Services]
+        HK[🪝 Hooks]
     end
     
-    subgraph "State Layer"
-        RootStore[Root Store]
-        TodoStore[Todo Store]
-        Context[React Context]
-    end
+    FR --> RR
+    FS --> RS
+    FR --> SB
     
-    subgraph "External Layer"
-        API[API Services]
-        Storage[Local Storage]
-    end
+    FC --> UI
+    FC --> UT
+    FC --> HK
+    FS --> SV
     
-    Router --> Layout
-    Layout --> Todo
-    Layout --> Demo
-    Layout --> Home
-    
-    Todo --> CustomUI
-    Todo --> TodoStore
-    Demo --> API
-    FormBuilder --> ShadcnUI
-    
-    RootStore --> TodoStore
-    Context --> RootStore
-    TodoStore --> Storage
+    RR -.->|Routes to| FC
+    RS -.->|Provides| FS
 ```
 
 ## Key Patterns
