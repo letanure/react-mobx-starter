@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import * as React from "react"
+import type * as React from "react"
 
 const textVariants = cva("", {
   variants: {
@@ -111,46 +111,46 @@ export interface TextProps
   asChild?: boolean
 }
 
-export const Text = React.forwardRef<
-  React.ElementRef<React.ElementType>,
-  TextProps
->(
-  (
-    { tag, variant, size, weight, align, leading, asChild = false, ...props },
-    ref,
-  ) => {
-    // Get defaults for the tag
-    const defaults = (
-      tag in tagDefaults ? tagDefaults[tag as keyof typeof tagDefaults] : {}
-    ) as {
-      variant?: VariantProps<typeof textVariants>["variant"]
-      size?: VariantProps<typeof textVariants>["size"]
-      weight?: VariantProps<typeof textVariants>["weight"]
-      leading?: VariantProps<typeof textVariants>["leading"]
-    }
+export function Text({
+  tag,
+  variant,
+  size,
+  weight,
+  align,
+  leading,
+  asChild = false,
+  ...props
+}: TextProps) {
+  // Get defaults for the tag
+  const defaults = (
+    tag in tagDefaults ? tagDefaults[tag as keyof typeof tagDefaults] : {}
+  ) as {
+    variant?: VariantProps<typeof textVariants>["variant"]
+    size?: VariantProps<typeof textVariants>["size"]
+    weight?: VariantProps<typeof textVariants>["weight"]
+    leading?: VariantProps<typeof textVariants>["leading"]
+  }
 
-    // Merge props with tag defaults (props override defaults)
-    const finalVariant = variant ?? defaults.variant ?? "default"
-    const finalSize = size ?? defaults.size ?? "base"
-    const finalWeight = weight ?? defaults.weight ?? "normal"
-    const finalAlign = align ?? "left"
-    const finalLeading = leading ?? defaults.leading ?? "normal"
+  // Merge props with tag defaults (props override defaults)
+  const finalVariant = variant ?? defaults.variant ?? "default"
+  const finalSize = size ?? defaults.size ?? "base"
+  const finalWeight = weight ?? defaults.weight ?? "normal"
+  const finalAlign = align ?? "left"
+  const finalLeading = leading ?? defaults.leading ?? "normal"
 
-    const Comp = asChild ? Slot : tag
+  const Comp = asChild ? Slot : tag
 
-    return (
-      <Comp
-        ref={ref}
-        className={textVariants({
-          variant: finalVariant,
-          size: finalSize,
-          weight: finalWeight,
-          align: finalAlign,
-          leading: finalLeading,
-        })}
-        {...props}
-      />
-    )
-  },
-)
+  return (
+    <Comp
+      className={textVariants({
+        variant: finalVariant,
+        size: finalSize,
+        weight: finalWeight,
+        align: finalAlign,
+        leading: finalLeading,
+      })}
+      {...props}
+    />
+  )
+}
 Text.displayName = "Text"

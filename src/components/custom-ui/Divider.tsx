@@ -34,7 +34,7 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       <Comp
         ref={ref}
         role={decorative ? "presentation" : "separator"}
-        aria-orientation={orientation}
+        aria-orientation={orientation ?? undefined}
         className={cn(dividerVariants({ orientation, decorative }), className)}
         {...props}
       />
