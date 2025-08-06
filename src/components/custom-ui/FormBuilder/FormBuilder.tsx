@@ -5,7 +5,7 @@ import { Stack } from "@/components/custom-ui/Stack"
 import { Form } from "@/components/ui/form"
 import { FormActions } from "./FormActions"
 import { FormLayout } from "./FormLayout"
-import type { FormBuilderProps } from "./types"
+import type { FormBuilderProps, BaseFormFieldConfig } from "./types"
 
 export function FormBuilder<TSchema extends z.ZodObject<z.ZodRawShape>>({
   fields,
@@ -29,9 +29,60 @@ export function FormBuilder<TSchema extends z.ZodObject<z.ZodRawShape>>({
     defaultValues: defaultValues || {},
   })
 
+  // Helper to check if a row is empty in field arrays
+  const isRowEmpty = (
+    rowData: Record<string, unknown>,
+    fieldConfigs: BaseFormFieldConfig[],
+  ) => {
+    return fieldConfigs.every((fieldConfig) => {
+      const value = rowData[fieldConfig.name]
+
+      if (fieldConfig.type === "number")
+        return value === 0 || value === "" || value == null
+      if (fieldConfig.type === "checkbox") return value === false
+      if (fieldConfig.type === "select" && fieldConfig.multiple)
+        return !value || value.length === 0
+      if (
+        [
+          "date",
+          "datetime-local",
+          "time",
+          "month",
+          "week",
+          "date-picker",
+          "calendar",
+        ].includes(fieldConfig.type)
+      ) {
+        return value == null || value === ""
+      }
+
+      return value === "" || value == null
+    })
+  }
+
+  // Filter empty rows from field arrays before submission
+  const processFormData = (data: Record<string, unknown>) => {
+    const processedData = { ...data }
+
+    fields.forEach((field) => {
+      if (
+        field.type === "field-array" &&
+        Array.isArray(processedData[field.name])
+      ) {
+        const arrayData = processedData[field.name] as Record<string, unknown>[]
+        processedData[field.name] = arrayData.filter(
+          (rowData) => !isRowEmpty(rowData, field.fields),
+        )
+      }
+    })
+
+    return processedData
+  }
+
   const handleSubmit = async (data: unknown) => {
     try {
-      await onSubmit(data as FormData)
+      const processedData = processFormData(data as Record<string, unknown>)
+      await onSubmit(processedData as FormData)
     } catch (error) {
       console.error("Form submission error:", error)
     }

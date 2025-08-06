@@ -29,6 +29,7 @@ export type FieldType =
   | "calendar"
   | "date-picker"
   | "date-range-picker"
+  | "field-array"
 
 export interface SelectOption {
   label: string
@@ -165,7 +166,8 @@ export interface DateRangePickerFieldConfig extends BaseFieldConfig {
   numberOfMonths?: number
 }
 
-export type FormFieldConfig =
+// Define all non-array field configs first
+export type BaseFormFieldConfig =
   | InputFieldConfig
   | TextareaFieldConfig
   | SelectFieldConfig
@@ -174,6 +176,19 @@ export type FormFieldConfig =
   | CalendarFieldConfig
   | DatePickerFieldConfig
   | DateRangePickerFieldConfig
+
+// Field array can contain any of the base field configs
+export interface FieldArrayConfig extends BaseFieldConfig {
+  type: "field-array"
+  fields: BaseFormFieldConfig[]
+  addButtonLabel?: string
+  removeButtonLabel?: string
+  minItems?: number
+  maxItems?: number
+}
+
+// Complete form field config includes arrays
+export type FormFieldConfig = BaseFormFieldConfig | FieldArrayConfig
 
 export interface FormBuilderProps<TSchema extends z.ZodObject<z.ZodRawShape>> {
   fields: FormFieldConfig[]

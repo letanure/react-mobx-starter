@@ -34,7 +34,7 @@ export function SelectField({ field, control, isRequired }: SelectFieldProps) {
             disabled={field.disabled}
           >
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder={field.placeholder} />
               </SelectTrigger>
             </FormControl>

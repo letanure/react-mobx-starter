@@ -4,6 +4,7 @@ import {
   CheckboxField,
   DatePickerField,
   DateRangePickerField,
+  FieldArray,
   InputField,
   NativeDateField,
   RadioField,
@@ -22,6 +23,10 @@ export function FormFieldRenderer({
   isRequired = false,
 }: FormFieldRendererProps) {
   const { control } = useFormContext()
+
+  if (field.type === "field-array") {
+    return <FieldArray field={field} isRequired={isRequired} />
+  }
 
   if (field.type === "checkbox") {
     return (

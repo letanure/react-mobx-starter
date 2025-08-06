@@ -11,6 +11,11 @@ export function FieldLabel({
   isRequired = false,
   htmlFor,
 }: FieldLabelProps) {
+  // Don't render anything if label is empty
+  if (!label) {
+    return null
+  }
+
   return (
     <FormLabel htmlFor={htmlFor} className="inline-block min-h-[1.5rem]">
       {label}

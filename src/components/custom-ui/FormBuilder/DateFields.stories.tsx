@@ -162,8 +162,8 @@ const datePickerSchema = z.object({
 })
 
 const datePickerRequiredSchema = z.object({
-  selectedDate: z.date({
-    required_error: "Date is required",
+  selectedDate: z.date().min(new Date("1900-01-01"), {
+    message: "Date is required",
   }),
 })
 
