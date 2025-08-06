@@ -16,8 +16,10 @@ export class RootStore {
     const storeEntries = Object.entries(this) as [string, unknown][]
 
     for (const [, store] of storeEntries) {
-      if (store?.constructor?.persistenceConfig) {
-        const config = store.constructor.persistenceConfig
+      // Type assertion needed for constructor property access
+      const storeConstructor = store?.constructor as any
+      if (storeConstructor?.persistenceConfig) {
+        const config = storeConstructor.persistenceConfig
         makePersistent(store, config)
       }
     }

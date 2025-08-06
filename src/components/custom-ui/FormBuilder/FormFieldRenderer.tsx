@@ -31,6 +31,7 @@ export const FormFieldRenderer = memo(
     if (needsControl) {
       return (
         <FieldComponent
+          // biome-ignore lint/suspicious/noExplicitAny: Field components have different prop shapes
           field={field as any}
           control={control}
           isRequired={isRequired}
@@ -38,7 +39,13 @@ export const FormFieldRenderer = memo(
       )
     }
 
-    return <FieldComponent field={field as any} isRequired={isRequired} />
+    return (
+      <FieldComponent
+        // biome-ignore lint/suspicious/noExplicitAny: Field components have different prop shapes
+        field={field as any}
+        isRequired={isRequired}
+      />
+    )
   },
   (prevProps, nextProps) => {
     return (

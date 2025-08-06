@@ -10,21 +10,13 @@ import {
   SelectField,
   TextareaField,
 } from "../fields"
-import type { BaseFormFieldConfig, FormFieldConfig } from "../types"
+import type { FormFieldConfig } from "../types"
 
-type FieldComponentProps<T extends BaseFormFieldConfig | FormFieldConfig> = {
-  field: T
-  isRequired?: boolean
-}
-
-type FieldComponentMap = {
-  [K in FormFieldConfig["type"]]: ComponentType<
-    FieldComponentProps<Extract<FormFieldConfig, { type: K }>>
-  >
-}
-
-export const fieldTypeMap: FieldComponentMap = {
-  "field-array": FieldArray as any,
+// Using ComponentType<any> is necessary here because each field component
+// has different prop interfaces that cannot be unified without excessive complexity
+// biome-ignore lint/suspicious/noExplicitAny: Field components have varied prop structures
+export const fieldTypeMap: Record<string, ComponentType<any>> = {
+  "field-array": FieldArray,
   checkbox: CheckboxField,
   radio: RadioField,
   select: SelectField,
@@ -49,7 +41,8 @@ export const fieldTypeMap: FieldComponentMap = {
 
 export function getFieldComponent(
   type: FormFieldConfig["type"],
-): ComponentType<FieldComponentProps<any>> {
+  // biome-ignore lint/suspicious/noExplicitAny: Return type must match the map above
+): ComponentType<any> {
   return fieldTypeMap[type] || InputField
 }
 
