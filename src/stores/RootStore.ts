@@ -20,7 +20,7 @@ export class RootStore {
       const storeConstructor = store?.constructor as any
       if (storeConstructor?.persistenceConfig) {
         const config = storeConstructor.persistenceConfig
-        makePersistent(store, config)
+        makePersistent(store as object, config)
       }
     }
   }
