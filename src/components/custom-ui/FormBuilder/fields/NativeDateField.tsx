@@ -1,9 +1,13 @@
 import { useFormContext } from "react-hook-form"
 import { Input } from "@/components/ui/input"
-import type { BaseFieldProps } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
 
-interface NativeDateFieldProps extends BaseFieldProps {
+interface NativeDateFieldProps {
+  name: string
+  label: string
+  placeholder?: string
+  required?: boolean
+  disabled?: boolean
   type: "date" | "datetime-local" | "time" | "month" | "week"
   min?: string
   max?: string

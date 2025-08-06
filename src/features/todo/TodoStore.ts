@@ -1,6 +1,8 @@
 import { makeAutoObservable } from "mobx"
 import type { Todo } from "@/features/todo/types"
 
+export type { Todo }
+
 export class TodoStore {
   // Properties
   todos: Todo[] = []

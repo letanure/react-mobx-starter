@@ -1,44 +1,33 @@
 import { useFormContext } from "react-hook-form"
 import { Calendar } from "@/components/ui/calendar"
-import type { BaseFieldProps } from "../types"
+import type { CalendarFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
 
-interface CalendarFieldProps extends Omit<BaseFieldProps, "disabled"> {
-  mode?: "single" | "multiple" | "range"
-  fromDate?: Date
-  toDate?: Date
-  disabled?: Date[] | ((date: Date) => boolean)
+interface CalendarFieldProps {
+  field: CalendarFieldConfig
+  isRequired?: boolean
 }
 
-export function CalendarField({
-  name,
-  label,
-  mode = "single",
-  required,
-  className,
-  fromDate,
-  toDate,
-  disabled,
-}: CalendarFieldProps) {
+export function CalendarField({ field, isRequired }: CalendarFieldProps) {
   const { setValue, watch, formState } = useFormContext()
-  const value = watch(name)
-  const error = formState.errors[name]
+  const value = watch(field.name)
+  const error = formState.errors[field.name]
 
   const handleSelect = (date: Date | Date[] | undefined) => {
-    setValue(name, date, { shouldValidate: true })
+    setValue(field.name, date, { shouldValidate: true })
   }
 
   return (
-    <div className={className}>
-      <FieldLabel label={label} isRequired={required} />
+    <div>
+      <FieldLabel label={field.label} isRequired={isRequired} />
       <div className="border rounded-md p-3">
         <Calendar
-          mode={mode}
+          mode={field.mode || "single"}
           selected={value}
           onSelect={handleSelect}
-          startMonth={fromDate}
-          endMonth={toDate}
-          disabled={disabled}
+          fromDate={field.fromDate}
+          toDate={field.toDate}
+          disabled={field.disabled || field.excludeDates}
           className="w-fit"
         />
       </div>

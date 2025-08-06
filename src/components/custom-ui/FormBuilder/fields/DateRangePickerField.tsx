@@ -10,10 +10,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import type { BaseFieldProps } from "../types"
+// No BaseFieldProps import needed
 import { FieldLabel } from "./shared/FieldLabel"
 
-interface DateRangePickerFieldProps extends Omit<BaseFieldProps, "disabled"> {
+interface DateRangePickerFieldProps {
+  name: string
+  label: string
+  placeholder?: string
+  required?: boolean
   fromDate?: Date
   toDate?: Date
   disabled?: Date[] | ((date: Date) => boolean)
