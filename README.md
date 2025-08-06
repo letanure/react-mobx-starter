@@ -119,20 +119,48 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 ## Architecture Overview
 
 ```mermaid
-graph TD
-    A[User Request] --> B[React Router]
-    B --> C[Layout System]
-    C --> D[Feature Components]
-    D --> E[Custom Hooks]
-    E --> F[MobX Stores]
-    F --> G[API Services]
+graph TB
+    subgraph "Application Layer"
+        Router[React Router]
+        Layout[Layout Wrapper]
+    end
     
-    H[Form Builder] --> I[Dynamic Fields]
-    I --> J[Zod Validation]
+    subgraph "Feature Layer"
+        Todo[Todo Feature]
+        Demo[Demo Feature]
+        Home[Home Feature]
+    end
     
-    K[Testing Layer] --> L[Unit Tests]
-    K --> M[E2E Tests]
-    K --> N[Visual Tests]
+    subgraph "UI Layer"
+        FormBuilder[FormBuilder]
+        CustomUI[Custom UI Components]
+        ShadcnUI[shadcn/ui Components]
+    end
+    
+    subgraph "State Layer"
+        RootStore[Root Store]
+        TodoStore[Todo Store]
+        Context[React Context]
+    end
+    
+    subgraph "External Layer"
+        API[API Services]
+        Storage[Local Storage]
+    end
+    
+    Router --> Layout
+    Layout --> Todo
+    Layout --> Demo
+    Layout --> Home
+    
+    Todo --> CustomUI
+    Todo --> TodoStore
+    Demo --> API
+    FormBuilder --> ShadcnUI
+    
+    RootStore --> TodoStore
+    Context --> RootStore
+    TodoStore --> Storage
 ```
 
 ## Key Patterns
