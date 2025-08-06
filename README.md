@@ -1,383 +1,174 @@
-# Coding Challenge Starter Kit
+# React Starter Kit
 
-A modern React + TypeScript starter kit for coding challenges with pre-configured tooling and best practices.
+A modern React + TypeScript starter with batteries included. Pre-configured tooling, component library, and example implementations to help you start building immediately.
 
 ## Quick Start
 
 ```bash
-# Clone and install
-git clone [your-repo-url]
-cd starter-kit
 npm install
-
-# Start development
 npm run dev
 ```
 
-## Available Scripts
+Open [http://localhost:5173](http://localhost:5173) - you're ready to code.
 
-```bash
-npm run dev          # Start development server
-npm run build        # Production build
-npm run preview      # Preview production build
-npm run test         # Run tests in watch mode
-npm run test:unit     # Run unit tests once
-npm run test:unit:ui  # Run unit tests with UI
-npm run test:e2e      # Run E2E tests
-npm run test:e2e:ui   # Run E2E tests with UI
-npm run test:e2e:update-ci # Update CI snapshots using Docker
-pnpm storybook       # Run Storybook dev server
-pnpm storybook:build # Build Storybook static files
-pnpm lint:fix        # Auto-fix linting issues
-pnpm lint:dead-code  # Find unused files and dependencies
-pnpm type:check      # TypeScript type checking
-pnpm check:all       # Run all checks
-```
+## What's Inside?
 
-## Tech Stack
+This starter includes everything you need for a modern React application:
 
-- **React 19** + **TypeScript 5.8**
-- **Vite** - Fast build tool
-- **MobX** - State management
-- **Tailwind CSS 4** - Utility-first CSS
-- **Vitest** + **React Testing Library** - Testing
-- **Playwright** - E2E testing with visual regression
-- **Storybook** - Component development and documentation  
-- **Biome** - Linting & formatting (replaces ESLint + Prettier)
-- **Husky** + **lint-staged** - Git hooks for code quality
+- ⚡ **Vite** for lightning-fast builds
+- 🎨 **Tailwind CSS** for styling
+- 🧩 **shadcn/ui** component library
+- 📦 **MobX** for state management
+- 🧪 **Vitest + Playwright** for testing
+- 📚 **Storybook** for component development
+- 🔧 **TypeScript** with strict mode
+- 🚀 **GitHub Actions** CI/CD pipeline
 
-## CI/CD Pipeline
-
-Automated quality assurance and deployment pipeline:
-
-- **CI Workflow**: Runs on every push/PR - linting, type checking, unit tests, E2E tests, and build verification
-- **Release Workflow**: Automated semantic versioning and changelog generation on main branch  
-- **Deploy Workflow**: Production deployment after CI passes (ready for Vercel/Netlify)
-- **Security Workflow**: Weekly dependency audits and CodeQL security scans
-
-All workflows run in parallel for fast feedback and use GitHub Actions for zero-config automation.
-
-**Visual Regression Testing**: Local snapshots (gitignored) for development, CI snapshots (tracked) for consistent cross-platform testing.
-
-### CI/CD Pipeline Flow
-
-```mermaid
-graph TB
-    subgraph "Developer Workflow"
-        A[Code Changes] --> B[Git Push/PR]
-        B --> C{Branch?}
-        C -->|feature/*| D[CI Workflow]
-        C -->|main| E[CI + Release]
-    end
-    
-    subgraph "CI Workflow (Parallel Jobs)"
-        D --> F[Lint & Type Check]
-        D --> G[Unit Tests]
-        D --> H[Build Verification]
-        D --> I[E2E Tests]
-        D --> J[Storybook Build]
-        
-        F --> K{All Pass?}
-        G --> K
-        H --> K
-        I --> K
-        J --> K
-    end
-    
-    subgraph "Release & Deploy"
-        E --> L[Security Scan]
-        K -->|✅| M[Ready for Merge]
-        E --> N[Semantic Release]
-        N --> O[Generate Changelog]
-        N --> P[Create Git Tag]
-        N --> Q[Deploy Workflow]
-        Q --> R[Production Deployment]
-    end
-    
-    subgraph "Quality Gates"
-        S[Pre-commit Hooks] --> A
-        T[Conventional Commits] --> B
-        U[Visual Regression] --> I
-    end
-```
-
-## Architecture Overview
-
-### Project Structure
+## Project Structure
 
 ```
 src/
-├── components/      # Reusable UI components
-├── features/        # Feature modules (your challenge code goes here)
-├── stores/          # MobX state management
-├── services/        # External integrations
-├── hooks/           # Custom React hooks
-├── providers/       # React context providers
-├── types/           # TypeScript type definitions
-└── utils/           # Helper functions
+├── features/           # Feature modules - your main code goes here
+│   ├── todo/          # Example: Todo app with MobX store
+│   ├── demo/          # Example: API integration, error handling
+│   └── home/          # Example: Landing page
+│
+├── components/         # Reusable UI components
+│   ├── ui/            # shadcn/ui components (Button, Card, etc.)
+│   ├── custom-ui/     # Custom components
+│   │   ├── FormBuilder/   # Dynamic form generator with Zod
+│   │   └── Animated.tsx   # Animation wrapper components
+│   └── layout/        # Layout components (Sidebar, Fullscreen)
+│
+├── stores/            # Global MobX stores
+│   └── RootStore.ts   # Store composition root
+│
+├── providers/         # React providers & app configuration
+│   └── AppProviders.tsx  # All providers in one place
+│
+├── hooks/             # Custom React hooks
+├── lib/               # Utility libraries
+├── services/          # API clients & external services
+└── test/              # Test utilities & mocks
 ```
 
-### System Architecture
+## Where to Find Things
 
-```mermaid
-graph TB
-    subgraph "Frontend Application"
-        A[App.tsx] --> B[AppProviders]
-        B --> C[Router]
-        B --> D[MobX Stores]
-        B --> E[Error Boundary]
-        
-        C --> F[Feature Routes]
-        F --> G[Layout System]
-        G --> H[Components]
-        
-        D --> I[Domain Stores]
-        D --> J[UI Stores]
-        
-        H --> K[shadcn/ui]
-        H --> L[Custom Components]
-    end
-    
-    subgraph "Testing Layer"
-        M[Vitest + RTL] --> H
-        N[Playwright E2E] --> A
-        O[Storybook] --> H
-    end
-    
-    subgraph "Build & Deploy"
-        P[Vite] --> A
-        Q[GitHub Actions] --> P
-        Q --> M
-        Q --> N
-        R[Production Build] --> S[Deployment]
-    end
-```
+### 🎯 Starting a New Feature?
+Create a new folder in `src/features/` with:
+- Your components
+- Local state/store
+- Route configuration (`routes.ts`)
+- Keep it self-contained
 
-### State Management Flow
+### 🎨 Need a UI Component?
+- Check `src/components/ui/` for shadcn components
+- Check `src/components/custom-ui/` for custom components
+- Use `npx shadcn@latest add [component]` to add more
 
-```mermaid
-sequenceDiagram
-    participant C as Component
-    participant P as Provider
-    participant S as MobX Store
-    participant A as Actions
-    
-    C->>P: useStore()
-    P->>S: Access store instance
-    S->>C: Return observable state
-    
-    C->>A: User interaction
-    A->>S: Update state
-    S->>C: Re-render (observer)
-    
-    Note over C,S: MobX automatically tracks dependencies
-```
+### 📝 Working with Forms?
+Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
+- Dynamic field generation
+- Zod validation
+- All field types included
+- See examples in Storybook
 
-### Routing Architecture
+### 🔄 Managing State?
+- Feature-specific: Create a store in your feature folder
+- Global state: Add to `src/stores/RootStore.ts`
+- Access via `useStores()` hook
 
-```mermaid
-graph LR
-    subgraph "Route Configuration"
-        A[features/*/routes.ts] --> B[Route Processor]
-        B --> C[Layout Mapping]
-        C --> D[React Router]
-    end
-    
-    subgraph "Layout System"
-        D --> E{Layout Type}
-        E --> F[Sidebar Layout]
-        E --> G[Fullscreen Layout]
-        E --> H[Default Layout]
-    end
-    
-    subgraph "Components"
-        F --> I[Navigation]
-        F --> J[Content Area]
-        G --> K[Full Content]
-        H --> L[Basic Content]
-    end
-```
+### 🧪 Writing Tests?
+- Unit tests: Next to your code as `*.test.tsx`
+- E2E tests: In `tests/` folder
+- Test utilities: `src/test/utils.tsx`
 
-### Testing Strategy
+## Available Commands
 
-```mermaid
-graph TD
-    A[Application Code] --> B{Testing Levels}
-    
-    B --> C[Unit Tests]
-    C --> D[Vitest + RTL]
-    C --> E[Component Testing]
-    C --> F[Store Testing]
-    
-    B --> G[Integration Tests]
-    G --> H[Feature Testing]
-    G --> I[Route Testing]
-    
-    B --> J[E2E Tests]
-    J --> K[Playwright]
-    J --> L[Visual Regression]
-    
-    B --> M[Component Documentation]
-    M --> N[Storybook]
-    
-    D --> O[CI/CD Pipeline]
-    K --> O
-    N --> O
-```
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run test` | Run tests in watch mode |
+| `npm run test:ui` | Run tests with UI |
+| `npm run lint` | Run linter |
+| `npm run type:check` | Check TypeScript types |
+| `npm run storybook` | Start Storybook |
 
-## Design Decisions
+## Development Workflow
 
-> Simple explanations of architectural choices made in this starter kit
+1. **Feature Development**: Work in `src/features/[your-feature]/`
+2. **Component Development**: Use Storybook for isolated development
+3. **Testing**: Tests run automatically on save
+4. **Linting**: Pre-commit hooks ensure code quality
+5. **CI/CD**: GitHub Actions run on every push
 
-### Provider Composition Pattern
-**What**: All React providers (ErrorBoundary, Router, Stores) are composed in `AppProviders.tsx`
-**Why**: Avoids "provider hell" in App.tsx and makes testing easier
-**Usage**: Same provider setup in both app and tests
+## Key Patterns
+
+### Feature-Based Architecture
+Each feature is self-contained with its own components, state, and routes:
 
 ```typescript
-// Clean App.tsx
-<AppProviders>
-  <Routes>...</Routes>
-</AppProviders>
-
-// Easy testing
-render(<AppProviders><YourComponent /></AppProviders>)
+features/
+└── my-feature/
+    ├── MyComponent.tsx     # UI components
+    ├── MyStore.ts         # MobX store (if needed)
+    ├── routes.ts          # Route configuration
+    └── types.ts           # TypeScript types
 ```
 
-### Feature-Based Routing
-**What**: Routes are defined in feature folders and automatically processed
-**Why**: Keeps related code together and supports layout inheritance
-**Usage**: Add routes in `features/[name]/routes.ts`
+### Provider Composition
+All providers are composed in one place for cleaner setup:
 
 ```typescript
+// src/providers/AppProviders.tsx
+<ErrorBoundary>
+  <StoreProvider>
+    <Router>
+      {children}
+    </Router>
+  </StoreProvider>
+</ErrorBoundary>
+```
+
+### Route Configuration
+Routes are defined per feature and automatically processed:
+
+```typescript
+// features/my-feature/routes.ts
 export const myRoutes = {
   path: "/my-feature",
-  layout: "sidebar",
   component: MyComponent,
-  children: [...]
+  layout: "sidebar", // or "fullscreen"
 }
 ```
 
-### MobX + React Context
-**What**: MobX stores accessed via React Context, not direct imports
-**Why**: Better testability and cleaner component dependencies
-**Usage**: `const { myStore } = useStore()` in components
+## Core Principles
 
-### Import Conventions
-**What**: Use relative imports within features, absolute imports across features
-**Why**: Better portability, clearer relationships, easier refactoring
-**Usage**:
-```typescript
-// Within a feature - use relative imports
-import { TodoStore } from "./TodoStore"
-import { TodoItem } from "./TodoItem"
+- **Isolation**: Features are independent modules
+- **Composition**: Build complex UIs from simple components
+- **Type Safety**: Leverage TypeScript for confidence
+- **Testing**: Test behavior, not implementation
+- **Performance**: Lazy load features, memoize expensive operations
 
-// Cross-feature or shared - use absolute imports
-import { Button } from "@/components/ui/Button"
-import { useStore } from "@/hooks/useStores"
-```
-**Guidelines**:
-- Relative imports (`./ or ../`) for files within the same feature
-- Absolute imports (`@/`) for external dependencies, shared components, or cross-feature imports
-- This keeps features self-contained and easier to move/refactor
-```
+## Examples Included
 
-## Coding Challenge Guidelines
+The starter includes working examples to learn from:
 
-### 1. Start with Planning
-Before writing any code:
-- Read the requirements carefully
-- Break down the problem into smaller tasks
-- Identify edge cases
-- Plan your data structures and component hierarchy
+- **Todo App** (`/features/todo/`): MobX state management, CRUD operations
+- **API Demo** (`/features/demo/`): External API integration, error handling
+- **FormBuilder**: Dynamic forms with validation
+- **Layout System**: Multiple layout patterns
 
-### 2. Validate Your Approach
-- Write test cases first (TDD approach)
-- Consider performance implications
-- Think about error handling
-- Plan for edge cases
+## Need More Details?
 
-### 3. Implementation
-- Start with the simplest working solution
-- Refactor for clarity and performance
-- Add proper TypeScript types
-- Write meaningful commit messages
-
-### 4. Testing
-- Unit tests for utilities and business logic
-- Component tests for UI behavior
-- Integration tests for features
-- Run `npm run test:run` before submitting
-
-### 5. Code Quality
-- Run `pnpm check:all` to ensure all checks pass
-- Follow existing code patterns
-- Keep components small and focused
-- Use meaningful variable and function names
-
-## Common Patterns
-
-### State Management with MobX
-```typescript
-// Create a store
-class ChallengeStore {
-  constructor() {
-    makeAutoObservable(this);
-  }
-  
-  // Your state and actions here
-}
-
-// Use in components
-const MyComponent = observer(() => {
-  const store = useStore();
-  // Component logic
-});
-```
-
-### Custom Hooks
-```typescript
-// Create reusable logic
-function useChallenge() {
-  // Hook implementation
-  return { /* ... */ };
-}
-```
-
-### Testing Components
-```typescript
-import { renderWithProviders } from '@/test-utils';
-
-test('component behavior', () => {
-  const { getByText } = renderWithProviders(<MyComponent />);
-  // Test assertions
-});
-```
-
-## Tips for Success
-
-1. **Keep It Simple**: Start with the simplest solution that works
-2. **Test Early**: Write tests as you go, not after
-3. **Commit Often**: Make small, logical commits
-4. **Ask Questions**: If requirements are unclear, ask for clarification
-5. **Performance Matters**: Consider performance for large datasets
-6. **User Experience**: Think about edge cases and error states
-
-## Submitting Your Solution
-
-1. Ensure all tests pass: `npm run test:run`
-2. Run all checks: `pnpm check:all`
-3. Review your code for clarity and completeness
-4. Commit your changes with clear messages
-5. Push to your repository
-
-## Need Help?
-
-- Check the [Architecture Guide](./docs/architecture.md) for detailed patterns
-- Review existing code in `src/features/` for examples
-- Use TypeScript types for better IDE support
-- Keep the browser console open for debugging
+Check the `/docs` folder for:
+- Architecture decisions
+- Testing strategy
+- Naming conventions
+- Development guidelines
 
 ---
 
-Good luck with your coding challenge! 🚀
+Happy coding! 🚀
