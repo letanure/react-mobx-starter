@@ -118,176 +118,73 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 
 ## Architecture Overview
 
-### Option 1: Feature Workflow (Current)
+### Feature Workflow
 ```mermaid
-graph LR
-    subgraph "Your Feature"
-        F[📁 features/my-feature/]
-        F --> FC[Components.tsx]
-        F --> FS[Store.ts]
-        F --> FR[routes.ts]
-        F --> FI[i18n/en.ts]
+graph TB
+    F[📁 features/my-feature/]
+    
+    subgraph "You Create"
+        FC[📱 Components.tsx]
+        FS[🗃️ Store.ts]
+        FR[🗂️ routes.ts]
+        FI[🌐 i18n/en.ts]
     end
     
-    subgraph "App Automatically Uses"
-        RR[🗂️ Root Router]
-        RS[🗃️ Root Store]
-        SB[🔧 Sidebar Nav]
+    subgraph "App Automatically Wires"
+        RR[Root Router]
+        RS[Root Store]
+        SB[Sidebar Nav]
     end
     
-    subgraph "Your Feature Consumes"
+    subgraph "You Consume"
         UI[🎨 UI Components]
         UT[⚙️ Utils]
-        SV[🌐 Services]
+        SV[📡 Services]
         HK[🪝 Hooks]
     end
+    
+    F --> FC
+    F --> FS
+    F --> FR
+    F --> FI
     
     FR --> RR
     FS --> RS
     FR --> SB
     
     FC --> UI
-    FC --> UT
     FC --> HK
     FS --> SV
-    
-    RR -.->|Routes to| FC
-    RS -.->|Provides| FS
+    FS --> UT
 ```
 
-### Option 2: Data Flow
-```mermaid
-graph LR
-    User[👤 User Action] --> Component[📱 Component]
-    Component --> Hook[🪝 Custom Hook]
-    Hook --> Store[🗃️ MobX Store]
-    Store --> API[🌐 API Service]
-    API --> Store
-    Store --> Component
-    Component --> UI[🎨 UI Update]
-```
-
-### Option 3: Layered Architecture
-```mermaid
-graph TB
-    subgraph "Presentation Layer"
-        Routes[React Router]
-        Layouts[Layout Components]
-        Features[Feature Components]
-        UI[UI Components]
-    end
-    
-    subgraph "Business Layer"
-        Stores[MobX Stores]
-        Hooks[Custom Hooks]
-        Utils[Utilities]
-    end
-    
-    subgraph "Data Layer"
-        Services[API Services]
-        Storage[Local Storage]
-        Cache[State Persistence]
-    end
-    
-    Routes --> Layouts
-    Layouts --> Features
-    Features --> UI
-    Features --> Hooks
-    Hooks --> Stores
-    Stores --> Services
-    Services --> Storage
-    Stores --> Cache
-```
-
-### Option 4: File Structure Flow
-```mermaid
-graph TB
-    User[👤 User visits /todos]
-    Router[Router Configuration]
-    
-    subgraph "features/todo/"
-        TodoRoute[routes.ts]
-        TodoComponent[TodoList.tsx]
-        TodoStore[TodoStore.ts]
-    end
-    
-    subgraph "Shared Resources"
-        SharedUI[components/ui/]
-        SharedUtils[lib/utils.ts]
-        SharedHooks[hooks/]
-    end
-    
-    User --> Router
-    Router --> TodoRoute
-    TodoRoute --> TodoComponent
-    TodoComponent --> TodoStore
-    TodoComponent --> SharedUI
-    TodoComponent --> SharedHooks
-    TodoStore --> SharedUtils
-```
-
-### Option 5: Developer Mental Model
+### What You Get
 ```mermaid
 graph LR
     subgraph "What You Build"
-        NewFeature[🆕 New Feature]
+        Feature[🆕 Feature]
         Components[📱 Components]
-        BusinessLogic[🧠 Business Logic]
+        Logic[🧠 Business Logic]
     end
     
     subgraph "What You Get For Free"
-        Routing[🗂️ Automatic Routing]
-        StateManagement[🗃️ State Management]
-        UILibrary[🎨 UI Component Library]
-        Testing[🧪 Testing Setup]
-        TypeSafety[🔒 Type Safety]
-        DevTools[🛠️ Dev Tools]
+        Routing[🗂️ Routing]
+        State[🗃️ State Management]
+        UI[🎨 UI Library]
+        Tests[🧪 Testing]
+        Types[🔒 Type Safety]
+        Tools[🛠️ Dev Tools]
     end
     
-    NewFeature --> Components
-    NewFeature --> BusinessLogic
+    Feature --> Components
+    Feature --> Logic
     
-    Components --> UILibrary
-    BusinessLogic --> StateManagement
-    NewFeature --> Routing
-    NewFeature --> Testing
-    NewFeature --> TypeSafety
-    NewFeature --> DevTools
-```
-
-### Option 6: System Boundaries
-```mermaid
-graph TB
-    subgraph "Feature Boundary"
-        FeatureComponents[Feature Components]
-        FeatureStore[Feature Store]
-        FeatureRoutes[Feature Routes]
-        FeatureTypes[Feature Types]
-    end
-    
-    subgraph "App Boundary"
-        AppRouter[App Router]
-        RootStore[Root Store]
-        AppProviders[App Providers]
-    end
-    
-    subgraph "Shared Boundary"
-        UIComponents[UI Components]
-        Utilities[Utilities]
-        Services[Services]
-        Hooks[Hooks]
-    end
-    
-    FeatureComponents --> UIComponents
-    FeatureComponents --> Hooks
-    FeatureStore --> Services
-    FeatureStore --> Utilities
-    
-    FeatureRoutes --> AppRouter
-    FeatureStore --> RootStore
-    
-    AppRouter --> AppProviders
-    RootStore --> AppProviders
+    Components -.-> UI
+    Logic -.-> State
+    Feature -.-> Routing
+    Feature -.-> Tests
+    Feature -.-> Types
+    Feature -.-> Tools
 ```
 
 ## Key Patterns
