@@ -6,10 +6,12 @@
  */
 export const todoTranslations = {
   title: "Todo List",
+  description: "You have {{count}} tasks in your list",
   placeholder: "What needs to be done?",
   add: "Add",
   delete: "Delete",
   clearCompleted: "Clear completed",
+  empty: "No tasks yet. Add one above!",
   navigation: {
     section: "Todo Lists",
     all: "All",

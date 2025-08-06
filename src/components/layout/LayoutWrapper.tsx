@@ -6,19 +6,26 @@
  */
 
 import type { ReactNode } from "react"
-import { type LayoutType, layouts } from "./index"
+import { FullscreenLayout } from "./FullscreenLayout"
+import type { LayoutType } from "./index"
+import { SidebarLayout } from "./SidebarLayout"
 
 interface LayoutWrapperProps {
   layout: LayoutType
   children: ReactNode
 }
 
+const layouts = {
+  fullscreen: FullscreenLayout,
+  sidebar: SidebarLayout,
+} as const
+
 export function LayoutWrapper({ layout, children }: LayoutWrapperProps) {
   const LayoutComponent = layouts[layout]
 
   if (!LayoutComponent) {
     console.warn(`Layout "${layout}" not found, falling back to fullscreen`)
-    return <layouts.fullscreen>{children}</layouts.fullscreen>
+    return <FullscreenLayout>{children}</FullscreenLayout>
   }
 
   return <LayoutComponent>{children}</LayoutComponent>

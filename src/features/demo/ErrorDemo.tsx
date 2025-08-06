@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useErrorBoundary } from "react-error-boundary"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 
 /**
  * Error Demo Component

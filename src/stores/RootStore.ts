@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { TodoStore } from "@/stores/TodoStore"
+import { TodoStore } from "@/features/todo/TodoStore"
 
 export class RootStore {
   // Public stores

@@ -1,4 +1,4 @@
-import { ErrorDemo } from "@/components/ui/ErrorDemo"
+import { ErrorDemo } from "./ErrorDemo"
 
 export function Demo() {
   return (

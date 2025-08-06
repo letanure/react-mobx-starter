@@ -5,7 +5,7 @@
  * Moved from todo feature to keep examples organized in the demo section.
  */
 
-import { ApiExample } from "@/components/examples/ApiExample"
+import { ApiExample } from "./ApiExample"
 
 export function ApiDemo() {
   return (

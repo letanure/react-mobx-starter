@@ -1,5 +1,5 @@
 import type { FallbackProps } from "react-error-boundary"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 
 /**
  * Error Fallback Component

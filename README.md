@@ -262,6 +262,24 @@ export const myRoutes = {
 **What**: MobX stores accessed via React Context, not direct imports
 **Why**: Better testability and cleaner component dependencies
 **Usage**: `const { myStore } = useStore()` in components
+
+### Import Conventions
+**What**: Use relative imports within features, absolute imports across features
+**Why**: Better portability, clearer relationships, easier refactoring
+**Usage**:
+```typescript
+// Within a feature - use relative imports
+import { TodoStore } from "./TodoStore"
+import { TodoItem } from "./TodoItem"
+
+// Cross-feature or shared - use absolute imports
+import { Button } from "@/components/ui/Button"
+import { useStore } from "@/hooks/useStores"
+```
+**Guidelines**:
+- Relative imports (`./ or ../`) for files within the same feature
+- Absolute imports (`@/`) for external dependencies, shared components, or cross-feature imports
+- This keeps features self-contained and easier to move/refactor
 ```
 
 ## Coding Challenge Guidelines

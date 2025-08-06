@@ -1,16 +1,16 @@
 import { observer } from "mobx-react-lite"
-import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
-import { Button } from "@/components/ui/Button"
+import { Stack } from "@/components/custom-ui/Stack"
+import { Text } from "@/components/custom-ui/Text"
 import { useStore } from "@/hooks/useStores"
-import { cn } from "@/lib/utils"
-import { getRelativeTime } from "@/utils"
-import "./TodoList.css"
+import { TodoEmpty } from "./TodoEmpty"
+import { TodoForm } from "./TodoForm"
+import { TodoItem } from "./TodoItem"
+import { TodoStats } from "./TodoStats"
 
 export const TodoList = observer(() => {
   const { todoStore } = useStore()
-  const [newTodo, setNewTodo] = useState("")
   const location = useLocation()
   const { t } = useTranslation()
 
@@ -25,65 +25,38 @@ export const TodoList = observer(() => {
     }
   })()
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (newTodo.trim()) {
-      todoStore.addTodo(newTodo)
-      setNewTodo("")
-    }
-  }
-
   return (
-    <div className="todo-container">
-      <h1>{t("todo.title")}</h1>
+    <Stack spacing="lg">
+      <Stack spacing="xs">
+        <Text as="h1" size="4xl" weight="extrabold">
+          {t("todo.title")}
+        </Text>
+        <Text variant="muted" size="sm">
+          {t("todo.description", { count: todoStore.totalCount })}
+        </Text>
+      </Stack>
 
-      <form onSubmit={handleSubmit} className="todo-form">
-        <input
-          type="text"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          placeholder={t("todo.placeholder")}
-          className="todo-input"
-        />
-        <Button type="submit">{t("todo.add")}</Button>
-      </form>
+      <TodoForm onSubmit={(text) => todoStore.addTodo(text)} />
 
-      <ul className="todo-list">
+      <Stack spacing="xs">
+        {filteredTodos.length === 0 && <TodoEmpty />}
         {filteredTodos.map((todo) => (
-          <li key={todo.id} className="todo-item">
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => todoStore.toggleTodo(todo.id)}
-            />
-            <span className={cn(todo.completed && "completed")}>
-              {todo.text}
-            </span>
-            <span className="todo-time">
-              {getRelativeTime(todo.createdAt, t)}
-            </span>
-            <Button onClick={() => todoStore.deleteTodo(todo.id)}>
-              {t("todo.delete")}
-            </Button>
-          </li>
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggle={(id) => todoStore.toggleTodo(id)}
+            onDelete={(id) => todoStore.deleteTodo(id)}
+          />
         ))}
-      </ul>
+      </Stack>
 
       {todoStore.totalCount > 0 && (
-        <div className="todo-stats">
-          <span>
-            {todoStore.activeCount} {t("todo.stats.active")}
-          </span>
-          <span>
-            {todoStore.completedCount} {t("todo.stats.completed")}
-          </span>
-          {todoStore.completedCount > 0 && (
-            <Button onClick={() => todoStore.clearCompleted()}>
-              {t("todo.clearCompleted")}
-            </Button>
-          )}
-        </div>
+        <TodoStats
+          activeCount={todoStore.activeCount}
+          completedCount={todoStore.completedCount}
+          onClearCompleted={() => todoStore.clearCompleted()}
+        />
       )}
-    </div>
+    </Stack>
   )
 })
