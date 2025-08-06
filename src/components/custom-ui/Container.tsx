@@ -29,7 +29,7 @@ interface ContainerProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof containerVariants> {
   asChild?: boolean
-  as?: keyof JSX.IntrinsicElements
+  as?: React.ElementType
 }
 
 const Container = React.forwardRef<HTMLDivElement, ContainerProps>(

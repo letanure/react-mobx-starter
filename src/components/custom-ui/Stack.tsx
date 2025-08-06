@@ -30,7 +30,7 @@ interface StackProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof stackVariants> {
   asChild?: boolean
-  as?: keyof JSX.IntrinsicElements
+  as?: React.ElementType
 }
 
 const Stack = React.forwardRef<HTMLDivElement, StackProps>(

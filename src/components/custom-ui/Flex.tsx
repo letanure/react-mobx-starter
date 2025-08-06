@@ -53,7 +53,7 @@ interface FlexProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof flexVariants> {
   asChild?: boolean
-  as?: keyof JSX.IntrinsicElements
+  as?: React.ElementType
 }
 
 const Flex = React.forwardRef<HTMLDivElement, FlexProps>(

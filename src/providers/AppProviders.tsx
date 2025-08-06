@@ -15,7 +15,7 @@ interface AppProvidersProps {
 /**
  * Composites all app providers to avoid provider hell in App.tsx
  * @param children - React components to wrap with providers
- * @returns JSX with all providers applied
+ * @returns React element with all providers applied
  */
 export function AppProviders({ children }: AppProvidersProps) {
   return (
