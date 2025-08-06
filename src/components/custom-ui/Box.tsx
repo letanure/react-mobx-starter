@@ -41,7 +41,7 @@ interface BoxProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof boxVariants> {
   asChild?: boolean
-  as?: keyof JSX.IntrinsicElements
+  as?: React.ElementType
 }
 
 const Box = React.forwardRef<HTMLDivElement, BoxProps>(
