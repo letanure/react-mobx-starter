@@ -99,6 +99,15 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 | `npm run type:check` | Check TypeScript types |
 | `npm run storybook` | Start Storybook |
 
+## Docker Development
+
+| Command | Description |
+|---------|-------------|
+| `docker-compose up -d` | Start development environment |
+| `docker-compose down` | Stop containers |
+| `docker-compose build` | Rebuild containers |
+| See [Docker documentation](./docs/docker.md) | Complete Docker setup guide |
+
 ## Development Workflow
 
 1. **Feature Development**: Work in `src/features/[your-feature]/`
@@ -106,6 +115,25 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 3. **Testing**: Tests run automatically on save
 4. **Linting**: Pre-commit hooks ensure code quality
 5. **CI/CD**: GitHub Actions run on every push
+
+## Architecture Overview
+
+```mermaid
+graph TD
+    A[User Request] --> B[React Router]
+    B --> C[Layout System]
+    C --> D[Feature Components]
+    D --> E[Custom Hooks]
+    E --> F[MobX Stores]
+    F --> G[API Services]
+    
+    H[Form Builder] --> I[Dynamic Fields]
+    I --> J[Zod Validation]
+    
+    K[Testing Layer] --> L[Unit Tests]
+    K --> M[E2E Tests]
+    K --> N[Visual Tests]
+```
 
 ## Key Patterns
 
@@ -161,16 +189,15 @@ The starter includes working examples to learn from:
 
 - **Todo App** (`/features/todo/`): MobX state management, CRUD operations
 - **API Demo** (`/features/demo/`): External API integration, error handling
-- **FormBuilder**: Dynamic forms with validation
-- **Layout System**: Multiple layout patterns
+- **Home Page** (`/features/home/`): Simple landing page example
 
 ## Need More Details?
 
 Check the `/docs` folder for:
-- Architecture decisions
-- Testing strategy
-- Naming conventions
-- Development guidelines
+- [Architecture decisions](./docs/architecture/README.md)
+- [Testing strategy](./docs/development/testing.md)
+- [API documentation](./docs/api/hooks.md)
+- [Development guidelines](./docs/README.md)
 
 ---
 
