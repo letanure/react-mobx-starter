@@ -1,0 +1,61 @@
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import type { SelectFieldConfig } from "../types"
+import { FieldLabel } from "./shared/FieldLabel"
+import type { BaseFieldProps } from "./shared/types"
+
+interface SelectFieldProps extends BaseFieldProps {
+  field: SelectFieldConfig
+}
+
+export function SelectField({ field, control, isRequired }: SelectFieldProps) {
+  return (
+    <FormField
+      control={control}
+      name={field.name}
+      render={({ field: formField }) => (
+        <FormItem>
+          <FieldLabel isRequired={isRequired}>{field.label}</FieldLabel>
+          <Select
+            onValueChange={formField.onChange}
+            value={formField.value || ""}
+            disabled={field.disabled}
+          >
+            <FormControl>
+              <SelectTrigger>
+                <SelectValue placeholder={field.placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              {field.options.map((option) => (
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  disabled={option.disabled}
+                >
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {field.description && (
+            <FormDescription>{field.description}</FormDescription>
+          )}
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  )
+}
