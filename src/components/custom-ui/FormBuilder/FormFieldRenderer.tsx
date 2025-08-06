@@ -68,19 +68,7 @@ export function FormFieldRenderer({
   }
 
   if (field.type === "date-picker") {
-    return (
-      <DatePickerField
-        name={field.name}
-        label={field.label}
-        required={isRequired}
-        fromDate={field.fromDate}
-        toDate={field.toDate}
-        disabled={field.disabled}
-        dateFormat={field.dateFormat}
-        showInput={field.showInput}
-        placeholder={field.placeholder}
-      />
-    )
+    return <DatePickerField field={field} isRequired={isRequired} />
   }
 
   if (field.type === "date-range-picker") {

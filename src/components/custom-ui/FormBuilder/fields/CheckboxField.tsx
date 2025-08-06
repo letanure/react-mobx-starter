@@ -1,3 +1,4 @@
+import type { Control } from "react-hook-form"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   FormControl,
@@ -8,10 +9,11 @@ import {
 } from "@/components/ui/form"
 import type { CheckboxFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
-import type { BaseFieldProps } from "./shared/types"
 
-interface CheckboxFieldProps extends BaseFieldProps {
+interface CheckboxFieldProps {
   field: CheckboxFieldConfig
+  control: Control
+  isRequired?: boolean
 }
 
 export function CheckboxField({

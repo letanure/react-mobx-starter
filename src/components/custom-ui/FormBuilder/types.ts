@@ -1,3 +1,4 @@
+import type { DefaultValues } from "react-hook-form"
 import type { z } from "zod"
 
 export type LayoutWidth = "full" | "half" | "third" | "quarter"
@@ -35,35 +36,6 @@ export interface SelectOption {
   label: string
   value: string
   disabled?: boolean
-}
-
-export interface BaseFieldProps {
-  name: string
-  label: string
-  placeholder?: string
-  required?: boolean
-  disabled?: boolean
-  className?: string
-  autoComplete?:
-    | "off"
-    | "on"
-    | "name"
-    | "given-name"
-    | "family-name"
-    | "email"
-    | "username"
-    | "current-password"
-    | "new-password"
-    | "tel"
-    | "street-address"
-    | "postal-code"
-    | "country"
-    | "bday"
-    | "cc-name"
-    | "cc-number"
-    | "cc-exp"
-    | "cc-csc"
-    | string
 }
 
 export interface BaseFieldConfig {
@@ -145,14 +117,18 @@ export interface CalendarFieldConfig extends BaseFieldConfig {
   mode?: "single" | "multiple" | "range"
   fromDate?: Date
   toDate?: Date
-  disabled?: Date[] | ((date: Date) => boolean)
+  excludeDates?: Date[]
+  minDate?: Date
+  maxDate?: Date
 }
 
 export interface DatePickerFieldConfig extends BaseFieldConfig {
   type: "date-picker"
   fromDate?: Date
   toDate?: Date
-  disabled?: Date[] | ((date: Date) => boolean)
+  excludeDates?: Date[]
+  minDate?: Date
+  maxDate?: Date
   dateFormat?: string
   showInput?: boolean
 }
@@ -161,12 +137,14 @@ export interface DateRangePickerFieldConfig extends BaseFieldConfig {
   type: "date-range-picker"
   fromDate?: Date
   toDate?: Date
-  disabled?: Date[] | ((date: Date) => boolean)
+  excludeDates?: Date[]
+  minDate?: Date
+  maxDate?: Date
   dateFormat?: string
   numberOfMonths?: number
 }
 
-// Define all non-array field configs first
+// Define all non-array field configs using discriminated unions
 export type BaseFormFieldConfig =
   | InputFieldConfig
   | TextareaFieldConfig
@@ -176,6 +154,44 @@ export type BaseFormFieldConfig =
   | CalendarFieldConfig
   | DatePickerFieldConfig
   | DateRangePickerFieldConfig
+
+// Type guards for discriminated unions
+export function isInputField(
+  field: BaseFormFieldConfig,
+): field is InputFieldConfig {
+  return [
+    "text",
+    "email",
+    "password",
+    "number",
+    "tel",
+    "url",
+    "search",
+    "date",
+    "datetime-local",
+    "time",
+    "month",
+    "week",
+  ].includes(field.type)
+}
+
+export function isSelectField(
+  field: BaseFormFieldConfig,
+): field is SelectFieldConfig {
+  return field.type === "select"
+}
+
+export function isCheckboxField(
+  field: BaseFormFieldConfig,
+): field is CheckboxFieldConfig {
+  return field.type === "checkbox"
+}
+
+export function isFieldArray(
+  field: FormFieldConfig,
+): field is FieldArrayConfig {
+  return field.type === "field-array"
+}
 
 // Field array can contain any of the base field configs
 export interface FieldArrayConfig extends BaseFieldConfig {
@@ -190,10 +206,11 @@ export interface FieldArrayConfig extends BaseFieldConfig {
 // Complete form field config includes arrays
 export type FormFieldConfig = BaseFormFieldConfig | FieldArrayConfig
 
+// Improved generic constraints for better type safety
 export interface FormBuilderProps<TSchema extends z.ZodObject<z.ZodRawShape>> {
   fields: FormFieldConfig[]
   schema: TSchema
-  defaultValues?: Partial<z.infer<TSchema>>
+  defaultValues?: DefaultValues<z.infer<TSchema>>
   onSubmit: (data: z.infer<TSchema>) => void | Promise<void>
   isSubmitting?: boolean
   submitLabel: string
@@ -204,3 +221,7 @@ export interface FormBuilderProps<TSchema extends z.ZodObject<z.ZodRawShape>> {
   className?: string
   autoComplete?: "off" | "on"
 }
+
+// Helper type for form data
+export type FormData<TSchema extends z.ZodObject<z.ZodRawShape>> =
+  z.infer<TSchema>

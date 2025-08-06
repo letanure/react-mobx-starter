@@ -1,3 +1,4 @@
+import type { Control } from "react-hook-form"
 import {
   FormControl,
   FormDescription,
@@ -9,10 +10,11 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import type { RadioFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
-import type { BaseFieldProps } from "./shared/types"
 
-interface RadioFieldProps extends BaseFieldProps {
+interface RadioFieldProps {
   field: RadioFieldConfig
+  control: Control
+  isRequired?: boolean
 }
 
 export function RadioField({ field, control, isRequired }: RadioFieldProps) {

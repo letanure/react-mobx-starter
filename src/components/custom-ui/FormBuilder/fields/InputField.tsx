@@ -1,3 +1,4 @@
+import type { Control } from "react-hook-form"
 import {
   FormControl,
   FormDescription,
@@ -8,10 +9,11 @@ import {
 import { Input } from "@/components/ui/input"
 import type { InputFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
-import type { BaseFieldProps } from "./shared/types"
 
-interface InputFieldProps extends BaseFieldProps {
+interface InputFieldProps {
   field: InputFieldConfig
+  control: Control
+  isRequired?: boolean
 }
 
 export function InputField({ field, control, isRequired }: InputFieldProps) {

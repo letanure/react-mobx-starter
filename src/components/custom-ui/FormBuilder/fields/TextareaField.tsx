@@ -1,3 +1,4 @@
+import type { Control } from "react-hook-form"
 import {
   FormControl,
   FormDescription,
@@ -8,10 +9,11 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import type { TextareaFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
-import type { BaseFieldProps } from "./shared/types"
 
-interface TextareaFieldProps extends BaseFieldProps {
+interface TextareaFieldProps {
   field: TextareaFieldConfig
+  control: Control
+  isRequired?: boolean
 }
 
 export function TextareaField({

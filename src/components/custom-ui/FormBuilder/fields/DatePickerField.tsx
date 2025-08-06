@@ -10,55 +10,54 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import type { BaseFieldProps } from "../types"
+import type { DatePickerFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
 
-interface DatePickerFieldProps extends Omit<BaseFieldProps, "disabled"> {
-  fromDate?: Date
-  toDate?: Date
-  disabled?: Date[] | ((date: Date) => boolean)
-  dateFormat?: string
-  showInput?: boolean
+interface DatePickerFieldProps {
+  field: DatePickerFieldConfig
+  isRequired?: boolean
 }
 
-export function DatePickerField({
-  name,
-  label,
-  placeholder = "Pick a date",
-  required,
-  className,
-  fromDate,
-  toDate,
-  disabled,
-  dateFormat = "PPP",
-  showInput = false,
-}: DatePickerFieldProps) {
+export function DatePickerField({ field, isRequired }: DatePickerFieldProps) {
   const { setValue, watch, formState } = useFormContext()
-  const value = watch(name)
-  const error = formState.errors[name]
+  const value = watch(field.name)
+  const error = formState.errors[field.name]
+
+  const {
+    placeholder = "Pick a date",
+    disabled,
+    className,
+    fromDate,
+    toDate,
+    excludeDates,
+    minDate,
+    maxDate,
+    dateFormat = "PPP",
+    showInput = false,
+  } = field
 
   const handleSelect = (date: Date | undefined) => {
-    setValue(name, date, { shouldValidate: true })
+    setValue(field.name, date, { shouldValidate: true })
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const date = new Date(event.target.value)
     if (!Number.isNaN(date.getTime())) {
-      setValue(name, date, { shouldValidate: true })
+      setValue(field.name, date, { shouldValidate: true })
     }
   }
 
   return (
     <div className={className}>
-      <FieldLabel label={label} isRequired={required} htmlFor={name} />
+      <FieldLabel label={field.label} isRequired={isRequired} />
 
       {showInput && (
         <div className="mb-2">
           <Input
-            id={`${name}-input`}
             type="date"
             value={value ? format(value, "yyyy-MM-dd") : ""}
             onChange={handleInputChange}
+            disabled={disabled}
             className={error ? "border-destructive" : ""}
           />
         </div>
@@ -67,8 +66,9 @@ export function DatePickerField({
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id={name}
+            id={field.name}
             variant="outline"
+            disabled={disabled}
             className={cn(
               "w-full justify-start text-left font-normal",
               !value && "text-muted-foreground",
@@ -76,7 +76,9 @@ export function DatePickerField({
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {value ? format(value, dateFormat) : placeholder}
+            {value
+              ? format(value, dateFormat)
+              : field.placeholder || placeholder}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
@@ -86,7 +88,17 @@ export function DatePickerField({
             onSelect={handleSelect}
             startMonth={fromDate}
             endMonth={toDate}
-            disabled={disabled}
+            disabled={(date) => {
+              if (
+                excludeDates?.some(
+                  (excludeDate) => date.getTime() === excludeDate.getTime(),
+                )
+              )
+                return true
+              if (minDate && date < minDate) return true
+              if (maxDate && date > maxDate) return true
+              return false
+            }}
             initialFocus
           />
         </PopoverContent>
