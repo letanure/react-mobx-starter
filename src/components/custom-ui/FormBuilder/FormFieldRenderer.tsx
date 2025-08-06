@@ -1,16 +1,6 @@
+import { memo } from "react"
 import { useFormContext } from "react-hook-form"
-import {
-  CalendarField,
-  CheckboxField,
-  DatePickerField,
-  DateRangePickerField,
-  FieldArray,
-  InputField,
-  NativeDateField,
-  RadioField,
-  SelectField,
-  TextareaField,
-} from "./fields"
+import { getFieldComponent } from "./mappers/FieldTypeMapper"
 import type { FormFieldConfig } from "./types"
 
 interface FormFieldRendererProps {
@@ -18,97 +8,44 @@ interface FormFieldRendererProps {
   isRequired?: boolean
 }
 
-export function FormFieldRenderer({
-  field,
-  isRequired = false,
-}: FormFieldRendererProps) {
-  const { control } = useFormContext()
+export const FormFieldRenderer = memo(
+  ({ field, isRequired = false }: FormFieldRendererProps) => {
+    const { control } = useFormContext()
+    const FieldComponent = getFieldComponent(field.type)
 
-  if (field.type === "field-array") {
-    return <FieldArray field={field} isRequired={isRequired} />
-  }
+    // Pass control to components that need it
+    const needsControl = [
+      "checkbox",
+      "radio",
+      "select",
+      "textarea",
+      "text",
+      "email",
+      "password",
+      "number",
+      "tel",
+      "url",
+      "search",
+    ].includes(field.type)
 
-  if (field.type === "checkbox") {
+    if (needsControl) {
+      return (
+        <FieldComponent
+          field={field as any}
+          control={control}
+          isRequired={isRequired}
+        />
+      )
+    }
+
+    return <FieldComponent field={field as any} isRequired={isRequired} />
+  },
+  (prevProps, nextProps) => {
     return (
-      <CheckboxField field={field} control={control} isRequired={isRequired} />
+      prevProps.field === nextProps.field &&
+      prevProps.isRequired === nextProps.isRequired
     )
-  }
+  },
+)
 
-  if (field.type === "radio") {
-    return (
-      <RadioField field={field} control={control} isRequired={isRequired} />
-    )
-  }
-
-  if (field.type === "select") {
-    return (
-      <SelectField field={field} control={control} isRequired={isRequired} />
-    )
-  }
-
-  if (field.type === "textarea") {
-    return (
-      <TextareaField field={field} control={control} isRequired={isRequired} />
-    )
-  }
-
-  if (field.type === "calendar") {
-    return (
-      <CalendarField
-        name={field.name}
-        label={field.label}
-        mode={field.mode}
-        required={isRequired}
-        fromDate={field.fromDate}
-        toDate={field.toDate}
-        disabled={field.disabled}
-        placeholder={field.placeholder}
-      />
-    )
-  }
-
-  if (field.type === "date-picker") {
-    return <DatePickerField field={field} isRequired={isRequired} />
-  }
-
-  if (field.type === "date-range-picker") {
-    return (
-      <DateRangePickerField
-        name={field.name}
-        label={field.label}
-        required={isRequired}
-        fromDate={field.fromDate}
-        toDate={field.toDate}
-        disabled={field.disabled}
-        dateFormat={field.dateFormat}
-        numberOfMonths={field.numberOfMonths}
-        placeholder={field.placeholder}
-      />
-    )
-  }
-
-  // Handle native date input types
-  if (
-    ["date", "datetime-local", "time", "month", "week"].includes(field.type)
-  ) {
-    return (
-      <NativeDateField
-        name={field.name}
-        label={field.label}
-        type={
-          field.type as "date" | "datetime-local" | "time" | "month" | "week"
-        }
-        required={isRequired}
-        placeholder={field.placeholder}
-        disabled={field.disabled}
-        min={field.min}
-        max={field.max}
-        step={field.step}
-        autoComplete={field.autoComplete}
-      />
-    )
-  }
-
-  // Default to InputField for all other input types (text, email, number, etc.)
-  return <InputField field={field} control={control} isRequired={isRequired} />
-}
+FormFieldRenderer.displayName = "FormFieldRenderer"

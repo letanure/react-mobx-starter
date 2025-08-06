@@ -1,3 +1,4 @@
+import { memo, useMemo } from "react"
 import type { Control } from "react-hook-form"
 import {
   FormControl,
@@ -22,42 +23,50 @@ interface SelectFieldProps {
   isRequired?: boolean
 }
 
-export function SelectField({ field, control, isRequired }: SelectFieldProps) {
-  return (
-    <FormField
-      control={control}
-      name={field.name}
-      render={({ field: formField }) => (
-        <FormItem>
-          <FieldLabel label={field.label} isRequired={isRequired} />
-          <Select
-            onValueChange={formField.onChange}
-            value={formField.value || ""}
-            disabled={field.disabled}
+export const SelectField = memo(
+  ({ field, control, isRequired }: SelectFieldProps) => {
+    const optionElements = useMemo(
+      () =>
+        field.options.map((option) => (
+          <SelectItem
+            key={option.value}
+            value={option.value}
+            disabled={option.disabled}
           >
-            <FormControl>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={field.placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              {field.options.map((option) => (
-                <SelectItem
-                  key={option.value}
-                  value={option.value}
-                  disabled={option.disabled}
-                >
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {field.description && (
-            <FormDescription>{field.description}</FormDescription>
-          )}
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+            {option.label}
+          </SelectItem>
+        )),
+      [field.options],
+    )
+
+    return (
+      <FormField
+        control={control}
+        name={field.name}
+        render={({ field: formField }) => (
+          <FormItem>
+            <FieldLabel label={field.label} isRequired={isRequired} />
+            <Select
+              onValueChange={formField.onChange}
+              value={formField.value || ""}
+              disabled={field.disabled}
+            >
+              <FormControl>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={field.placeholder} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>{optionElements}</SelectContent>
+            </Select>
+            {field.description && (
+              <FormDescription>{field.description}</FormDescription>
+            )}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    )
+  },
+)
+
+SelectField.displayName = "SelectField"

@@ -1,3 +1,4 @@
+import { memo } from "react"
 import type { Control } from "react-hook-form"
 import {
   FormControl,
@@ -16,33 +17,37 @@ interface InputFieldProps {
   isRequired?: boolean
 }
 
-export function InputField({ field, control, isRequired }: InputFieldProps) {
-  return (
-    <FormField
-      control={control}
-      name={field.name}
-      render={({ field: formField }) => (
-        <FormItem>
-          <FieldLabel label={field.label} isRequired={isRequired} />
-          <FormControl>
-            <Input
-              {...formField}
-              type={field.type}
-              placeholder={field.placeholder}
-              disabled={field.disabled}
-              min={field.min}
-              max={field.max}
-              step={field.step}
-              pattern={field.pattern}
-              autoComplete={field.autoComplete}
-            />
-          </FormControl>
-          {field.description && (
-            <FormDescription>{field.description}</FormDescription>
-          )}
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+export const InputField = memo(
+  ({ field, control, isRequired }: InputFieldProps) => {
+    return (
+      <FormField
+        control={control}
+        name={field.name}
+        render={({ field: formField }) => (
+          <FormItem>
+            <FieldLabel label={field.label} isRequired={isRequired} />
+            <FormControl>
+              <Input
+                {...formField}
+                type={field.type}
+                placeholder={field.placeholder}
+                disabled={field.disabled}
+                min={field.min}
+                max={field.max}
+                step={field.step}
+                pattern={field.pattern}
+                autoComplete={field.autoComplete}
+              />
+            </FormControl>
+            {field.description && (
+              <FormDescription>{field.description}</FormDescription>
+            )}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    )
+  },
+)
+
+InputField.displayName = "InputField"

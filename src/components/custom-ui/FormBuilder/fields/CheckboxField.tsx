@@ -1,3 +1,4 @@
+import { memo } from "react"
 import type { Control } from "react-hook-form"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -16,33 +17,33 @@ interface CheckboxFieldProps {
   isRequired?: boolean
 }
 
-export function CheckboxField({
-  field,
-  control,
-  isRequired,
-}: CheckboxFieldProps) {
-  return (
-    <FormField
-      control={control}
-      name={field.name}
-      render={({ field: formField }) => (
-        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-          <FormControl>
-            <Checkbox
-              checked={formField.value}
-              onCheckedChange={formField.onChange}
-              disabled={field.disabled}
-            />
-          </FormControl>
-          <div className="space-y-1 leading-none">
-            <FieldLabel label={field.label} isRequired={isRequired} />
-            {field.description && (
-              <FormDescription>{field.description}</FormDescription>
-            )}
-          </div>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+export const CheckboxField = memo(
+  ({ field, control, isRequired }: CheckboxFieldProps) => {
+    return (
+      <FormField
+        control={control}
+        name={field.name}
+        render={({ field: formField }) => (
+          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+            <FormControl>
+              <Checkbox
+                checked={formField.value}
+                onCheckedChange={formField.onChange}
+                disabled={field.disabled}
+              />
+            </FormControl>
+            <div className="space-y-1 leading-none">
+              <FieldLabel label={field.label} isRequired={isRequired} />
+              {field.description && (
+                <FormDescription>{field.description}</FormDescription>
+              )}
+            </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    )
+  },
+)
+
+CheckboxField.displayName = "CheckboxField"

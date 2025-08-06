@@ -1,3 +1,4 @@
+import { memo, useMemo } from "react"
 import type { Control } from "react-hook-form"
 import {
   FormControl,
@@ -17,41 +18,50 @@ interface RadioFieldProps {
   isRequired?: boolean
 }
 
-export function RadioField({ field, control, isRequired }: RadioFieldProps) {
-  return (
-    <FormField
-      control={control}
-      name={field.name}
-      render={({ field: formField }) => (
-        <FormItem>
-          <FieldLabel label={field.label} isRequired={isRequired} />
-          <FormControl>
-            <RadioGroup
-              onValueChange={formField.onChange}
-              value={formField.value}
-              disabled={field.disabled}
-              className="flex flex-col space-y-1"
-            >
-              {field.options.map((option) => (
-                <div key={option.value} className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value={option.value}
-                    id={`${field.name}-${option.value}`}
-                    disabled={option.disabled}
-                  />
-                  <Label htmlFor={`${field.name}-${option.value}`}>
-                    {option.label}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-          </FormControl>
-          {field.description && (
-            <FormDescription>{field.description}</FormDescription>
-          )}
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+export const RadioField = memo(
+  ({ field, control, isRequired }: RadioFieldProps) => {
+    const radioOptions = useMemo(
+      () =>
+        field.options.map((option) => (
+          <div key={option.value} className="flex items-center space-x-2">
+            <RadioGroupItem
+              value={option.value}
+              id={`${field.name}-${option.value}`}
+              disabled={option.disabled}
+            />
+            <Label htmlFor={`${field.name}-${option.value}`}>
+              {option.label}
+            </Label>
+          </div>
+        )),
+      [field.options, field.name],
+    )
+    return (
+      <FormField
+        control={control}
+        name={field.name}
+        render={({ field: formField }) => (
+          <FormItem>
+            <FieldLabel label={field.label} isRequired={isRequired} />
+            <FormControl>
+              <RadioGroup
+                onValueChange={formField.onChange}
+                value={formField.value}
+                disabled={field.disabled}
+                className="flex flex-col space-y-1"
+              >
+                {radioOptions}
+              </RadioGroup>
+            </FormControl>
+            {field.description && (
+              <FormDescription>{field.description}</FormDescription>
+            )}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    )
+  },
+)
+
+RadioField.displayName = "RadioField"

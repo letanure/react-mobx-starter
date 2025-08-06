@@ -1,3 +1,4 @@
+import { memo } from "react"
 import type { Control } from "react-hook-form"
 import {
   FormControl,
@@ -16,34 +17,34 @@ interface TextareaFieldProps {
   isRequired?: boolean
 }
 
-export function TextareaField({
-  field,
-  control,
-  isRequired,
-}: TextareaFieldProps) {
-  return (
-    <FormField
-      control={control}
-      name={field.name}
-      render={({ field: formField }) => (
-        <FormItem>
-          <FieldLabel label={field.label} isRequired={isRequired} />
-          <FormControl>
-            <Textarea
-              {...formField}
-              placeholder={field.placeholder}
-              disabled={field.disabled}
-              rows={field.rows || 3}
-              maxLength={field.maxLength}
-              autoComplete={field.autoComplete}
-            />
-          </FormControl>
-          {field.description && (
-            <FormDescription>{field.description}</FormDescription>
-          )}
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+export const TextareaField = memo(
+  ({ field, control, isRequired }: TextareaFieldProps) => {
+    return (
+      <FormField
+        control={control}
+        name={field.name}
+        render={({ field: formField }) => (
+          <FormItem>
+            <FieldLabel label={field.label} isRequired={isRequired} />
+            <FormControl>
+              <Textarea
+                {...formField}
+                placeholder={field.placeholder}
+                disabled={field.disabled}
+                rows={field.rows || 3}
+                maxLength={field.maxLength}
+                autoComplete={field.autoComplete}
+              />
+            </FormControl>
+            {field.description && (
+              <FormDescription>{field.description}</FormDescription>
+            )}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    )
+  },
+)
+
+TextareaField.displayName = "TextareaField"
