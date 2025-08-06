@@ -28,10 +28,8 @@ export const TodoList = observer(() => {
   return (
     <Stack spacing="lg">
       <Stack spacing="xs">
-        <Text as="h1" size="4xl" weight="extrabold">
-          {t("todo.title")}
-        </Text>
-        <Text variant="muted" size="sm">
+        <Text tag="h1">{t("todo.title")}</Text>
+        <Text tag="small">
           {t("todo.description", { count: todoStore.totalCount })}
         </Text>
       </Stack>

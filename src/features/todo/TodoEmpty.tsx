@@ -5,7 +5,7 @@ export function TodoEmpty() {
   const { t } = useTranslation()
 
   return (
-    <Text variant="muted" size="sm" className="text-center py-8">
+    <Text tag="p" variant="muted" align="center">
       {t("todo.empty")}
     </Text>
   )
