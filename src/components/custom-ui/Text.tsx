@@ -106,7 +106,7 @@ const tagDefaults = {
 type TagType = keyof typeof tagDefaults | "div" | "label"
 
 export interface TextProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, "className">,
+  extends React.HTMLAttributes<HTMLElement>,
     Partial<VariantProps<typeof textVariants>> {
   tag: TagType
   asChild?: boolean
@@ -120,6 +120,7 @@ export function Text({
   align,
   leading,
   asChild = false,
+  className,
   ...props
 }: TextProps) {
   // Get defaults for the tag
@@ -143,13 +144,13 @@ export function Text({
 
   return (
     <Comp
-      className={textVariants({
+      className={`${textVariants({
         variant: finalVariant,
         size: finalSize,
         weight: finalWeight,
         align: finalAlign,
         leading: finalLeading,
-      })}
+      })} ${className || ""}`.trim()}
       {...props}
     />
   )

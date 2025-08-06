@@ -13,7 +13,7 @@ export function CalendarField({ field, isRequired }: CalendarFieldProps) {
   const value = watch(field.name)
   const error = formState.errors[field.name]
 
-  const handleSelect = (date: Date | Date[] | undefined) => {
+  const handleSelect = (date: any) => {
     setValue(field.name, date, { shouldValidate: true })
   }
 
@@ -21,15 +21,39 @@ export function CalendarField({ field, isRequired }: CalendarFieldProps) {
     <div>
       <FieldLabel label={field.label} isRequired={isRequired} />
       <div className="border rounded-md p-3">
-        <Calendar
-          mode={field.mode || "single"}
-          selected={value}
-          onSelect={handleSelect}
-          fromDate={field.fromDate}
-          toDate={field.toDate}
-          disabled={field.disabled || field.excludeDates}
-          className="w-fit"
-        />
+        {field.mode === "range" ? (
+          <Calendar
+            mode="range"
+            selected={value}
+            onSelect={handleSelect}
+            fromDate={field.fromDate}
+            toDate={field.toDate}
+            disabled={field.disabled || field.excludeDates}
+            className="w-fit"
+            required={true}
+          />
+        ) : field.mode === "multiple" ? (
+          <Calendar
+            mode="multiple"
+            selected={value}
+            onSelect={handleSelect}
+            fromDate={field.fromDate}
+            toDate={field.toDate}
+            disabled={field.disabled || field.excludeDates}
+            className="w-fit"
+            required={true}
+          />
+        ) : (
+          <Calendar
+            mode="single"
+            selected={value}
+            onSelect={handleSelect}
+            fromDate={field.fromDate}
+            toDate={field.toDate}
+            disabled={field.disabled || field.excludeDates}
+            className="w-fit"
+          />
+        )}
       </div>
       {error && (
         <p className="text-sm text-destructive mt-1">

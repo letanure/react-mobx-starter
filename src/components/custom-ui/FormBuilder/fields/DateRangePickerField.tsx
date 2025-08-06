@@ -18,6 +18,7 @@ interface DateRangePickerFieldProps {
   label: string
   placeholder?: string
   required?: boolean
+  className?: string
   fromDate?: Date
   toDate?: Date
   disabled?: Date[] | ((date: Date) => boolean)

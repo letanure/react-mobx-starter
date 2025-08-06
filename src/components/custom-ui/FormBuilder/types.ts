@@ -47,6 +47,7 @@ export interface BaseFieldConfig {
   disabled?: boolean
   description?: string
   layout?: LayoutWidth
+  className?: string
   autoComplete?:
     | "off"
     | "on"

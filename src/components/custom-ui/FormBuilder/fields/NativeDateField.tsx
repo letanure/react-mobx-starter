@@ -9,6 +9,8 @@ interface NativeDateFieldProps {
   required?: boolean
   disabled?: boolean
   type: "date" | "datetime-local" | "time" | "month" | "week"
+  className?: string
+  autoComplete?: string
   min?: string
   max?: string
   step?: string
