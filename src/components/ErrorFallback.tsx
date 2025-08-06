@@ -1,5 +1,11 @@
+import { AlertCircle } from "lucide-react"
 import type { FallbackProps } from "react-error-boundary"
+import { Flex } from "@/components/custom-ui/Flex"
+import { Stack } from "@/components/custom-ui/Stack"
+import { Text } from "@/components/custom-ui/Text"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 /**
  * Error Fallback Component
@@ -11,91 +17,65 @@ import { Button } from "@/components/ui/button"
  * - Uses react-error-boundary library
  * - Provides retry mechanism
  * - Shows user-friendly error message
- * - Self-contained with inline styles
+ * - Uses design system components
  */
-
-const fallbackStyles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "400px",
-    padding: "2rem",
-  } as React.CSSProperties,
-
-  content: {
-    textAlign: "center",
-    maxWidth: "500px",
-  } as React.CSSProperties,
-
-  title: {
-    color: "#dc2626",
-    fontSize: "1.5rem",
-    marginBottom: "1rem",
-  } as React.CSSProperties,
-
-  message: {
-    color: "#6b7280",
-    marginBottom: "1.5rem",
-    lineHeight: 1.6,
-  } as React.CSSProperties,
-
-  details: {
-    margin: "1rem 0",
-    textAlign: "left",
-  } as React.CSSProperties,
-
-  summary: {
-    cursor: "pointer",
-    padding: "0.5rem",
-    backgroundColor: "#f3f4f6",
-    borderRadius: "4px",
-    marginBottom: "0.5rem",
-  } as React.CSSProperties,
-
-  stack: {
-    backgroundColor: "#f9fafb",
-    border: "1px solid #e5e7eb",
-    borderRadius: "4px",
-    padding: "1rem",
-    fontSize: "0.875rem",
-    color: "#374151",
-    overflowX: "auto",
-    whiteSpace: "pre-wrap",
-    wordBreak: "break-word",
-  } as React.CSSProperties,
-
-  actions: {
-    marginTop: "1.5rem",
-  } as React.CSSProperties,
-}
 
 export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
-    <div style={fallbackStyles.container} role="alert">
-      <div style={fallbackStyles.content}>
-        <h2 style={fallbackStyles.title}>Something went wrong</h2>
-        <p style={fallbackStyles.message}>
-          We're sorry, but something unexpected happened. Please try again.
-        </p>
+    <Flex justify="center" align="center" className="min-h-96" role="alert">
+      <Stack spacing="md" className="max-w-lg w-full">
+        <Alert variant="destructive">
+          <AlertCircle />
+          <AlertTitle>Something went wrong</AlertTitle>
+          <AlertDescription>
+            <Stack spacing="sm" align="start">
+              <Text tag="p">
+                We're sorry, but something unexpected happened. Please try
+                again.
+              </Text>
+              <Button
+                onClick={resetErrorBoundary}
+                variant="destructive"
+                size="sm"
+              >
+                Try again
+              </Button>
+            </Stack>
+          </AlertDescription>
+        </Alert>
 
-        {/* Show error details in development */}
         {import.meta.env.DEV && (
-          <details style={fallbackStyles.details}>
-            <summary style={fallbackStyles.summary}>
-              Error details (development only)
-            </summary>
-            <pre style={fallbackStyles.stack}>{error.message}</pre>
-            {error.stack && (
-              <pre style={fallbackStyles.stack}>{error.stack}</pre>
-            )}
-          </details>
+          <Card className="border-muted">
+            <CardHeader>
+              <CardTitle className="text-sm">
+                Error details (development only)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Stack spacing="sm">
+                <div>
+                  <Text tag="p" weight="semibold" size="sm">
+                    Message:
+                  </Text>
+                  <Text tag="pre" variant="code" size="sm">
+                    {error.message}
+                  </Text>
+                </div>
+                {error.stack && (
+                  <div>
+                    <Text tag="p" weight="semibold" size="sm">
+                      Stack Trace:
+                    </Text>
+                    <Text tag="pre" variant="code" size="xs">
+                      {error.stack}
+                    </Text>
+                  </div>
+                )}
+              </Stack>
+            </CardContent>
+          </Card>
         )}
-
-        <div style={fallbackStyles.actions}>
-          <Button onClick={resetErrorBoundary}>Try again</Button>
-        </div>
-      </div>
-    </div>
+      </Stack>
+    </Flex>
   )
 }

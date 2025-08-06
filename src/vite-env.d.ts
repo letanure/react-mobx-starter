@@ -9,6 +9,8 @@ interface ImportMetaEnv {
   readonly VITE_ENABLE_PERFORMANCE_MONITORING: string
 }
 
-interface ImportMeta {
-  readonly env: ImportMetaEnv
+declare global {
+  interface ImportMeta {
+    readonly env: ImportMetaEnv
+  }
 }

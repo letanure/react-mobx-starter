@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react"
+import { Stack } from "@/components/custom-ui/Stack"
+import { Text } from "@/components/custom-ui/Text"
+import { Card, CardContent } from "@/components/ui/card"
 import { measurePerformance } from "@/lib/performance"
 
 interface PerformanceStats {
@@ -9,6 +12,7 @@ interface PerformanceStats {
 /**
  * Development-only component to display performance metrics
  * Only renders in development mode
+ * Uses design system components for consistent styling
  */
 export function PerformanceMonitor() {
   const [stats, setStats] = useState<PerformanceStats>({
@@ -17,9 +21,6 @@ export function PerformanceMonitor() {
   })
 
   useEffect(() => {
-    // Only show in development
-    if (import.meta.env.PROD) return
-
     const startTime = performance.now()
 
     // Measure mount time
@@ -32,31 +33,24 @@ export function PerformanceMonitor() {
     setStats((prev) => ({ ...prev, renderTime }))
   }, [])
 
-  // Don't render in production
-  if (import.meta.env.PROD) return null
-
   return (
-    <div
-      style={{
-        position: "fixed",
-        bottom: "10px",
-        right: "10px",
-        background: "rgba(0, 0, 0, 0.8)",
-        color: "white",
-        padding: "8px 12px",
-        borderRadius: "4px",
-        fontSize: "12px",
-        fontFamily: "monospace",
-        zIndex: 9999,
-        pointerEvents: "none",
-      }}
-    >
-      <div>🚀 Performance</div>
-      <div>Mount: {stats.mountTime}ms</div>
-      <div>Render: {stats.renderTime}ms</div>
-      <div style={{ fontSize: "10px", opacity: 0.7, marginTop: "2px" }}>
-        Dev only - F12 for Web Vitals
-      </div>
-    </div>
+    <Card className="fixed bottom-2 right-2 bg-black/80 text-white z-[9999] pointer-events-none font-mono">
+      <CardContent className="p-2">
+        <Stack spacing="none">
+          <Text tag="div" size="xs" weight="medium">
+            🚀 Performance
+          </Text>
+          <Text tag="div" size="xs">
+            Mount: {stats.mountTime}ms
+          </Text>
+          <Text tag="div" size="xs">
+            Render: {stats.renderTime}ms
+          </Text>
+          <Text tag="div" size="xs" variant="muted">
+            Dev only - F12 for Web Vitals
+          </Text>
+        </Stack>
+      </CardContent>
+    </Card>
   )
 }

@@ -100,6 +100,7 @@ const tagDefaults = {
   code: { size: "sm" as const, variant: "code" as const },
   strong: { weight: "bold" as const },
   em: { variant: "italic" as const },
+  pre: { size: "sm" as const },
 }
 
 type TagType = keyof typeof tagDefaults | "div" | "label"

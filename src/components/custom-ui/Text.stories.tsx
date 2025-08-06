@@ -24,6 +24,7 @@ const meta = {
         "code",
         "strong",
         "em",
+        "pre",
         "div",
         "label",
       ],
@@ -130,6 +131,16 @@ export const EmphasisText: Story = {
   args: {
     tag: "em",
     children: "This text is italic by default",
+  },
+}
+
+export const PreformattedText: Story = {
+  args: {
+    tag: "pre",
+    children: `function example() {
+  console.log("Hello, World!");
+  return true;
+}`,
   },
 }
 

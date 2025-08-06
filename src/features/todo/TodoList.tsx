@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/noUnreachable: false positive */
 import { observer } from "mobx-react-lite"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
