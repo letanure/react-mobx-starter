@@ -94,10 +94,3 @@ function findRouteByUrl(url: string): RouteConfig | null {
 
   return search(routeConfigs)
 }
-
-/**
- * Get flattened list of all navigation items (useful for routing, search, etc.)
- */
-export const getAllNavigationItems = (t: TFunction) => {
-  return getNavigationConfig(t).flatMap((section) => section.items)
-}
