@@ -21,6 +21,9 @@ jobs:
         with:
           install-deps: 'true'
       
+      - name: Build application
+        run: pnpm build
+      
       - name: Get Playwright version
         id: playwright-version
         run: echo "version=$(pnpm exec playwright --version | grep -oP 'Version \K[0-9]+\.[0-9]+\.[0-9]+')" >> $GITHUB_OUTPUT
