@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/letanure/react-mobx-starter/compare/v1.5.0...v1.6.0) (2025-08-07)
+
+
+### Bug Fixes
+
+* correct Playwright report path in CI workflow ([d566860](https://github.com/letanure/react-mobx-starter/commit/d56686023ec414b71d656c4765f839a18d89a2ed))
+
+
+### Features
+
+* complete GitHub Actions optimization phases 3-4 ([c17f2dc](https://github.com/letanure/react-mobx-starter/commit/c17f2dc49425ca2a4c715f43fe6414ea518ebd7c))
+
 # [1.5.0](https://github.com/letanure/react-mobx-starter/compare/v1.4.0...v1.5.0) (2025-08-07)
 
 
