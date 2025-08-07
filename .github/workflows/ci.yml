@@ -25,35 +25,14 @@ jobs:
           path: node_modules
           key: node_modules-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
-  quick-checks:
-    name: Quick Checks (Lint & Types)
+  pre-push-equivalent:
+    name: Pre-Push Validation (Git Hook Mirror)
     runs-on: ubuntu-latest
     needs: setup
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: pnpm type:check
-      - run: pnpm lint  
-      - run: pnpm format:check
-
-  unit-tests:
-    name: Unit Tests
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
-      - run: pnpm test:unit
-
-  build-and-size:
-    name: Build & Size Check  
-    runs-on: ubuntu-latest
-    needs: [setup, quick-checks]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
-      - run: pnpm build
-      - run: pnpm size:check
+      - run: pnpm check:all && pnpm build && pnpm size:check
       - uses: actions/upload-artifact@v4
         with:
           name: build-files
@@ -63,7 +42,7 @@ jobs:
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
-    needs: [setup, build-and-size]
+    needs: [setup, pre-push-equivalent]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
@@ -97,7 +76,7 @@ jobs:
   coverage:
     name: Test Coverage
     runs-on: ubuntu-latest
-    needs: [setup, unit-tests]
+    needs: [setup, pre-push-equivalent]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
