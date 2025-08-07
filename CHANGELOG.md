@@ -1,3 +1,15 @@
+# [1.8.0](https://github.com/letanure/react-mobx-starter/compare/v1.7.1...v1.8.0) (2025-08-07)
+
+
+### Bug Fixes
+
+* add missing build step to snapshot update workflow ([d628d9a](https://github.com/letanure/react-mobx-starter/commit/d628d9afb3d28b0850e92b7d87f9606bb4b71b48))
+
+
+### Features
+
+* optimize Playwright setup with shared reusable action ([8abd7c1](https://github.com/letanure/react-mobx-starter/commit/8abd7c1ddecd00714ae25fe84ad61c35f18123ec))
+
 ## [1.7.1](https://github.com/letanure/react-mobx-starter/compare/v1.7.0...v1.7.1) (2025-08-07)
 
 
