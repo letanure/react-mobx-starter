@@ -2,7 +2,9 @@
 
 A modern React + TypeScript starter with batteries included. Pre-configured tooling, component library, and example implementations to help you start building immediately.
 
-## Preview
+## Live Preview
+
+🚀 **[View Live Demo](https://react-mobx-starter-eight.vercel.app/)** - Deployed on Vercel
 
 ![Todo App Demo](./docs/assets/todo-app-demo-desktop.gif)
 
