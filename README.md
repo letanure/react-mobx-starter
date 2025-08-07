@@ -99,7 +99,7 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 - Unit tests: Next to your code as `*.test.tsx`
 - E2E tests: In `tests/` folder
 - Test utilities: `src/test/utils.tsx`
-- **After UI changes:** Run `npm run test:e2e:update:demo` to refresh both snapshots and demo GIF
+- **After UI changes:** Run `npm run test:e2e:update:readme` to refresh both snapshots and README GIF
 
 ## Available Commands
 
@@ -114,11 +114,11 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 | `npm run test:e2e:ui` | Run E2E tests with Playwright UI |
 | `npm run test:e2e:update:local` | Update E2E snapshots locally |
 | `npm run test:e2e:update:ci` | Update E2E snapshots in CI environment |
-| `npm run test:e2e:update:demo` | Update snapshots AND regenerate demo GIF |
+| `npm run test:e2e:update:readme` | Update snapshots AND regenerate README GIF |
 | `npm run lint` | Run linter |
 | `npm run type:check` | Check TypeScript types |
 | `npm run storybook` | Start Storybook |
-| `npm run demo:gif` | Generate animated demo GIF from E2E snapshots |
+| `npm run docs:readme:gif` | Generate animated README GIF from E2E snapshots |
 
 ## Docker Development
 

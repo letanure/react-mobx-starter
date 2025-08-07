@@ -31,7 +31,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:update:local": "playwright test --update-snapshots",
     "test:e2e:update:ci": "docker run --rm -v $(pwd):/work -w /work -e CI=true mcr.microsoft.com/playwright:v1.54.2-jammy /bin/bash -c 'npm install -g pnpm && pnpm install && pnpm exec playwright test --update-snapshots'",
-    "test:e2e:update:demo": "npm run test:e2e:update:local && npm run demo:gif",
+    "test:e2e:update:readme": "npm run test:e2e:update:local && npm run docs:readme:gif",
     "lint:dead-code": "knip || true",
     "lint:dead-code:fix": "knip --fix",
     "size:check": "size-limit",
@@ -43,7 +43,7 @@
     "docker:build:dev": "docker build -f docker/Dockerfile.dev -t react-starter:dev .",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "demo:gif": "./scripts/generate-demo-gif.sh desktop",
+    "docs:readme:gif": "./scripts/generate-demo-gif.sh desktop",
     "release": "dotenv -- semantic-release",
     "release:dry-run": "dotenv -- semantic-release --dry-run",
     "release:local": "dotenv -- semantic-release --no-ci"
