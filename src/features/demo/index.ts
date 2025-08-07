@@ -5,9 +5,11 @@
 
 import type { FeatureRegistry } from "@/types/feature"
 import { Demo } from "./Demo"
+import { translations } from "./i18n"
 import { demoRoutes } from "./routes"
 
 export const demoFeature: FeatureRegistry<never, typeof Demo> = {
   component: Demo,
   routes: demoRoutes,
+  translations,
 }

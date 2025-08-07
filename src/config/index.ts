@@ -9,12 +9,10 @@
  * For static constants that never change, use constants/ instead
  */
 
-// Environment detection
 const isDevelopment = import.meta.env.DEV
 const isProduction = import.meta.env.PROD
 const isTest = import.meta.env.MODE === "test"
 
-// Type-safe configuration object
 export const config = {
   // Environment
   env: {
@@ -24,13 +22,12 @@ export const config = {
     nodeEnv: import.meta.env.MODE,
   },
 
-  // Feature flags (only what currently exists)
+  // Feature flags - control UI features and functionality
   features: {
-    enableDarkMode: true, // From existing features.ts
+    enableThemeSwitch: true, // Shows theme toggle (light/dark/system) in sidebar
+    enableLanguageSwitch: true, // Shows language selector in sidebar
   },
 } as const
 
 // Type exports for consumers
-export type Config = typeof config
-export type Environment = typeof config.env
 export type Features = typeof config.features

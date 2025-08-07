@@ -2,12 +2,12 @@
  * English locale translations aggregated from features
  */
 
-import { demoTranslations } from "@/features/demo/i18n/en"
-import { todoTranslations } from "@/features/todo/i18n/en"
+import { demoFeature } from "@/features/demo"
+import { todoFeature } from "@/features/todo"
 
 export const en = {
-  todo: todoTranslations,
-  demo: demoTranslations,
+  todo: todoFeature.translations?.en,
+  demo: demoFeature.translations?.en,
   theme: {
     toggle: "Toggle theme",
     light: "Light",

@@ -4,6 +4,7 @@
  */
 
 import type { FeatureRegistry } from "@/types/feature"
+import { translations } from "./i18n"
 import { todoRoutes } from "./routes"
 import { Store } from "./store"
 import { TodoList } from "./TodoList"
@@ -15,6 +16,7 @@ export const todoFeature: FeatureRegistry<
   component: TodoList,
   routes: todoRoutes,
   Store,
+  translations,
 }
 
 // Export types only if needed by external consumers

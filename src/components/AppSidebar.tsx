@@ -4,6 +4,7 @@ import { Command } from "lucide-react"
 import * as React from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
+import { LanguageSwitch } from "@/components/LanguageSwitch"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import {
   Sidebar,
@@ -18,10 +19,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { getNavigationConfig } from "@/config/navigation"
+import { useFeatureFlags } from "@/contexts/FeatureFlagsContext"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation()
   const { t } = useTranslation()
+  const { isFeatureEnabled } = useFeatureFlags()
 
   // Get navigation sections from central config
   const navigationSections = React.useMemo(() => getNavigationConfig(t), [t])
@@ -81,12 +84,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <div className="flex items-center justify-between p-2">
-              <span className="text-sm font-medium">{t("theme.toggle")}</span>
-              <ThemeToggle />
-            </div>
-          </SidebarMenuItem>
+          {isFeatureEnabled("enableThemeSwitch") && (
+            <SidebarMenuItem>
+              <div className="flex items-center justify-between p-2">
+                <span className="text-sm font-medium">{t("theme.toggle")}</span>
+                <ThemeToggle />
+              </div>
+            </SidebarMenuItem>
+          )}
+          {isFeatureEnabled("enableLanguageSwitch") && (
+            <SidebarMenuItem>
+              <div className="flex items-center justify-between p-2">
+                <span className="text-sm font-medium">Language</span>
+                <LanguageSwitch />
+              </div>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>

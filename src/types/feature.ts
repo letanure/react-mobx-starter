@@ -11,12 +11,11 @@ export interface FeatureRegistry<
   TStore = unknown,
   TComponent extends ComponentType = ComponentType,
 > {
-  // Main component (entry point)
   component: TComponent
 
-  // Route configuration
   routes: RouteConfig | RouteConfig[]
 
-  // Store class (optional)
   Store?: new () => TStore
+
+  translations?: Record<string, unknown>
 }

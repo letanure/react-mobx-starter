@@ -1,13 +1,16 @@
 import { makeAutoObservable } from "mobx"
-import { Store as TodoStore } from "@/features/todo/store"
+import { todoFeature } from "@/features/todo"
 import { makePersistent } from "@/lib/storePersistence"
 
 export class RootStore {
   // Public stores
-  todoStore: TodoStore
+  todoStore: InstanceType<NonNullable<typeof todoFeature.Store>>
 
   constructor() {
-    this.todoStore = new TodoStore()
+    if (!todoFeature.Store) {
+      throw new Error("Todo feature Store is required")
+    }
+    this.todoStore = new todoFeature.Store()
     makeAutoObservable(this)
     this.setupPersistence()
   }

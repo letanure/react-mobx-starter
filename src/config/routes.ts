@@ -30,10 +30,13 @@ export interface RouteConfig {
 }
 
 export const routeConfigs: RouteConfig[] = [
+  // Feature routes
   homeFeature.routes,
   todoFeature.routes,
   demoFeature.routes,
+
+  // Error routes
   errorRoutes,
-]
+].flat()
 
 export const processedRoutes = processRoutes(routeConfigs)

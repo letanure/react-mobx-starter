@@ -1,7 +1,7 @@
 /**
  * Demo feature English translations
  */
-export const demoTranslations = {
+export const translations = {
   navigation: {
     section: "Examples",
     errorDemo: "Error Demo",

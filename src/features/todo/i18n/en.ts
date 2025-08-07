@@ -4,7 +4,7 @@
  * Contains all translatable text for the todo feature.
  * These translations are imported by the global i18n configuration.
  */
-export const todoTranslations = {
+export const translations = {
   title: "Todo List",
   description: "You have {{count}} tasks in your list",
   placeholder: "What needs to be done?",
