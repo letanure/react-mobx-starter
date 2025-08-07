@@ -76,7 +76,7 @@ Create a new folder in `src/features/` following the registry pattern:
 - `store.ts` (if state is needed)
 - `routes.ts` for route configuration  
 - `index.ts` for feature registry
-- See `docs/FEATURE_REGISTRY_PATTERN.md` for details
+- See [Architecture Guide](docs/ARCHITECTURE.md) for details
 
 ### Need a UI Component?
 - Check `src/components/ui/` for shadcn components
@@ -127,7 +127,14 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 | `docker-compose up -d` | Start development environment |
 | `docker-compose down` | Stop containers |
 | `docker-compose build` | Rebuild containers |
-| See [Docker documentation](./docs/docker.md) | Complete Docker setup guide |
+## Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [Contributing Guide](CONTRIBUTING.md) | Development setup, workflows, code quality standards |
+| [Architecture Guide](docs/ARCHITECTURE.md) | System design, patterns, project structure |
+| [Testing Guide](docs/TESTING.md) | Unit, E2E, visual regression testing strategies |
+| [Deployment Guide](docs/DEPLOYMENT.md) | CI/CD, Docker, production deployment |
 
 ## Development Workflow
 
