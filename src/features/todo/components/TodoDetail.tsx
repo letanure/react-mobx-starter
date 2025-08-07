@@ -32,7 +32,7 @@ export const TodoDetail = observer(() => {
           </Button>
         </Link>
         <Text tag="h1">{t("todo.detail.notFound")}</Text>
-        <Text>{t("todo.detail.notFoundDescription")}</Text>
+        <Text tag="p">{t("todo.detail.notFoundDescription")}</Text>
       </Stack>
     )
   }

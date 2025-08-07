@@ -13,7 +13,7 @@ export function CalendarField({ field, isRequired }: CalendarFieldProps) {
   const value = watch(field.name)
   const error = formState.errors[field.name]
 
-  const handleSelect = (date: Date | undefined) => {
+  const handleSelect = (date: any) => {
     setValue(field.name, date, { shouldValidate: true })
   }
 

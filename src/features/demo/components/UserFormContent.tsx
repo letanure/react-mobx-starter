@@ -7,7 +7,7 @@ const userFormSchema = z.object({
 })
 
 interface UserFormContentProps {
-  onSubmit: (data: { username: string; email: string }) => void
+  onSubmit: (data: { [x: string]: any }) => void
   onCancel: () => void
 }
 
