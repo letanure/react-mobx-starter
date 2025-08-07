@@ -6,6 +6,6 @@ import App from "./App"
 describe("App", () => {
   it("renders without crashing", () => {
     renderWithProviders(<App />)
-    expect(screen.getByText("Todo App")).toBeInTheDocument()
+    expect(screen.getByText("Project Starter")).toBeInTheDocument()
   })
 })

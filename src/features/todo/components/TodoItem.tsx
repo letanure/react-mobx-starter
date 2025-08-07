@@ -1,5 +1,6 @@
-import { Trash2 } from "lucide-react"
+import { Eye, Trash2 } from "lucide-react"
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 import { Flex } from "@/components/custom-ui/Flex"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -40,6 +41,12 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
       <Badge variant="secondary" className="text-xs">
         {getRelativeTime(todo.createdAt, t)}
       </Badge>
+      <Link to={`/todo/task/${todo.id}`}>
+        <Button variant="ghost" size="icon" className="h-8 w-8">
+          <Eye className="h-4 w-4" />
+          <span className="sr-only">{t("todo.detail.viewDetails")}</span>
+        </Button>
+      </Link>
       <Button
         variant="ghost"
         size="icon"

@@ -6,6 +6,10 @@ import { todoFeature } from "@/features/todo"
 
 export const pt = {
   todo: todoFeature.translations?.pt,
+  app: {
+    name: "Projeto Inicial",
+    subtitle: "React + MobX + TypeScript",
+  },
   theme: {
     toggle: "Alternar tema",
     light: "Claro",

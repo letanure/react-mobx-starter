@@ -40,8 +40,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Command className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Todo App</span>
-                  <span className="text-xs">Starter Kit</span>
+                  <span className="font-medium">{t("app.name")}</span>
+                  <span className="text-xs">{t("app.subtitle")}</span>
                 </div>
               </Link>
             </SidebarMenuButton>

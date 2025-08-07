@@ -27,4 +27,13 @@ export const translations = {
     active: "active",
     completed: "completed",
   },
+  detail: {
+    title: "Task Details",
+    notFound: "Task not found",
+    notFoundDescription: "The requested task could not be found.",
+    created: "Created",
+    markAsActive: "Mark as Active",
+    markAsComplete: "Mark as Complete",
+    viewDetails: "View details",
+  },
 }

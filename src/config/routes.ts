@@ -29,14 +29,21 @@ export interface RouteConfig {
   children?: RouteConfig[]
 }
 
+// Helper to normalize routes from features (handles RouteConfig | RouteConfig[])
+const normalizeRoutes = (
+  routes: RouteConfig | RouteConfig[],
+): RouteConfig[] => {
+  return Array.isArray(routes) ? routes : [routes]
+}
+
 export const routeConfigs: RouteConfig[] = [
   // Feature routes
-  homeFeature.routes,
-  todoFeature.routes,
-  demoFeature.routes,
+  ...normalizeRoutes(homeFeature.routes),
+  ...normalizeRoutes(todoFeature.routes),
+  ...normalizeRoutes(demoFeature.routes),
 
   // Error routes
-  errorRoutes,
-].flat()
+  ...normalizeRoutes(errorRoutes),
+]
 
 export const processedRoutes = processRoutes(routeConfigs)

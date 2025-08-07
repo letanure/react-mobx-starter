@@ -24,4 +24,13 @@ export const translations = {
     active: "ativa",
     completed: "concluída",
   },
+  detail: {
+    title: "Detalhes da Tarefa",
+    notFound: "Tarefa não encontrada",
+    notFoundDescription: "A tarefa solicitada não foi encontrada.",
+    created: "Criada",
+    markAsActive: "Marcar como Ativa",
+    markAsComplete: "Marcar como Concluída",
+    viewDetails: "Ver detalhes",
+  },
 }
