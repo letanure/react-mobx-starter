@@ -33,29 +33,7 @@
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/hooks/*": ["./src/hooks/*"],
-      "@/utils/*": ["./src/utils/*"],
-      "@/types/*": ["./src/types/*"],
-      "@/lib/*": ["./src/lib/*"],
-      "@/stores/*": ["./src/stores/*"],
-      "@/providers/*": ["./src/providers/*"],
-      "@/features/*": ["./src/features/*"],
-      "@/assets/*": ["./src/assets/*"],
-      "@/constants/*": ["./src/constants/*"],
-      "@/contexts/*": ["./src/contexts/*"],
-      "@/styles/*": ["./src/styles/*"],
-      "@/services/*": ["./src/services/*"],
-      "@/config/*": ["./src/config/*"],
-      "@/i18n/*": ["./src/i18n/*"],
-      "@/i18n": ["./src/i18n"],
-      "@/utils": ["./src/utils"],
-      "@/components": ["./src/components"],
-      "@/stores": ["./src/stores"],
-      "@/features": ["./src/features"],
-      "@/config": ["./src/config"],
-      "@/types": ["./src/types"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src", "src/vite-env.d.ts"]
