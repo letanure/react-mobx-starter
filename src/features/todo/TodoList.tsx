@@ -10,10 +10,10 @@ import {
 import { Stack } from "@/components/custom-ui/Stack"
 import { Text } from "@/components/custom-ui/Text"
 import { useStore } from "@/hooks/useStores"
-import { TodoEmpty } from "./TodoEmpty"
-import { TodoForm } from "./TodoForm"
-import { TodoItem } from "./TodoItem"
-import { TodoStats } from "./TodoStats"
+import { TodoEmpty } from "./components/TodoEmpty"
+import { TodoForm } from "./components/TodoForm"
+import { TodoItem } from "./components/TodoItem"
+import { TodoStats } from "./components/TodoStats"
 
 export const TodoList = observer(() => {
   const { todoStore } = useStore()

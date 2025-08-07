@@ -3,9 +3,9 @@
  */
 
 import type { LayoutType } from "@/components/layout"
-import { demoRoutes } from "@/features/demo/routes"
-import { homeRoutes } from "@/features/home/routes"
-import { todoRoutes } from "@/features/todo/routes"
+import { demoFeature } from "@/features/demo"
+import { homeFeature } from "@/features/home"
+import { todoFeature } from "@/features/todo"
 import { processRoutes } from "@/lib/routeProcessor"
 import { errorRoutes } from "@/pages/routes"
 
@@ -30,9 +30,9 @@ export interface RouteConfig {
 }
 
 export const routeConfigs: RouteConfig[] = [
-  homeRoutes,
-  todoRoutes,
-  demoRoutes,
+  homeFeature.routes,
+  todoFeature.routes,
+  demoFeature.routes,
   errorRoutes,
 ]
 

@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { TodoStore } from "@/features/todo/TodoStore"
+import { Store as TodoStore } from "@/features/todo/store"
 import { makePersistent } from "@/lib/storePersistence"
 
 export class RootStore {

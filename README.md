@@ -30,9 +30,11 @@ This starter includes everything you need for a modern React application:
 src/
 ├── features/           # Feature modules - your main code goes here
 │   └── todo/          # Example: Todo app with MobX store
-│       ├── TodoStore.ts    # MobX store
+│       ├── components/     # Feature sub-components
+│       ├── store.ts        # MobX store (exports Store class)
 │       ├── routes.ts       # Route configuration
-│       └── i18n/           # Translations
+│       ├── i18n/          # Translations
+│       └── index.ts       # Feature registry (public API)
 │
 ├── components/         # Reusable UI components
 │   ├── ui/            # shadcn/ui components (Button, Card, etc.)
@@ -58,11 +60,13 @@ tests/                 # E2E tests
 ## Where to Find Things
 
 ### Starting a New Feature?
-Create a new folder in `src/features/` with:
-- Your components
-- Local state/store
-- Route configuration (`routes.ts`)
-- Keep it self-contained
+Create a new folder in `src/features/` following the registry pattern:
+- Main component (entry point)
+- `components/` folder for sub-components
+- `store.ts` (if state is needed)
+- `routes.ts` for route configuration  
+- `index.ts` for feature registry
+- See `docs/FEATURE_REGISTRY_PATTERN.md` for details
 
 ### Need a UI Component?
 - Check `src/components/ui/` for shadcn components

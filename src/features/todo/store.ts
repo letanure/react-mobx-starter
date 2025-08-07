@@ -3,7 +3,7 @@ import type { Todo } from "@/features/todo/types"
 
 export type { Todo }
 
-export class TodoStore {
+export class Store {
   // Properties
   todos: Todo[] = []
 
