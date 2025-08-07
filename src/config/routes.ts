@@ -15,6 +15,7 @@ export interface RouteConfig {
   layout?: LayoutType
   meta?: {
     title?: string
+    disablePageTransitions?: boolean
     nav?: {
       title?: string
       icon?: React.ComponentType<{ className?: string }>

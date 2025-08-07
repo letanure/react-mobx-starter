@@ -26,6 +26,7 @@ export const todoRoutes: RouteConfig = {
       path: "",
       component: TodoList,
       meta: {
+        disablePageTransitions: true,
         nav: {
           icon: List,
           translationKey: "todo.navigation.all", // Breadcrumb: "All"
@@ -38,6 +39,7 @@ export const todoRoutes: RouteConfig = {
       path: "active",
       component: TodoList,
       meta: {
+        disablePageTransitions: true,
         nav: {
           icon: Circle,
           translationKey: "todo.navigation.active", // Breadcrumb: "Active"

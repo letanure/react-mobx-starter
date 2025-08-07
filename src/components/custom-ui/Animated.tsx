@@ -265,7 +265,14 @@ export function Animated({
 }
 
 // Re-export commonly needed motion features with consistent naming
-export { AnimatePresence as AnimatedGroup }
+interface AnimatedGroupProps {
+  children: React.ReactNode
+  mode?: "sync" | "wait" | "popLayout"
+}
+
+export function AnimatedGroup({ children, mode = "wait" }: AnimatedGroupProps) {
+  return <AnimatePresence mode={mode}>{children}</AnimatePresence>
+}
 export { useInView as useAnimateOnScroll }
 export { MotionConfig as AnimatedProvider }
 export { useCycle as useAnimateStates }
