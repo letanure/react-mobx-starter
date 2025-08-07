@@ -8,10 +8,14 @@ on:
         required: false
         default: 'UI changes detected'
 
+# Temporarily disabled due to build artifact issues
+# TODO: Fix dist directory not being available in CI environment
+
 jobs:
   update-snapshots:
-    name: Update CI Snapshots
+    name: Update CI Snapshots  
     runs-on: ubuntu-latest
+    if: false  # Temporarily disabled - build artifact issue
     steps:
       - uses: actions/checkout@v4
         with:
