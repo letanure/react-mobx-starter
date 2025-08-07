@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
 import { getRelativeTime } from "@/utils"
-import type { Todo } from "./store"
+import type { Todo } from "../store"
 
 interface TodoItemProps {
   todo: Todo
