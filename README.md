@@ -2,7 +2,7 @@
 
 A modern React + TypeScript starter with batteries included. Pre-configured tooling, component library, and example implementations to help you start building immediately.
 
-## 🚀 Live Preview
+## Live Preview
 
 **[View Live Demo](https://react-mobx-starter-eight.vercel.app/)** - Deployed on Vercel
 
@@ -10,7 +10,7 @@ A modern React + TypeScript starter with batteries included. Pre-configured tool
 
 *Interactive demo showing the complete user flow: adding todos, marking as complete, and viewing statistics.*
 
-## ⚡ Quick Start
+## Quick Start
 
 ```bash
 pnpm install
@@ -19,19 +19,19 @@ pnpm dev
 
 Open [http://localhost:5173](http://localhost:5173) - you're ready to code.
 
-## 🛠️ What's Included
+## What's Included
 
-- **⚡ Vite** - Lightning-fast builds and HMR
-- **🎨 Tailwind CSS + shadcn/ui** - Modern styling and components
-- **🔄 MobX** - Reactive state management
-- **📝 TypeScript** - Type safety with strict mode
-- **🧪 Testing** - Vitest + Playwright + Visual regression
-- **📚 Storybook** - Component development and documentation
-- **🔍 Code Quality** - Biome linting, pre-commit hooks
-- **🚀 CI/CD** - GitHub Actions pipeline
-- **🐳 Docker** - Development and production containers
+- **Vite** - Lightning-fast builds and HMR
+- **Tailwind CSS + shadcn/ui** - Modern styling and components
+- **MobX** - Reactive state management
+- **TypeScript** - Type safety with strict mode
+- **Testing** - Vitest + Playwright + Visual regression
+- **Storybook** - Component development and documentation
+- **Code Quality** - Biome linting, pre-commit hooks
+- **CI/CD** - GitHub Actions pipeline
+- **Docker** - Development and production containers
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -47,7 +47,7 @@ src/
 └── services/         # API clients
 ```
 
-## 🎯 Key Features
+## Key Features
 
 ### Feature-Based Architecture
 Each feature is self-contained with its own components, state, and routes:
@@ -83,7 +83,7 @@ Powerful form generation with validation:
 - Field arrays and nested forms
 - See examples in Storybook
 
-## 🚀 Commands
+## Commands
 
 | Command | Description |
 |---------|-------------|
@@ -97,14 +97,14 @@ Powerful form generation with validation:
 
 [View all commands →](CONTRIBUTING.md#scripts-reference)
 
-## 🐳 Docker
+## Docker
 
 ```bash
 pnpm docker:dev       # Development with hot reload
 pnpm docker:prod      # Production build
 ```
 
-## 📚 Documentation
+## Documentation
 
 | Guide | Description |
 |-------|-------------|
@@ -113,7 +113,7 @@ pnpm docker:prod      # Production build
 | [**Testing**](docs/TESTING.md) | Unit, E2E, visual regression strategies |
 | [**Deployment**](docs/DEPLOYMENT.md) | CI/CD, Docker, production deployment |
 
-## 🔧 Getting Started
+## Getting Started
 
 ### 1. Create a New Feature
 ```bash
@@ -139,7 +139,7 @@ ls src/components/ui/
 - **API Demo** - External API integration
 - **Form Builder** - Dynamic form generation
 
-## ✨ What Makes This Different
+## What Makes This Different
 
 - **Zero Configuration** - Works out of the box
 - **Production Ready** - CI/CD, testing, Docker included
@@ -149,6 +149,6 @@ ls src/components/ui/
 
 ---
 
-**Happy coding!** 🎉
+**Happy coding!**
 
 Questions? Check the [Contributing Guide](CONTRIBUTING.md) or open an issue.
