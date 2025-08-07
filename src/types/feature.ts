@@ -6,16 +6,17 @@
 
 import type { ComponentType } from "react"
 import type { RouteConfig } from "@/config/routes"
+import type { StoreConstructor } from "./shared"
 
 export interface FeatureRegistry<
-  TStore = unknown,
+  TStores = never,
   TComponent extends ComponentType = ComponentType,
 > {
   component: TComponent
 
   routes: RouteConfig | RouteConfig[]
 
-  Store?: new () => TStore
+  stores?: StoreConstructor<TStores>[]
 
   translations?: Record<string, unknown>
 }

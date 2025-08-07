@@ -5,13 +5,14 @@ export interface PersistenceConfig {
   enabled?: boolean
   key?: string
   debounceMs?: number
+  schema?: unknown // ZodSchema - using unknown to avoid Zod dependency
 }
 
 export function makePersistent<T extends object>(
   store: T,
   config: PersistenceConfig = {},
 ): T {
-  const { enabled = true, key, debounceMs = 300 } = config
+  const { enabled = true, key, debounceMs = 300, schema } = config
 
   if (!enabled || !storage.isSupported()) {
     return store
@@ -33,9 +34,22 @@ export function makePersistent<T extends object>(
   }
 
   const loadFromStorage = action(() => {
-    const data = storage.getItem<Partial<T>>(storageKey)
-    if (data) {
-      Object.assign(store, data)
+    const rawData = storage.getItem<Partial<T>>(storageKey)
+    if (rawData) {
+      if (schema && typeof schema === "object" && "parse" in schema) {
+        // Validate with Zod schema if provided
+        try {
+          const validatedData = (schema as any).parse(rawData)
+          Object.assign(store, validatedData)
+        } catch (error) {
+          console.warn(`Hydration validation failed for ${storageKey}:`, error)
+          // Could either: ignore corrupted data, use defaults, or throw
+          // For now, ignore corrupted data and use store defaults
+        }
+      } else {
+        // No schema provided, trust the data (backward compatibility)
+        Object.assign(store, rawData)
+      }
     }
   })
 
