@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/letanure/react-mobx-starter/compare/v1.6.0...v1.7.0) (2025-08-07)
+
+
+### Features
+
+* add manual E2E snapshot update workflow ([785e2b3](https://github.com/letanure/react-mobx-starter/commit/785e2b3e7d0167a230a8c9dec4f7ed4e9a100cc5))
+
 # [1.6.0](https://github.com/letanure/react-mobx-starter/compare/v1.5.0...v1.6.0) (2025-08-07)
 
 
