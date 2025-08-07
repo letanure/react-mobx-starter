@@ -88,7 +88,7 @@ export function ToastContainer({
     <div
       className={`fixed ${positionStyles[position]} z-50 space-y-2 max-w-sm w-full`}
     >
-      <AnimatedGroup>
+      <AnimatedGroup mode="sync">
         {toasts.map((toast) => (
           <ToastItem key={toast.id} {...toast} onClose={onClose} />
         ))}

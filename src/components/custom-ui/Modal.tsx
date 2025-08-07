@@ -51,23 +51,28 @@ export function Modal({
   }, [isOpen, closable, onClose])
 
   const modalContent = (
-    <AnimatedGroup mode="wait">
-      {isOpen && (
-        <>
-          {overlay && (
-            <Animated
-              effect="fade"
-              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
-              onClick={closable ? onClose : undefined}
-            >
-              <div />
-            </Animated>
-          )}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <>
+      {/* Overlay with its own animation */}
+      <AnimatedGroup>
+        {isOpen && overlay && (
+          <Animated
+            effect="fade"
+            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+            onClick={closable ? onClose : undefined}
+          >
+            <div />
+          </Animated>
+        )}
+      </AnimatedGroup>
+
+      {/* Modal content with its own animation */}
+      <AnimatedGroup mode="wait">
+        {isOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <Animated
               effect="scale"
               transformOrigin="center"
-              className={`relative bg-background border rounded-lg shadow-lg w-full ${sizeClasses[size]}`}
+              className={`relative bg-background border rounded-lg shadow-lg w-full pointer-events-auto ${sizeClasses[size]}`}
               onClick={(e) => e.stopPropagation()}
             >
               {(displayTitle || closable) && (
@@ -90,9 +95,9 @@ export function Modal({
               <div className="p-6 pt-2">{children}</div>
             </Animated>
           </div>
-        </>
-      )}
-    </AnimatedGroup>
+        )}
+      </AnimatedGroup>
+    </>
   )
 
   return createPortal(modalContent, document.body)
