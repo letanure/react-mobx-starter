@@ -38,6 +38,7 @@ export function UserFormContent({ onSubmit, onCancel }: UserFormContentProps) {
         schema={userFormSchema}
         onSubmit={onSubmit}
         submitLabel="Create User"
+        resetLabel="Reset"
       />
       <Button variant="outline" onClick={onCancel} className="w-full">
         Cancel
