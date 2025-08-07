@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { FormBuilderMessage } from "../FormBuilderMessage"
 import type { SelectFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
 

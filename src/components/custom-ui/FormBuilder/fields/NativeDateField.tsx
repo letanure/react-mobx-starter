@@ -36,8 +36,8 @@ export function NativeDateField({
 
   const errorMessage = error?.message
     ? translateMessage
-      ? translateMessage(error.message as string)
-      : error.message
+      ? translateMessage(String(error.message))
+      : String(error.message)
     : null
 
   return (

@@ -190,7 +190,7 @@ export const FourFieldsGrid: Story = {
     schema: z.object({
       firstName: z.string().min(1, "First name is required"),
       lastName: z.string().min(1, "Last name is required"),
-      email: z.string().email("Invalid email address"),
+      email: z.string().email({ message: "Invalid email address" }),
       age: z.number().min(0).max(120).optional(),
     }),
     onSubmit: (data) => {
@@ -254,7 +254,7 @@ export const WithCheckbox: Story = {
       },
     ],
     schema: z.object({
-      email: z.string().email("Invalid email address"),
+      email: z.string().email({ message: "Invalid email address" }),
       newsletter: z.boolean().optional(),
     }),
     onSubmit: (data) => {
@@ -327,5 +327,97 @@ export const WithRadio: Story = {
       showFormData(data)
     },
     submitLabel: "Submit",
+  },
+}
+
+// Translation examples demonstrating i18n integration
+export const WithTranslation: Story = {
+  args: {
+    fields: [
+      {
+        name: "username",
+        type: "text",
+        label: "Username",
+        placeholder: "Enter username",
+        layout: "full",
+        required: true,
+      },
+      {
+        name: "email",
+        type: "email",
+        label: "Email Address",
+        placeholder: "Enter email",
+        layout: "full",
+        required: true,
+      },
+      {
+        name: "password",
+        type: "password",
+        label: "Password",
+        placeholder: "Enter password",
+        layout: "full",
+        required: true,
+      },
+    ],
+    schema: z.object({
+      username: z.string().min(1, "validation.required"),
+      email: z.string().email({ message: "validation.invalidEmail" }),
+      password: z.string().min(8, "validation.passwordTooShort"),
+    }),
+    onSubmit: (data) => {
+      showFormData(data)
+    },
+    submitLabel: "Register",
+    resetLabel: "Clear",
+    showReset: true,
+    // Example translation function that would be provided by i18n
+    translateMessage: (key: string) => {
+      const translations: Record<string, string> = {
+        "validation.required": "This field is required",
+        "validation.invalidEmail": "Please enter a valid email address",
+        "validation.passwordTooShort":
+          "Password must be at least 8 characters long",
+      }
+      return translations[key] || key
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'This example shows how to use the `translateMessage` prop to provide localized validation messages. The schema uses i18n keys like "validation.required" which are then translated by the provided function.',
+      },
+    },
+  },
+}
+
+export const WithoutTranslation: Story = {
+  args: {
+    fields: [
+      {
+        name: "username",
+        type: "text",
+        label: "Username",
+        placeholder: "Enter username",
+        layout: "full",
+        required: true,
+      },
+    ],
+    schema: z.object({
+      username: z.string().min(1, "validation.required"),
+    }),
+    onSubmit: (data) => {
+      showFormData(data)
+    },
+    submitLabel: "Submit",
+    // No translateMessage prop - shows raw validation keys
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'This example shows what happens when no `translateMessage` function is provided. The raw validation keys from the schema (like "validation.required") are displayed directly to the user.',
+      },
+    },
   },
 }

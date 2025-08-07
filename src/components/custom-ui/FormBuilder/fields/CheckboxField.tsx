@@ -7,6 +7,7 @@ import {
   FormField,
   FormItem,
 } from "@/components/ui/form"
+import { FormBuilderMessage } from "../FormBuilderMessage"
 import type { CheckboxFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
 
