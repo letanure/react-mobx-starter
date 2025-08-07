@@ -6,7 +6,7 @@ export interface PersistenceConfig {
   key?: string
   debounceMs?: number
   schema?: unknown // ZodSchema - using unknown to avoid Zod dependency
-  // Test CI flow with comment update
+  // Updated for E2E snapshot fixes
 }
 
 export function makePersistent<T extends object>(
