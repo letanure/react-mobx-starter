@@ -42,6 +42,7 @@
     "docker:build:dev": "docker build -f docker/Dockerfile.dev -t react-starter:dev .",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
+    "demo:gif": "./scripts/generate-demo-gif.sh desktop",
     "release": "dotenv -- semantic-release",
     "release:dry-run": "dotenv -- semantic-release --dry-run",
     "release:local": "dotenv -- semantic-release --no-ci"

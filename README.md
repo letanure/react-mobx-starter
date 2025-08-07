@@ -4,9 +4,9 @@ A modern React + TypeScript starter with batteries included. Pre-configured tool
 
 ## Preview
 
-![Todo App Demo](./tests/e2e/.snapshots/todo-app.spec.ts-Todo-App---E2E-Demo-Tests-Visual-desktop-screenshots-desktop-04-with-statistics-chromium-darwin.png)
+![Todo App Demo](./docs/assets/todo-app-demo-desktop.gif)
 
-*Example todo application showcasing the complete feature set: form validation, state management, animations, and responsive design.*
+*Interactive demo showing the complete user flow: adding todos, marking as complete, and viewing statistics. Features form validation, state management, smooth animations, and responsive design.*
 
 ## Quick Start
 
@@ -116,6 +116,7 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 | `npm run lint` | Run linter |
 | `npm run type:check` | Check TypeScript types |
 | `npm run storybook` | Start Storybook |
+| `npm run demo:gif` | Generate animated demo GIF from E2E snapshots |
 
 ## Docker Development
 
