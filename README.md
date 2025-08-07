@@ -101,8 +101,12 @@ Check out the FormBuilder in `src/components/custom-ui/FormBuilder/`:
 | `npm run dev` | Start development server |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build |
-| `npm run test` | Run tests in watch mode |
-| `npm run test:ui` | Run tests with UI |
+| `npm run test` | Run unit tests in watch mode |
+| `npm run test:ui` | Run unit tests with UI |
+| `npm run test:e2e` | Run E2E tests with Playwright |
+| `npm run test:e2e:ui` | Run E2E tests with Playwright UI |
+| `npm run test:e2e:update:local` | Update E2E snapshots locally |
+| `npm run test:e2e:update:ci` | Update E2E snapshots in CI environment |
 | `npm run lint` | Run linter |
 | `npm run type:check` | Check TypeScript types |
 | `npm run storybook` | Start Storybook |

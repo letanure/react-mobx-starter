@@ -81,12 +81,37 @@ export const routeConfigs = [
 src/features/feature-name/
 ├── MainComponent.tsx     # Primary component (entry point)
 ├── components/           # Sub-components (internal)
+├── schemas.ts           # Zod validation schemas (source of truth)
 ├── store.ts             # Feature store (exports Store class)
 ├── routes.ts            # Route configuration
-├── types.ts             # TypeScript types
 ├── i18n/               # Translations (optional)
 └── index.ts            # Feature registry + exports
 ```
+
+## Schema-First Validation
+
+Features should use a **schema-first approach** for validation and type safety:
+
+```typescript
+// schemas.ts - Define validation schemas first
+import { z } from "zod"
+
+export const ItemSchema = z.object({
+  id: z.string().min(1, "validation.required"),
+  name: z.string().min(1, "validation.required"),
+  email: z.string().email("validation.invalidEmail"),
+})
+
+// Infer types from schemas (single source of truth)
+export type Item = z.infer<typeof ItemSchema>
+export type CreateItem = z.infer<typeof CreateItemSchema>
+```
+
+### Benefits of Schema-First:
+- **Single source of truth**: Types derived from validation schemas
+- **Runtime safety**: Validation at all data boundaries (forms, persistence, API)
+- **Consistency**: Same validation rules everywhere
+- **i18n support**: Use validation keys for localized error messages
 
 ## Example Implementation
 
