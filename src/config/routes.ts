@@ -15,8 +15,6 @@ export interface RouteConfig {
   layout?: LayoutType
   meta?: {
     title?: string
-    titleKey?: string
-    requiresAuth?: boolean
     nav?: {
       title?: string
       icon?: React.ComponentType<{ className?: string }>
@@ -24,7 +22,6 @@ export interface RouteConfig {
       section?: string
       hidden?: boolean
     }
-    [key: string]: unknown
   }
   children?: RouteConfig[]
 }

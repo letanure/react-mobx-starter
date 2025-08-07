@@ -24,10 +24,20 @@ export const config = {
 
   // Feature flags - control UI features and functionality
   features: {
-    enableThemeSwitch: true, // Shows theme toggle (light/dark/system) in sidebar
-    enableLanguageSwitch: true, // Shows language selector in sidebar
+    enableThemeSwitch: true,
+    enableLanguageSwitch: true,
+  },
+
+  // Toast notification configuration
+  toast: {
+    position: "bottom-right" as const,
+    duration: 4000,
+    maxToasts: 5,
+    closeOnClick: true,
+    pauseOnHover: true,
   },
 } as const
 
 // Type exports for consumers
 export type Features = typeof config.features
+export type ToastConfig = typeof config.toast

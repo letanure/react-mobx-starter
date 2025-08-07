@@ -2,10 +2,12 @@
  * Portuguese locale translations aggregated from features
  */
 
+import { demoFeature } from "@/features/demo"
 import { todoFeature } from "@/features/todo"
 
 export const pt = {
   todo: todoFeature.translations?.pt,
+  demo: demoFeature.translations?.pt,
   app: {
     name: "Projeto Inicial",
     subtitle: "React + MobX + TypeScript",
@@ -25,6 +27,15 @@ export const pt = {
     daysAgo_one: "há {{count}} dia",
     daysAgo_other: "há {{count}} dias",
   },
+  common: {
+    loading: "Carregando...",
+    confirm: "Confirmar",
+    cancel: "Cancelar",
+    delete: "Excluir",
+    confirmDelete: "Confirmar Exclusão",
+    confirmDeleteMessage:
+      "Tem certeza que deseja excluir este item? Esta ação não pode ser desfeita.",
+  },
   validation: {
     required: "Este campo é obrigatório",
     requiredSelect: "Por favor selecione uma opção",
@@ -38,7 +49,7 @@ export const pt = {
     phone: "Por favor digite um telefone válido",
     positiveNumber: "Deve ser um número positivo",
     integer: "Deve ser um número inteiro",
-    invalid_type: "Este campo é obrigatório", // Fallback for React Hook Form's invalid_type error
+    invalid_type: "Este campo é obrigatório",
     array: {
       minItems: "Pelo menos {{min}} itens são obrigatórios",
       maxItems: "No máximo {{max}} itens são permitidos",

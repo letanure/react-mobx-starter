@@ -27,6 +27,15 @@ export const en = {
     daysAgo_one: "{{count}} day ago",
     daysAgo_other: "{{count}} days ago",
   },
+  common: {
+    loading: "Loading...",
+    confirm: "Confirm",
+    cancel: "Cancel",
+    delete: "Delete",
+    confirmDelete: "Confirm Delete",
+    confirmDeleteMessage:
+      "Are you sure you want to delete this item? This action cannot be undone.",
+  },
   validation: {
     required: "This field is required",
     requiredSelect: "Please select an option",
@@ -40,7 +49,7 @@ export const en = {
     phone: "Please enter a valid phone number",
     positiveNumber: "Must be a positive number",
     integer: "Must be a whole number",
-    invalid_type: "This field is required", // Fallback for React Hook Form's invalid_type error
+    invalid_type: "This field is required",
     array: {
       minItems: "At least {{min}} items are required",
       maxItems: "At most {{max}} items are allowed",
