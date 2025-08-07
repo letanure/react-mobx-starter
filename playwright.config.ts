@@ -19,8 +19,8 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  /* Use parallel workers on CI for speed */
+  workers: process.env.CI ? 2 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [["html", { outputFolder: "./tests/playwright-report" }]],
   /* Store snapshots based on environment */
@@ -33,13 +33,23 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: "http://localhost:5173",
+    baseURL: process.env.CI ? "http://localhost:4173" : "http://localhost:5173",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
 
     /* Screenshot settings for visual regression testing */
     screenshot: "only-on-failure",
+
+    /* Performance optimizations for CI */
+    ...(process.env.CI && {
+      /* Disable video recording on CI for speed */
+      video: "off",
+      /* Reduce navigation timeout */
+      navigationTimeout: 15_000,
+      /* Reduce action timeout */
+      actionTimeout: 10_000,
+    }),
   },
 
   /* Visual comparison settings */
@@ -53,23 +63,32 @@ export default defineConfig({
   },
 
   /* Configure projects for major browsers */
-  projects: [
-    {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
-    },
+  projects: process.env.CI
+    ? [
+        /* CI: Only run Chromium for speed */
+        {
+          name: "chromium",
+          use: { ...devices["Desktop Chrome"] },
+        },
+      ]
+    : [
+        /* Local: Run all browsers */
+        {
+          name: "chromium",
+          use: { ...devices["Desktop Chrome"] },
+        },
 
-    /* Mobile viewport testing */
-    {
-      name: "mobile-chrome",
-      use: { ...devices["Pixel 5"] },
-    },
-  ],
+        /* Mobile viewport testing */
+        {
+          name: "mobile-chrome",
+          use: { ...devices["Pixel 5"] },
+        },
+      ],
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "pnpm run dev",
-    url: "http://localhost:5173",
+    command: process.env.CI ? "pnpm run preview" : "pnpm run dev",
+    url: process.env.CI ? "http://localhost:4173" : "http://localhost:5173",
     reuseExistingServer: !process.env.CI,
   },
 })
