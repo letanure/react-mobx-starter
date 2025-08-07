@@ -6,7 +6,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormMessage,
 } from "@/components/ui/form"
 import type { CheckboxFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
@@ -38,7 +37,7 @@ export const CheckboxField = memo(
                 <FormDescription>{field.description}</FormDescription>
               )}
             </div>
-            <FormMessage />
+            <FormBuilderMessage />
           </FormItem>
         )}
       />

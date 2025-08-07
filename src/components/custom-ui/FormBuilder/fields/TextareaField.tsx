@@ -5,9 +5,9 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
+import { FormBuilderMessage } from "../FormBuilderMessage"
 import type { TextareaFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
 
@@ -39,7 +39,7 @@ export const TextareaField = memo(
             {field.description && (
               <FormDescription>{field.description}</FormDescription>
             )}
-            <FormMessage />
+            <FormBuilderMessage />
           </FormItem>
         )}
       />

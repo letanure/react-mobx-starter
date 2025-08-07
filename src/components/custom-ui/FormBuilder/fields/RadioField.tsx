@@ -5,7 +5,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormMessage,
 } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -56,7 +55,7 @@ export const RadioField = memo(
             {field.description && (
               <FormDescription>{field.description}</FormDescription>
             )}
-            <FormMessage />
+            <FormBuilderMessage />
           </FormItem>
         )}
       />

@@ -133,16 +133,20 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
-function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
+function FormMessage({
+  className,
+  translateMessage,
+  ...props
+}: React.ComponentProps<"p"> & { translateMessage?: (key: string) => string }) {
   const { error, formMessageId } = useFormField()
   const { t } = useTranslation()
 
   let body = props.children
 
   if (error) {
-    // If we have a custom message from Zod, use it
+    // If we have a custom message from Zod, try to translate it
     if (error.message && error.message !== "Invalid input") {
-      body = error.message
+      body = translateMessage ? translateMessage(error.message) : error.message
     } else if (error.type) {
       // Use error type as i18n key fallback
       body = t(`validation.${error.type}`, {

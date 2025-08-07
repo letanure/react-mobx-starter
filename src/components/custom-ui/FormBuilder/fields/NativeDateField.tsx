@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form"
 import { Input } from "@/components/ui/input"
+import { useFormBuilderContext } from "../FormBuilder"
 import { FieldLabel } from "./shared/FieldLabel"
 
 interface NativeDateFieldProps {
@@ -30,7 +31,14 @@ export function NativeDateField({
   step,
 }: NativeDateFieldProps) {
   const { register, formState } = useFormContext()
+  const { translateMessage } = useFormBuilderContext()
   const error = formState.errors[name]
+
+  const errorMessage = error?.message
+    ? translateMessage
+      ? translateMessage(error.message as string)
+      : error.message
+    : null
 
   return (
     <div className={className}>
@@ -47,10 +55,8 @@ export function NativeDateField({
         className={error ? "border-destructive" : ""}
         {...register(name)}
       />
-      {error && (
-        <p className="text-sm text-destructive mt-1">
-          {error.message as string}
-        </p>
+      {errorMessage && (
+        <p className="text-sm text-destructive mt-1">{errorMessage}</p>
       )}
     </div>
   )

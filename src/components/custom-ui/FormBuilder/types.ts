@@ -221,6 +221,7 @@ export interface FormBuilderProps<TSchema extends z.ZodObject<z.ZodRawShape>> {
   resetAfterSubmit?: boolean
   className?: string
   autoComplete?: "off" | "on"
+  translateMessage?: (key: string) => string
 }
 
 // Helper type for form data

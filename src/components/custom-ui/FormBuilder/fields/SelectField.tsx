@@ -5,7 +5,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormMessage,
 } from "@/components/ui/form"
 import {
   Select,
@@ -61,7 +60,7 @@ export const SelectField = memo(
             {field.description && (
               <FormDescription>{field.description}</FormDescription>
             )}
-            <FormMessage />
+            <FormBuilderMessage />
           </FormItem>
         )}
       />

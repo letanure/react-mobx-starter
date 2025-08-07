@@ -5,9 +5,9 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { FormBuilderMessage } from "../FormBuilderMessage"
 import type { InputFieldConfig } from "../types"
 import { FieldLabel } from "./shared/FieldLabel"
 
@@ -42,7 +42,7 @@ export const InputField = memo(
             {field.description && (
               <FormDescription>{field.description}</FormDescription>
             )}
-            <FormMessage />
+            <FormBuilderMessage />
           </FormItem>
         )}
       />
