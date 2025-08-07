@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/letanure/react-mobx-starter/compare/v1.8.1...v1.9.0) (2025-08-07)
+
+
+### Features
+
+* add Vercel deployment configuration and live demo link ([bdf977f](https://github.com/letanure/react-mobx-starter/commit/bdf977f06705e343256cb619fbc67742d3df9cd9))
+
 ## [1.8.1](https://github.com/letanure/react-mobx-starter/compare/v1.8.0...v1.8.1) (2025-08-07)
 
 
