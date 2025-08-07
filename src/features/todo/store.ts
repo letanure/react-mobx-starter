@@ -1,23 +1,21 @@
 import { makeAutoObservable } from "mobx"
-import type { Todo } from "@/features/todo/types"
+import { type Todo, TodoStoreSchema } from "./schemas"
 
 export type { Todo }
 
 export class Store {
-  // Properties
   todos: Todo[] = []
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  // Persistence configuration
   static persistenceConfig = {
     enabled: true,
     key: "todoStore",
+    schema: TodoStoreSchema,
   }
 
-  // Actions
   addTodo(text: string) {
     const todo: Todo = {
       id: crypto.randomUUID(),
@@ -46,7 +44,6 @@ export class Store {
     this.todos = this.todos.filter((todo) => !todo.completed)
   }
 
-  // Computed values
   get completedCount() {
     return this.todos.filter((todo) => todo.completed).length
   }

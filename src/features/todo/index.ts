@@ -15,9 +15,9 @@ export const todoFeature: FeatureRegistry<
 > = {
   component: TodoList,
   routes: todoRoutes,
-  Store,
+  stores: [Store], // Required: Todo feature uses MobX store for state management
   translations,
 }
 
 // Export types only if needed by external consumers
-// export type { Todo } from './types'
+// export type { Todo } from './schemas'
