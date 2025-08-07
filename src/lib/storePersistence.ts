@@ -39,7 +39,9 @@ export function makePersistent<T extends object>(
       if (schema && typeof schema === "object" && "parse" in schema) {
         // Validate with Zod schema if provided
         try {
-          const validatedData = (schema as any).parse(rawData)
+          const validatedData = (
+            schema as { parse: (data: unknown) => T }
+          ).parse(rawData)
           Object.assign(store, validatedData)
         } catch (error) {
           console.warn(`Hydration validation failed for ${storageKey}:`, error)
