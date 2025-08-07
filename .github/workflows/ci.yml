@@ -70,14 +70,14 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: playwright-report/
+          path: tests/playwright-report/
           retention-days: 30
 
   coverage:
     name: Test Coverage
     runs-on: ubuntu-latest
     needs: [setup, pre-push-equivalent]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.CODECOV_TOKEN != ''
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
@@ -85,6 +85,7 @@ jobs:
       - uses: codecov/codecov-action@v4
         if: always()
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 
   storybook:
