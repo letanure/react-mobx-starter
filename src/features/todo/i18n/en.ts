@@ -12,6 +12,9 @@ export const translations = {
   delete: "Delete",
   clearCompleted: "Clear completed",
   empty: "No tasks yet. Add one above!",
+  validation: {
+    required: "This field is required",
+  },
   navigation: {
     section: "Todo Lists",
     all: "All",

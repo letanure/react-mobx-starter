@@ -31,6 +31,8 @@ src/
 ├── features/           # Feature modules - your main code goes here
 │   └── todo/          # Example: Todo app with MobX store
 │       ├── components/     # Feature sub-components
+│       ├── schemas.ts      # Zod schemas for validation
+│       ├── types.ts        # TypeScript types (inferred from schemas)
 │       ├── store.ts        # MobX store (exports Store class)
 │       ├── routes.ts       # Route configuration
 │       ├── i18n/          # Translations
@@ -63,6 +65,8 @@ tests/                 # E2E tests
 Create a new folder in `src/features/` following the registry pattern:
 - Main component (entry point)
 - `components/` folder for sub-components
+- `schemas.ts` for Zod validation schemas
+- `types.ts` for TypeScript types (inferred from schemas)
 - `store.ts` (if state is needed)
 - `routes.ts` for route configuration  
 - `index.ts` for feature registry
@@ -200,9 +204,10 @@ Each feature is self-contained with its own components, state, and routes:
 features/
 └── my-feature/
     ├── MyComponent.tsx     # UI components
+    ├── schemas.ts         # Zod validation schemas
+    ├── types.ts           # TypeScript types (inferred from schemas)
     ├── MyStore.ts         # MobX store (if needed)
-    ├── routes.ts          # Route configuration
-    └── types.ts           # TypeScript types
+    └── routes.ts          # Route configuration
 ```
 
 ### Provider Composition
@@ -231,11 +236,40 @@ export const myRoutes = {
 }
 ```
 
+### Schema-First Validation
+The codebase follows a schema-first approach using Zod for data validation:
+
+```typescript
+// schemas.ts - Define validation schemas
+export const TodoSchema = z.object({
+  id: z.string().min(1, "ID is required"),
+  text: z.string().min(1, "Todo text cannot be empty").trim(),
+  completed: z.boolean(),
+  createdAt: z.date(),
+})
+
+// types.ts - Infer types from schemas
+export type Todo = z.infer<typeof TodoSchema>
+
+// store.ts - Validate at boundaries
+addTodo(text: string) {
+  const validatedText = TodoTextSchema.parse(text)
+  // ... rest of implementation
+}
+```
+
+Benefits:
+- **Single source of truth**: Types derived from validation schemas
+- **Runtime safety**: Validation at all data boundaries
+- **Consistency**: Same validation rules everywhere
+- **Better errors**: Descriptive validation messages
+
 ## Core Principles
 
 - **Isolation**: Features are independent modules
 - **Composition**: Build complex UIs from simple components
 - **Type Safety**: Leverage TypeScript for confidence
+- **Schema-First**: Types derived from Zod validation schemas
 - **Testing**: Test behavior, not implementation
 - **Performance**: Lazy load features, memoize expensive operations
 

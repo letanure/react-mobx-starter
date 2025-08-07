@@ -49,7 +49,7 @@ export const TodoList = observer(() => {
           </Animated>
         )}
         <AnimatedLayout>
-          <AnimatedGroup>
+          <AnimatedGroup mode="sync">
             {filteredTodos.map((todo) => (
               <Animated
                 key={todo.id}
@@ -70,7 +70,7 @@ export const TodoList = observer(() => {
       </Stack>
 
       {todoStore.totalCount > 0 && (
-        <Animated effect="scale" delay={0.3} transformOrigin="bottom-center">
+        <Animated effect="fade" delay={0.3} transformOrigin="bottom-center">
           <TodoStats
             activeCount={todoStore.activeCount}
             completedCount={todoStore.completedCount}

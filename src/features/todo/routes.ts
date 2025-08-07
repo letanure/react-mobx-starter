@@ -52,6 +52,7 @@ export const todoRoutes: RouteConfig = {
       path: "completed",
       component: TodoList,
       meta: {
+        disablePageTransitions: true,
         nav: {
           translationKey: "todo.navigation.completed", // Breadcrumb: "Completed"
           hidden: true, // Don't show in sidebar but shows in breadcrumb

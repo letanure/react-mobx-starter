@@ -1,8 +1,7 @@
-import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
-import { z } from "zod"
 import { FormBuilder } from "@/components/custom-ui/FormBuilder/FormBuilder"
 import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
+import { type TodoFormData, TodoFormSchema } from "../schemas"
 
 interface TodoFormProps {
   onSubmit: (text: string) => void
@@ -10,22 +9,6 @@ interface TodoFormProps {
 
 export function TodoForm({ onSubmit }: TodoFormProps) {
   const { t } = useTranslation()
-
-  // Define the form schema with global validation messages
-  const todoSchema = useMemo(
-    () =>
-      z.object({
-        text: z
-          .string()
-          .trim()
-          .refine((val) => val.length > 0, {
-            message: t("validation.required"),
-          }),
-      }),
-    [t],
-  )
-
-  type TodoFormData = z.infer<typeof todoSchema>
 
   const fields: FormFieldConfig[] = [
     {
@@ -46,13 +29,14 @@ export function TodoForm({ onSubmit }: TodoFormProps) {
     <div className="todo-form-inline">
       <FormBuilder
         fields={fields}
-        schema={todoSchema}
+        schema={TodoFormSchema}
         defaultValues={{ text: "" }}
         onSubmit={handleSubmit}
         submitLabel={t("todo.add")}
         resetLabel=""
         showReset={false}
         resetAfterSubmit={true}
+        translateMessage={t}
       />
       <style>{`
         .todo-form-inline .space-y-6 {
