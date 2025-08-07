@@ -11,11 +11,13 @@ interface ModalState {
   id: string
   component: React.ReactNode
   props: Partial<ModalProps>
+  isOpen: boolean
 }
 
 interface ConfirmModalState {
   id: string
   props: ConfirmModalProps
+  isOpen: boolean
 }
 
 interface ModalContextType {
@@ -50,14 +52,24 @@ export function ModalProvider({ children }: ModalProviderProps) {
     ) => {
       setModals((prev) => {
         const filtered = prev.filter((modal) => modal.id !== id)
-        return [...filtered, { id, component, props }]
+        return [...filtered, { id, component, props, isOpen: true }]
       })
     },
     [],
   )
 
   const closeModal = useCallback((id: string) => {
-    setModals((prev) => prev.filter((modal) => modal.id !== id))
+    // First set isOpen to false to trigger exit animation
+    setModals((prev) =>
+      prev.map((modal) =>
+        modal.id === id ? { ...modal, isOpen: false } : modal,
+      ),
+    )
+
+    // Then remove from DOM after animation completes
+    setTimeout(() => {
+      setModals((prev) => prev.filter((modal) => modal.id !== id))
+    }, 300) // Match animation duration
   }, [])
 
   const confirm = useCallback(
@@ -67,19 +79,25 @@ export function ModalProvider({ children }: ModalProviderProps) {
       return new Promise((resolve) => {
         const id = Math.random().toString(36).substring(2, 9)
 
+        const closeConfirmModal = (result: boolean) => {
+          // First set isOpen to false to trigger exit animation
+          setConfirmModal((prev) => (prev ? { ...prev, isOpen: false } : null))
+
+          // Then remove from DOM and resolve after animation completes
+          setTimeout(() => {
+            setConfirmModal(null)
+            resolve(result)
+          }, 300) // Match animation duration
+        }
+
         setConfirmModal({
           id,
+          isOpen: true,
           props: {
             ...props,
             isOpen: true,
-            onConfirm: () => {
-              setConfirmModal(null)
-              resolve(true)
-            },
-            onCancel: () => {
-              setConfirmModal(null)
-              resolve(false)
-            },
+            onConfirm: () => closeConfirmModal(true),
+            onCancel: () => closeConfirmModal(false),
           },
         })
       })
@@ -94,7 +112,7 @@ export function ModalProvider({ children }: ModalProviderProps) {
       {modals.map((modal) => (
         <Modal
           key={modal.id}
-          isOpen={true}
+          isOpen={modal.isOpen}
           onClose={() => closeModal(modal.id)}
           {...modal.props}
         >
@@ -103,7 +121,11 @@ export function ModalProvider({ children }: ModalProviderProps) {
       ))}
 
       {confirmModal && (
-        <ConfirmModal key={confirmModal.id} {...confirmModal.props} />
+        <ConfirmModal
+          key={confirmModal.id}
+          {...confirmModal.props}
+          isOpen={confirmModal.isOpen}
+        />
       )}
     </ModalContext.Provider>
   )

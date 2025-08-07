@@ -50,10 +50,8 @@ export function Modal({
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [isOpen, closable, onClose])
 
-  if (!isOpen) return null
-
   const modalContent = (
-    <AnimatedGroup>
+    <AnimatedGroup mode="wait">
       {isOpen && (
         <>
           {overlay && (
