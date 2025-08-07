@@ -1,3 +1,11 @@
+## [1.8.1](https://github.com/letanure/react-mobx-starter/compare/v1.8.0...v1.8.1) (2025-08-07)
+
+
+### Bug Fixes
+
+* prevent cache failures from breaking workflows ([491f657](https://github.com/letanure/react-mobx-starter/commit/491f65760b52542ab271c333ec6cb7d5c9cc92f1))
+* temporarily skip E2E tests in CI ([540a7f8](https://github.com/letanure/react-mobx-starter/commit/540a7f8e8d09a89773b2625947d7c0cf64080903))
+
 # [1.8.0](https://github.com/letanure/react-mobx-starter/compare/v1.7.1...v1.8.0) (2025-08-07)
 
 
