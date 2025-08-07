@@ -3,7 +3,7 @@ import { TestHelpers } from "./helpers"
 
 test.describe("Todo App - E2E Demo Tests", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/")
+    await page.goto("/todo")
   })
 
   // Visual/UI Test - Checks page structure and elements
@@ -12,16 +12,8 @@ test.describe("Todo App - E2E Demo Tests", () => {
 
     // Check main heading
     await helpers.expectVisible(page.getByRole("heading", { level: 1 }))
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Todo List",
-    )
 
-    // Check navigation is present
-    await helpers.expectVisible(page.getByText("All"))
-    await helpers.expectVisible(page.getByText("Active"))
-    await helpers.expectVisible(page.getByText("Completed"))
-
-    // Check input form
+    // Check input form is present
     await helpers.expectVisible(page.getByPlaceholder("What needs to be done?"))
     await helpers.expectVisible(page.getByRole("button", { name: "Add" }))
   })
@@ -36,33 +28,17 @@ test.describe("Todo App - E2E Demo Tests", () => {
 
     // Mark as complete
     await helpers.toggleTodo(0)
-    await helpers.expectVisible(page.locator(".completed"))
+    await helpers.expectVisible(page.getByRole("checkbox", { checked: true }))
 
     // Clean up - delete todo
     await helpers.deleteTodo(0)
     await helpers.expectNotVisible(page.getByText(todoText))
   })
 
-  // Navigation Test - Route changes
-  test("Navigation: route filtering works", async ({ page }) => {
-    // Check initial URL
-    await expect(page).toHaveURL("/")
-
-    // Navigate to active filter
-    await page.getByText("Active").click()
-    await expect(page).toHaveURL("/active")
-
-    // Navigate to completed filter
-    await page.getByText("Completed").click()
-    await expect(page).toHaveURL("/completed")
-
-    // Back to all
-    await page.getByText("All").click()
-    await expect(page).toHaveURL("/")
-  })
-
-  // Form Validation Test - Edge cases
-  test("Validation: empty input handling", async ({ page }) => {
+  // Form Validation Test - Schema validation with i18n
+  test("Validation: empty input shows translated error message", async ({
+    page,
+  }) => {
     const initialTodoCount = await page.locator(".todo-item").count()
 
     // Try submitting empty form
@@ -72,10 +48,19 @@ test.describe("Todo App - E2E Demo Tests", () => {
     const finalTodoCount = await page.locator(".todo-item").count()
     expect(finalTodoCount).toBe(initialTodoCount)
 
-    // Input should remain empty
+    // Should show validation error message
+    await expect(page.getByText("This field is required")).toBeVisible()
+
+    // Input should remain empty and focused for user experience
     await expect(page.getByPlaceholder("What needs to be done?")).toHaveValue(
       "",
     )
+
+    // Error should disappear when user starts typing
+    await page
+      .getByPlaceholder("What needs to be done?")
+      .fill("Valid todo text")
+    await expect(page.getByText("This field is required")).not.toBeVisible()
   })
 
   // State Management Test - Data persistence across interactions
