@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/letanure/react-mobx-starter/compare/v1.4.0...v1.5.0) (2025-08-07)
+
+
+### Features
+
+* optimize GitHub Actions workflow with phases 1-2 ([94f6019](https://github.com/letanure/react-mobx-starter/commit/94f6019b71676996d08c58ff05642e652d5d6cd2))
+
 # [1.4.0](https://github.com/letanure/react-mobx-starter/compare/v1.3.0...v1.4.0) (2025-08-07)
 
 
