@@ -2,6 +2,12 @@
 
 A modern React + TypeScript starter with batteries included. Pre-configured tooling, component library, and example implementations to help you start building immediately.
 
+## Preview
+
+![Todo App Demo](./tests/e2e/.snapshots/todo-app.spec.ts-Todo-App---E2E-Demo-Tests-Visual-desktop-screenshots-desktop-04-with-statistics-chromium-darwin.png)
+
+*Example todo application showcasing the complete feature set: form validation, state management, animations, and responsive design.*
+
 ## Quick Start
 
 ```bash
